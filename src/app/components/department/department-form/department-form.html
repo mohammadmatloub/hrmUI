@@ -1,0 +1,15 @@
+<form (ngSubmit)="onSubmit()" *ngIf="model">
+  
+  <div class="p-field">
+    <label for="code">Code : </label>
+    <input id="code" type="text" pInputText [(ngModel)]="model.code" name="code" required>
+  </div>
+  <div class="p-field">
+    <label for="name">Name : </label>
+    <input id="name" type="text" pInputText [(ngModel)]="model.name" name="name" required>
+  </div>
+  <div class="p-dialog-footer">
+    <button pButton type="submit" label="Save"></button>
+    <button pButton type="button" class="p-button-secondary" label="Cancel" (click)="onCancel()"></button>
+  </div>
+</form>
