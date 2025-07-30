@@ -1,0 +1,27 @@
+<p-table [value]="personnelAttendances" rowGroupMode="rowspan" groupRowsBy="attendance.month.name">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>ID</th>
+          <th>Month</th>
+          <th>Year</th>
+          <th>Occupation</th>
+          <th>Total Hours Worked</th>
+          <th>Overtime Hours Worked</th>
+          <th>Attendance Count</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-attendance let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan">
+      <tr>
+          <td>{{attendance.id}}</td>
+
+          <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+            <div>{{attendance.month.name}}</div>
+        </td>
+          <td>{{attendance.year.name}}</td>
+          <td>{{attendance.occupation.name}}</td>
+          <td>{{attendance.totalHoursWorked}}</td>
+          <td>{{attendance.overtimeHoursWorked}}</td>
+          <td>{{attendance.attendanceCount}}</td>
+      </tr>
+  </ng-template>
+</p-table>

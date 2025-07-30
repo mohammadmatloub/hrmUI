@@ -33,7 +33,7 @@ export class DepartmentList  implements OnInit{
     });
   }
   addDepartment() {
-    this.selectedDepartment = { id: 0, name: '', code: '' };
+    this.selectedDepartment = { id: 0, name: '', code: 0 };
     this.isEditing = false;
     this.displayDialog = true;
   }
@@ -43,7 +43,7 @@ export class DepartmentList  implements OnInit{
     this.displayDialog = true;
   }
   showDialog(department?: Department): void {
-    this.selectedDepartment = department || { id: 0, name: '', code: '' };
+    this.selectedDepartment = department || { id: 0, name: '', code: 0 };
     this.displayDialog = true;
   }
 
