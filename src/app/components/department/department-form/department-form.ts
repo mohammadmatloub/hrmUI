@@ -16,10 +16,10 @@ export class DepartmentForm implements OnChanges {
   @Output() save = new EventEmitter<Department>();
   @Output() cancel = new EventEmitter<void>();
 
-  model: Department = { id: 0, name: '', code: '' };
+  model: Department = { id: 0, name: '', code: 0 };
 
   ngOnChanges() {
-    this.model = this.department ? { ...this.department } : { id:0 , name: '' ,code:''};
+    this.model = this.department ? { ...this.department } : { id:0 , name: '' ,code:0};
   }
 
   onSubmit() {

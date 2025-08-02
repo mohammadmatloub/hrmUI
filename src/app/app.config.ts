@@ -5,15 +5,17 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
+//import { provideForms } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient() ,
-     provideAnimations() ,
-     providePrimeNG({
-            theme: {
-                preset: Aura
+    provideHttpClient(),
+    provideAnimations(),
+   // provideForms(), // ← This enables ngModel
+    providePrimeNG({
+      theme: {
+        preset: Aura
             }
         }),
     provideZoneChangeDetection({ eventCoalescing: true }),

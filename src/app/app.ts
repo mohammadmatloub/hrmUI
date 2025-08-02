@@ -1,14 +1,21 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal ,OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DepartmentList } from './components/department/department-list/department-list';
-import { PersonnelAttendanceList } from './components/personnel-attendance/personnel-attendance-list/personnel-attendance-list';
+import { TabsModule } from 'primeng/tabs';
+import { MainMenu } from './components/main-menu/main-menu';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,PersonnelAttendanceList],
-  template: `<app-personnel-attendance-list></app-personnel-attendance-list>`,
+  imports: [RouterOutlet, TabsModule, MainMenu],
+  templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit {
+
+    tabs: { title: string; value: number; content?: string }[] = [];
+
+    
+    ngOnInit() {
+
+    }
   protected readonly title = signal('hrmui');
 }

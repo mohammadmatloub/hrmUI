@@ -1,22 +1,22 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton icon="pi pi-plus" label="Add" (click)="addDepartment()"></button>
+    <button pButton icon="pi pi-plus" (click)="addDepartment()"></button>
   </div>
 </p-toolbar>
 
 <p-table [value]="departments">
   <ng-template pTemplate="header">
       <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Name</th>
+         
+          <th>کد</th>
+          <th>نام</th>
           <th> </th>
 
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-emp>
       <tr>
-          <td>{{emp.id}}</td>
+          
           <td>{{emp.code}}</td>
           <td>{{emp.name}}</td>
           <td>
@@ -32,5 +32,6 @@
   <app-department-form
       [department] ="selectedDepartment"
       (save)="createDepartment($event)"
-      (cancel)="closeDialog()"></app-department-form>
+      (cancel)="closeDialog()">
+    </app-department-form>
 </p-dialog>

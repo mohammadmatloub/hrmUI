@@ -1,0 +1,19 @@
+<p-table [value]="months">
+  <ng-template pTemplate="header">
+      <tr>
+          
+          <th>کد</th>
+          <th>نام</th>
+      
+
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-emp>
+      <tr>
+          
+          <td>{{emp.code}}</td>
+          <td>{{emp.name}}</td>
+
+      </tr>
+  </ng-template>
+</p-table>

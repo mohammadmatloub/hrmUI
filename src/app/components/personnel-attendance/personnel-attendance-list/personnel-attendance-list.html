@@ -1,27 +1,60 @@
-<p-table [value]="personnelAttendances" rowGroupMode="rowspan" groupRowsBy="attendance.month.name">
+
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button pButton icon="pi pi-plus" (click)="addPersonnelAttendance()"></button>
+  </div>
+</p-toolbar>
+<p-table [value]="personnelAttendances" >
   <ng-template pTemplate="header">
       <tr>
-          <th>ID</th>
-          <th>Month</th>
-          <th>Year</th>
-          <th>Occupation</th>
-          <th>Total Hours Worked</th>
-          <th>Overtime Hours Worked</th>
-          <th>Attendance Count</th>
+          <th>سال</th>
+          <th>ماه</th>
+          
+          <th>عنوان شغلي</th>
+          <th>ساعت هاي كاركرد</th>
+          <th>دقيقه هاي كاركرد</th>
+          <th>جمع كاركرد</th>
+
+          <th>اضافه كار با ضريب</th>
+          <th>اضافه كار بدون ضريب</th>
+
+          <th>تعداد روزهاي اضافه كار</th>
+          <th>ساعت هاي اضافه كار</th>
+          <th>دقيقه هاي اضافه كار</th>
+          <th>جمع اضافه كار</th>
+
+          <th>تعداد پرسنل حاضر</th>
       </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-attendance let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan">
+  <ng-template pTemplate="body" let-attendance >
       <tr>
-          <td>{{attendance.id}}</td>
-
-          <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
-            <div>{{attendance.month.name}}</div>
-        </td>
-          <td>{{attendance.year.name}}</td>
+        <td>{{attendance.year.name}}</td>
+         <td>{{attendance.month.name}}</td>
+        
           <td>{{attendance.occupation.name}}</td>
+
           <td>{{attendance.totalHoursWorked}}</td>
+          <td>{{attendance.totalMinutesWorked}}</td>
+          <td>{{attendance.totalWorked}}</td>
+
+          <td>{{attendance.overtimeWithMultiplier}}</td>
+          <td>{{attendance.overtimeWithOutMultiplier}}</td>
+
+          <td>{{attendance.overtimeDaysWorked}}</td>
           <td>{{attendance.overtimeHoursWorked}}</td>
+          <td>{{attendance.overtimeMinWorked}}</td>
+          <td>{{attendance.overtimeTotalWorked}}</td>
+
           <td>{{attendance.attendanceCount}}</td>
       </tr>
   </ng-template>
 </p-table>
+
+<p-dialog 
+[(visible)]="displayDialog" [modal]="true">
+  <app-personnel-attendance-form
+      [attendance]="selectedAttendance"
+      (save)="createAttendance($event)"
+      (cancel)="closeDialog()">
+    </app-personnel-attendance-form>
+</p-dialog>

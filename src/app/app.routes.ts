@@ -1,3 +1,19 @@
 import { Routes } from '@angular/router';
+import { DepartmentList } from './components/department/department-list/department-list';
+import { OrganizationList } from './components/organization/organization-list/organization-list';
+import { ServiceList } from './components/service/service-list/service-list';
+import { OccupationList } from './components/occupation/occupation-list/occupation-list';
+import { YearList } from './components/year/year-list/year-list';
+import { MonthList } from './components/month/month-list/month-list';
+import { PersonnelAttendanceList } from './components/personnel-attendance/personnel-attendance-list/personnel-attendance-list';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  
+  { path: 'departments', component: DepartmentList },
+  { path: 'organizations', component: OrganizationList },
+  { path: 'services', component: ServiceList },
+  { path: 'occupations', component: OccupationList },
+  { path: 'years', component: YearList },
+  { path: 'months', component: MonthList },
+  { path: 'personnelAttendance', component: PersonnelAttendanceList }
+];

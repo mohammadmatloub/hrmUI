@@ -9,9 +9,12 @@ import { Service } from '../models/service.model';
 export class ServiceService {
   private apiUrl = '/api/services';
 
+
+
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Service[]> {
+    
     return this.http.get<Service[]>(this.apiUrl);
   }
 
