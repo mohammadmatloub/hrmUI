@@ -5,14 +5,14 @@
       <tr>
         <td style="width: 180px;">سازمان</td>
         <td>
-          <p-select [options]="organizationList" [(ngModel)]="personnelAttendance.department" name="organization"
+          <p-select [options]="organizationList" [(ngModel)]="personnelAttendance.organization" name="organization"
             [checkmark]="true" optionLabel="name" [showClear]="true"
             placeholder="انتخاب سازمان" class="w-full md:w-56" />
         </td>
 
         <td>دپارتمان</td>
         <td>
-          <p-select [options]="departmentList" [(ngModel)]="selectedDepartment" name="department"
+          <p-select [options]="departmentList" [(ngModel)]="personnelAttendance.department" name="department"
             [checkmark]="true" optionLabel="name" [showClear]="true"
             placeholder="انتخاب دپارتمان" class="w-full md:w-56" />
         </td>
@@ -20,14 +20,14 @@
       <tr>
         <td>سال</td>
         <td>
-          <p-select [options]="yearList" [(ngModel)]="selectedYear" name="year"
+          <p-select [options]="yearList" [(ngModel)]="personnelAttendance.year" name="year"
             [checkmark]="true" optionLabel="name" [showClear]="true"
             placeholder="انتخاب سال" class="w-full md:w-56" />
         </td>
 
         <td>ماه</td>
         <td>
-          <p-select [options]="monthList" [(ngModel)]="selectedMonth" name="month"
+          <p-select [options]="monthList" [(ngModel)]="personnelAttendance.month" name="month"
             [checkmark]="true" optionLabel="name" [showClear]="true"
             placeholder="انتخاب ماه" class="w-full md:w-56" />
         </td>
@@ -35,7 +35,7 @@
       <tr>
         <td>شغل</td>
         <td>
-          <p-select [options]="occupationList" [(ngModel)]="selectedOccupation" name="occupation"
+          <p-select [options]="occupationList" [(ngModel)]="personnelAttendance.occupation" name="occupation"
             [checkmark]="true" optionLabel="name" [showClear]="true"
             placeholder="انتخاب شغل" class="w-full md:w-56" />
         </td>
@@ -110,8 +110,8 @@
      
       <tr>
         <td colspan="2" style="text-align: center;">
-          <button pButton icon="pi pi-check" type="submit" class="p-button-success mx-2">ثبت</button>
-          <button pButton icon="pi pi-times" type="button" class="p-button-secondary mx-2" (click)="onCancel()">انصراف</button>
+          <button pButton icon="pi pi-check" type="submit" class="p-button-success mx-2"></button>
+          <button pButton icon="pi pi-times" type="button" class="p-button-danger mx-2" (click)="onCancel()"></button>
         </td>
       </tr>
     </tbody>
