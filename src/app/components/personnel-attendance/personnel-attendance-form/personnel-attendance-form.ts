@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -24,7 +24,7 @@ import {OccupationService} from '../../../services/occupation.service';
   templateUrl: './personnel-attendance-form.html',
   styleUrl: './personnel-attendance-form.scss'
 })
-export class PersonnelAttendanceForm  implements OnChanges {
+export class PersonnelAttendanceForm  implements OnChanges,OnInit {
   @Input() attendance?: PersonnelAttendance;
   @Output() save = new EventEmitter<PersonnelAttendance>();
   @Output() cancel = new EventEmitter<void>();
@@ -76,7 +76,7 @@ export class PersonnelAttendanceForm  implements OnChanges {
     private occupationService :OccupationService) {
   }
 
-  ngOnChanges(): void {
+  ngOnInit() {
     this.organizationService.getAll().subscribe(organizations=>{
       this.organizationList = organizations;});
     this.departmentService.getAll().subscribe(departments => {
@@ -88,6 +88,10 @@ export class PersonnelAttendanceForm  implements OnChanges {
     this.occupationService.getAll().subscribe(occupations=>{
       this.occupationList = occupations;
     })
+  }
+
+  ngOnChanges(): void {
+
     // Handle changes to the input properties
   }
 

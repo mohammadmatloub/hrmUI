@@ -1,14 +1,17 @@
 import { Month } from "./month.model";
 import { Service } from "./service.model";
 import { Year } from "./year.model";
+import {Organization} from './organization.model';
 
 export interface MedicalPerMonth {
   id?: number;
-  month: Month;
+  organization?: Organization;
+  organizationId :number;
+  month?: Month;
   monthId: number;
   yearId: number;
-  year: Year;
-  service: Service;
+  year ?: Year;
+  service?: Service;
   serviceId: number;
-  totalMedicalPerMonth: number; 
+  totalMedicalPerMonth: number;
 }

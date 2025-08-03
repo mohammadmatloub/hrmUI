@@ -1,5 +1,5 @@
 <p-panel header="ثبت">
-<form (ngSubmit)="onSubmit()" *ngIf="personnelAttendance" dir="rtl">
+<form (ngSubmit)="onSubmit()" @if(personnelAttendance) dir="rtl">
   <table class="p-datatable p-grid p-formgrid">
     <tbody>
       <tr>
@@ -107,7 +107,7 @@
             inputId="total-worked" mode="decimal" [min]="0" [max]="100" />
         </td>
       </tr>
-     
+
       <tr>
         <td colspan="2" style="text-align: center;">
           <button pButton icon="pi pi-check" type="submit" class="p-button-success mx-2"></button>
@@ -117,5 +117,5 @@
     </tbody>
   </table>
 </form>
- 
+
 </p-panel>
