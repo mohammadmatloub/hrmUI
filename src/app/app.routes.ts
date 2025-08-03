@@ -6,6 +6,7 @@ import { OccupationList } from './components/occupation/occupation-list/occupati
 import { YearList } from './components/year/year-list/year-list';
 import { MonthList } from './components/month/month-list/month-list';
 import { PersonnelAttendanceList } from './components/personnel-attendance/personnel-attendance-list/personnel-attendance-list';
+import { MedicalPerMonthList } from './components/medical-per-month/medical-per-month-list/medical-per-month-list';
 
 export const routes: Routes = [
   
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'occupations', component: OccupationList },
   { path: 'years', component: YearList },
   { path: 'months', component: MonthList },
-  { path: 'personnelAttendance', component: PersonnelAttendanceList }
+  { path: 'personnelAttendance', component: PersonnelAttendanceList },
+  { path: 'medicalPerMonth', component: MedicalPerMonthList }
 ];
