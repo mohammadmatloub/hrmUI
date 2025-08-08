@@ -1,5 +1,5 @@
 
-<p-table [value]="occupations" [scrollable]="true" scrollHeight="400px" class="mt-4">
+<p-table [value]="occupations">
 
     <ng-template #caption>
         <div class="flex items-center justify-between">
@@ -17,8 +17,10 @@
     </ng-template>
     <ng-template #body let-occupation>
         <tr>
-            <td>{{occupation.name}}</td>
-            <td>{{occupation.id}}</td>
+            <td>{{occupation.code}}-{{occupation.name}}</td>
+            <td></td>
+             <td></td>
+              <td></td>
           
         </tr>
     </ng-template>
