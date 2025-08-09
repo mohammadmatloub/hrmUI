@@ -24,25 +24,28 @@ export class MedicalMonthReport implements OnInit {
 
   constructor(private monthService: MonthService ,private serviceService: ServiceService) {}
 
- cols!: Column[];
+ cols: Column[]=[];
 
   localData(){
-    this.serviceService.getAll().subscribe(data => {
-      this.services = data;
+    this.serviceService.getAll().subscribe(service => {
+      this.services = service;
+       this.createColumn(service);
     });
-    this.monthService.getAll().subscribe(data => {
-      this.months = data;
+    this.monthService.getAll().subscribe(month => {
+      this.months = month;
     });
+
   }
 
   ngOnInit(): void {
     this.localData();
-    this.createColumn();
+   
+        
   }
 
-  createColumn(){
-    this.services.forEach(service => {
-      this.cols.push({ field: service.name, header: service.name });
+  createColumn(ServiceList : Service[]){
+    ServiceList.forEach(service => {
+      this.cols.push({ field: "name", header: service.name });
     });
   }
 }

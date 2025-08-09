@@ -1,17 +1,34 @@
 <div class="card">
-    <p-table [columns]="cols" [value]="services" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [columns]="cols" [value]="months" [tableStyle]="{ 'min-width': '50rem' }">
+        <!-- Header Template -->
         <ng-template #header let-columns>
             <tr>
-                <th *ngFor="let col of columns">
-                    {{ col.header }}
+                <th>
+
                 </th>
+            <th >تعداد پرسنل حاضر</th>
+            <th >اضافه كار با ضريب</th>
+            <th>اضافه كار بدون ضريب</th>
+                @for (col of columns; track col.field) {
+                    <th>
+                        {{ col.header }}
+                    </th>
+                }
             </tr>
         </ng-template>
-        <ng-template #body let-rowData let-columns="columns">
+
+        <!-- Body Template -->
+        <ng-template #body let-rowData let-months>
             <tr>
-                <td *ngFor="let col of columns">
-                    {{ rowData[col.field] }}
-                </td>
+                <td>{{months.name}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                @for (col of cols; track $index) {
+                    <td>
+                        {{col.header}}
+                    </td>
+                }
             </tr>
         </ng-template>
     </p-table>

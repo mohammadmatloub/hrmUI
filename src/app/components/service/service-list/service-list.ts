@@ -4,6 +4,8 @@ import { Service } from '../../../models/service.model';
 import { TreeModule  } from 'primeng/tree';
 import { Tree  } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
+import { TreeBuilder } from '../../../utils/treeBuilder';
+import { ServiceMapper } from '../../../services/servicesMapper';
 
 @Component({
   selector: 'app-service-list',
@@ -22,14 +24,13 @@ export class ServiceList implements OnInit {
 
   ngOnInit(): void {
     this.loadYears();
-    console.log(this.tree);
   }
 
   loadYears():void{
     this.serviceService.getAll().subscribe(services=>{
-      this.tree = services;
+      const builder = new TreeBuilder(new ServiceMapper(), { icon: 'pi pi-eye' });
+      this.tree = builder.build(services);
     });
-    console.log(this.tree);
   }
 
 }
