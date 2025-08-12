@@ -7,10 +7,11 @@ import { DialogModule } from 'primeng/dialog';
 import { PersonnelAttendance } from '../../../models/personnelAttendance.model';
 import { PersonnelAttendanceService } from '../../../services/personnel-attendance.service';
 import { PersonnelAttendanceForm } from '../personnel-attendance-form/personnel-attendance-form';
+import { PersonnelAttendanceImporter } from "../personnel-attendance-importer/personnel-attendance-importer";
 @Component({
   selector: 'app-personnel-attendance-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule,PersonnelAttendanceForm],
+  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule, PersonnelAttendanceForm, PersonnelAttendanceImporter],
   templateUrl: './personnel-attendance-list.html',
   styleUrl: './personnel-attendance-list.scss'
 })
@@ -19,8 +20,9 @@ export class PersonnelAttendanceList implements OnInit {
   // For example, you might want to fetch attendance data from a service
   personnelAttendances: PersonnelAttendance[] = [];
   selectedAttendance?: PersonnelAttendance;
-  displayDialog: boolean = false;
+  createDialog: boolean = false;
   isEditing: boolean = false;
+  importyDialog: boolean = false;
 
   constructor(private personnelAttendanceService: PersonnelAttendanceService) {}
 
@@ -38,7 +40,11 @@ export class PersonnelAttendanceList implements OnInit {
   addPersonnelAttendance(): void {
     this.selectedAttendance = undefined;
     this.isEditing = false;
-    this.displayDialog = true;
+    this.createDialog = true;
+  }
+  importPersonnelAttendance(): void {
+    this.createDialog=false;
+    this.importyDialog = true;
   }
 
   createAttendance(attendance: PersonnelAttendance): void {
@@ -51,6 +57,6 @@ export class PersonnelAttendanceList implements OnInit {
   }
 
   closeDialog(): void {
-    this.displayDialog = false;
+    this.createDialog = false;
   }
 }

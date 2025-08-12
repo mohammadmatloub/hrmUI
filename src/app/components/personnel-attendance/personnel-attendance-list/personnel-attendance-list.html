@@ -2,6 +2,7 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton icon="pi pi-plus" (click)="addPersonnelAttendance()"></button>
+    <button pButton icon="pi pi-file-import" (click)="importPersonnelAttendance()"></button>
   </div>
 </p-toolbar>
 <p-table [value]="personnelAttendances" >
@@ -51,10 +52,17 @@
 </p-table>
 
 <p-dialog 
-[(visible)]="displayDialog" [modal]="true">
+[(visible)]="createDialog" [modal]="true">
   <app-personnel-attendance-form
       [attendance]="selectedAttendance"
       (save)="createAttendance($event)"
       (cancel)="closeDialog()">
     </app-personnel-attendance-form>
+</p-dialog>
+
+<p-dialog [(visible)]="importyDialog" [modal]="true">
+  <app-personnel-attendance-importer>
+
+  </app-personnel-attendance-importer>
+
 </p-dialog>

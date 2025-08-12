@@ -13,17 +13,19 @@ import {OrganizationService} from '../../../services/organization.service';
 import {DepartmentService} from '../../../services/department.service';
 import {OccupationService} from '../../../services/occupation.service';
 import {ServiceService} from '../../../services/service.service';
+import { MedicalPerMonthImporter } from "../medical-per-month-importer/medical-per-month-importer";
 @Component({
   selector: 'app-medical-per-month-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule, MedicalPerMonthForm],
+  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule, MedicalPerMonthForm, MedicalPerMonthImporter],
   templateUrl: './medical-per-month-list.html',
   styleUrl: './medical-per-month-list.scss'
 })
 export class MedicalPerMonthList  implements OnInit {
   medicalPerMonths: MedicalPerMonth[] = []; // Replace with actual type
   selectedMedicalPerMonth?: MedicalPerMonth; // Replace with actual type
-  displayDialog: boolean = false;
+  createDialog: boolean = false;
+  importerDialog: boolean = false;
   isEditing: boolean = false;
 
   constructor() {
@@ -40,12 +42,12 @@ export class MedicalPerMonthList  implements OnInit {
 
   addMedicalPerMonth(): void {
 
-    this.displayDialog = true;
+    this.createDialog = true;
   }
 
   editMedicalPerMonth(record: MedicalPerMonth): void {
     this.selectedMedicalPerMonth = { ...record };
-    this.displayDialog = true;
+    this.createDialog = true;
   }
   deleteMedicalPerMonth(medicalPerMonth: MedicalPerMonth): void {
     // Logic to delete the record
@@ -58,12 +60,18 @@ export class MedicalPerMonthList  implements OnInit {
     } else {
       // Create new record logic
     }
-    this.displayDialog = false;
+    this.createDialog = false;
     this.loadMedicalPerMonth();
   }
 
   onCancel(): void {
-    this.displayDialog = false;
+    this.createDialog = false;
+  }
+
+  
+  importerMedicalPerMonth(): void {
+
+    this.importerDialog = true;
   }
 
 }

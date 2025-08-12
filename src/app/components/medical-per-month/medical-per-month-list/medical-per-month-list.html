@@ -1,6 +1,7 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton icon="pi pi-plus" (click)="addMedicalPerMonth()"></button>
+    <button pButton icon="pi pi-file-import" (click)="importerMedicalPerMonth()"></button>
   </div>
 </p-toolbar>
 <p-table [value]="medicalPerMonths" >
@@ -26,10 +27,16 @@
 </p-table>
 
 <p-dialog
-          [(visible)]="displayDialog" [modal]="true">
+          [(visible)]="createDialog" [modal]="true">
   <app-medical-per-month-form
     [medicalPerMonth]="selectedMedicalPerMonth"
     (save)="createMedicalPerMonth($event)"
     (cancel)="onCancel()">
   </app-medical-per-month-form>
+</p-dialog>
+
+<p-dialog [(visible)]="importerDialog" [modal]="true">
+  <app-medical-per-month-importer>
+
+  </app-medical-per-month-importer>
 </p-dialog>
