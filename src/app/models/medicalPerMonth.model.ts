@@ -6,12 +6,12 @@ import {Organization} from './organization.model';
 export interface MedicalPerMonth {
   id?: number;
   organization?: Organization;
-  organizationId :number;
+  organizationId?:number;
   month?: Month;
-  monthId: number;
-  yearId: number;
+  monthId?: number;
+  yearId?: number;
   year ?: Year;
   service?: Service;
-  serviceId: number;
+  serviceId?: number;
   totalMedicalPerMonth: number;
 }

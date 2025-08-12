@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -6,23 +6,47 @@ import { ToastModule } from 'primeng/toast'; // For messages
 import { MessageService } from 'primeng/api'; // For messages
 import { FileSelectEvent } from 'primeng/fileupload';
 import { ExcelImporterService, ImportResult } from '../../../services/excel-importer.service';
+import { MedicalPerMonth } from '../../../models/medicalPerMonth.model';
+import { ButtonModule } from 'primeng/button';
+import { Organization } from '../../../models/organization.model';
+
+import { Service } from '../../../models/service.model';
+import { Month } from '../../../models/month.model';
+import { Year } from '../../../models/year.model';
+
 
 @Component({
   selector: 'app-medical-per-month-importer',
-   imports: [TableModule, FileUploadModule,ToastModule ],
+   imports: [TableModule, FileUploadModule,ToastModule,ButtonModule ],
    standalone:true,
    providers: [MessageService],
   templateUrl: './medical-per-month-importer.html',
   styleUrl: './medical-per-month-importer.scss'
 })
-export class MedicalPerMonthImporter {
-   importedData: any[] = [];
+export class MedicalPerMonthImporter implements OnInit {
+  @Input() organizationList?: Organization[];
+  @Input() monthList?: Month[];
+  @Input() serviceList?: Service[] | undefined;
+  importedData: any[] = [];
   tableColumns: string[] = [];
+  medicalPerMonthList : MedicalPerMonth[] = [];
+  selectedYear?:Year;
+  selectedOrganization?:Organization;
+  selectedmonth?:Month ;
+  myMap: Map<string, Service> = new Map();
 
   constructor(
     private messageService: MessageService,
     private excelImporter: ExcelImporterService
   ) {}
+
+  ngOnInit(): void {
+    for (let service of this.serviceList ?? []) {
+      this.myMap.set(service.name, service);
+    }
+  }
+
+  
 
   /** Handles file selection event from file upload UI */
   async onFileSelect(event: FileSelectEvent): Promise<void> {
@@ -68,5 +92,28 @@ export class MedicalPerMonthImporter {
     this.importedData = [];
     this.tableColumns = [];
   }
+
+ public createMedicalPerMonth(): void {
+    this.importedData.forEach(element => {
+
+      let service :Service | undefined  = this.myMap.get(element[0]);
+       // We can directly assign 'element' if its structure matches MedicalPerMonth
+       let medicalPerMonth: MedicalPerMonth = {
+         id: element[0],
+         organization: this.selectedOrganization,
+         organizationId: this.selectedOrganization?.id,
+         month: this.selectedmonth,
+         monthId: this.selectedmonth?.id,
+         yearId: this.selectedYear?.id,
+         year: this.selectedYear,
+         service: service,
+         serviceId: service?.id,
+         totalMedicalPerMonth: element[3]
+       };
+       this.medicalPerMonthList.push(medicalPerMonth);
+    });
+    console.log("Medical Per Month List:", this.medicalPerMonthList);
+  }
+
 
 }

@@ -11,7 +11,7 @@
         (onClear)="onFileClear()"
     >
     </p-fileUpload>
-
+    <button pButton value="save" icon="pi pi-plus" (click)="createMedicalPerMonth()"></button>
     @if (importedData.length > 0) {
     <div  style="margin-top: 5px;">
        
