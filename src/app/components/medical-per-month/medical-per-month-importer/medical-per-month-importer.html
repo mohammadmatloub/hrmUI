@@ -1,21 +1,58 @@
 <p-toast></p-toast>
 
 <div class="importer" >
-    <!-- File Upload Component -->
+  
+     <table>
+        
+             <tr>
+        <td style="width: 180px;">سازمان</td>
+        <td>
+          <p-select [options]="organizationList" [(ngModel)]="selectedOrganization" name="organization"
+                    [checkmark]="true" optionLabel="name" [showClear]="true"
+                    placeholder="انتخاب سازمان" class="w-full md:w-56" />
+        </td>
+      </tr>
+      <tr>
+        <td>سال</td>
+        <td>
+          <p-select [options]="yearList" [(ngModel)]="selectedYear" name="year"
+                    [checkmark]="true" optionLabel="name" [showClear]="true"
+                    placeholder="انتخاب سال" class="w-full md:w-56" />
+        </td>
+</tr>
+<tr>
+        <td>ماه</td>
+        <td>
+          <p-select [options]="monthList" [(ngModel)]="selectedmonth" name="month"
+                    [checkmark]="true" optionLabel="name" [showClear]="true"
+                    placeholder="انتخاب ماه" class="w-full md:w-56" />
+        </td>
+      </tr>
+      <tr>
+        <td><button pButton value="save" icon="pi pi-check" (click)="createMedicalPerMonth()"></button></td>
+         <td><button pButton value="save"  severity="danger" icon="pi pi-ban" (click)="createMedicalPerMonth()"></button></td>
+      </tr>
+       
+    </table>
     <p-fileUpload
         mode="basic"
-        chooseLabel="Choose Excel File"
         accept=".xlsx, .xls, .csv"
+        chooseLabel="انتخاب"
+        chooseIcon="pi pi-upload"
         [maxFileSize]="1000000"
         (onSelect)="onFileSelect($event)"
         (onClear)="onFileClear()"
     >
     </p-fileUpload>
-    <button pButton value="save" icon="pi pi-plus" (click)="createMedicalPerMonth()"></button>
+
+   
+    
     @if (importedData.length > 0) {
     <div  style="margin-top: 5px;">
        
         <p-table [value]="importedData" [scrollable]="true" scrollHeight="400px">
+
+            
             <!-- Dynamic Columns for Header -->
             <ng-template pTemplate="header">
                 <tr>
@@ -40,7 +77,7 @@
 
     @if(importedData.length === 0){
     <div style="margin-top: 20px;">
-        <p>No data imported yet. Please upload an Excel file.</p>
+        <p>فایل مورد نظر انتخاب نشده</p>
     </div>
     }
 

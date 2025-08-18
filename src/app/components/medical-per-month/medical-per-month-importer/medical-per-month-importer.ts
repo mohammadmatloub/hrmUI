@@ -13,11 +13,14 @@ import { Organization } from '../../../models/organization.model';
 import { Service } from '../../../models/service.model';
 import { Month } from '../../../models/month.model';
 import { Year } from '../../../models/year.model';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-medical-per-month-importer',
-   imports: [TableModule, FileUploadModule,ToastModule,ButtonModule ],
+   imports: [TableModule,CommonModule,FormsModule, FileUploadModule,ToastModule,ButtonModule,Select ],
    standalone:true,
    providers: [MessageService],
   templateUrl: './medical-per-month-importer.html',
@@ -26,6 +29,7 @@ import { Year } from '../../../models/year.model';
 export class MedicalPerMonthImporter implements OnInit {
   @Input() organizationList?: Organization[];
   @Input() monthList?: Month[];
+  @Input() yearList?: Year[];
   @Input() serviceList?: Service[] | undefined;
   importedData: any[] = [];
   tableColumns: string[] = [];

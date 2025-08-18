@@ -14,6 +14,12 @@ import {DepartmentService} from '../../../services/department.service';
 import {OccupationService} from '../../../services/occupation.service';
 import {ServiceService} from '../../../services/service.service';
 import { MedicalPerMonthImporter } from "../medical-per-month-importer/medical-per-month-importer";
+import { Year } from '../../../models/year.model';
+
+import { Organization } from '../../../models/organization.model';
+import { Service } from '../../../models/service.model';
+import { Occupation } from '../../../models/occupation.model';
+import { Month } from '../../../models/month.model';
 @Component({
   selector: 'app-medical-per-month-list',
   standalone: true,
@@ -27,12 +33,28 @@ export class MedicalPerMonthList  implements OnInit {
   createDialog: boolean = false;
   importerDialog: boolean = false;
   isEditing: boolean = false;
+  yearList: Year[] = [];
+  monthList: Month[] = [];
+  organizationList: Organization[] = [];
+  serviceList: Service[] = [];
+  occupationList: Occupation[] = [];
 
-  constructor() {
+  constructor( private yearService :YearService,
+                  private monthService :MonthService,
+                  private organizationService :OrganizationService,
+                  private serviceService:ServiceService) {
   }
 
   ngOnInit(): void {
     this.loadMedicalPerMonth();
+        this.organizationService.getAll().subscribe(organizations=>{
+      this.organizationList = organizations;});
+    this.serviceService.getAll().subscribe(services => {
+      this.serviceList = services; });
+    this.yearService.getAll().subscribe(years=>{
+      this.yearList = years;});
+    this.monthService.getAll().subscribe(months=>{
+      this.monthList = months;});
   }
 
   loadMedicalPerMonth(): void {

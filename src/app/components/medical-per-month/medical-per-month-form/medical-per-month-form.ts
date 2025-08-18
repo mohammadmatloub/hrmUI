@@ -27,31 +27,21 @@ import {ServiceService} from '../../../services/service.service';
 })
 export class MedicalPerMonthForm implements OnChanges , OnInit {
   @Input() medicalPerMonth?: MedicalPerMonth;
+  @Input() organizationList?: Organization[];
+  @Input() monthList?: Month[];
+  @Input() yearList?: Year[];
+  @Input() serviceList?: Service[] | undefined;
   @Output() save = new EventEmitter<MedicalPerMonth>();
   @Output() cancel = new EventEmitter<void>();
 
-  yearList: Year[] = [];
-  monthList: Month[] = [];
-  organizationList: Organization[] = [];
-  serviceList: Service[] = [];
-  occupationList: Occupation[] = [];
+
 
   medical: MedicalPerMonth = {id: 0, organizationId:0,monthId: 0, yearId: 0, serviceId: 0, totalMedicalPerMonth: 0}
 
-  constructor(    private yearService :YearService,
-                  private monthService :MonthService,
-                  private organizationService :OrganizationService,
-                  private serviceService:ServiceService) {
+  constructor( ) {
   }
   ngOnInit() {
-    this.organizationService.getAll().subscribe(organizations=>{
-      this.organizationList = organizations;});
-    this.serviceService.getAll().subscribe(services => {
-      this.serviceList = services; });
-    this.yearService.getAll().subscribe(years=>{
-      this.yearList = years;});
-    this.monthService.getAll().subscribe(months=>{
-      this.monthList = months;});
+
   }
 
   ngOnChanges() {

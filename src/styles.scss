@@ -4,3 +4,19 @@ button,
 .p-button {
   margin: 3px !important;
 }
+
+@font-face {
+    font-family: 'yekan'; /* This is the name you'll use in your CSS */
+    src: url('./app/assets/fonts/yekan-font/Yekan.woff') format('woff'),
+        
+         url('./app/assets/fonts/yekan-font/Yekan.ttf') format('truetype'); /* Optional: add more formats for broader support */
+    font-weight: normal; /* Or 400 */
+    font-style: normal;
+    font-display: swap; /* Important for performance and user experience */
+}
+
+body {
+    font-family: 'yekan', sans-serif; /* Use your custom font, with a fallback generic font */
+    margin: 0;
+    padding: 0;
+}
