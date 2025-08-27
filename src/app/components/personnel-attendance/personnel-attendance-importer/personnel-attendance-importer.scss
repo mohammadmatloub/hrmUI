@@ -1,0 +1,21 @@
+.importer {
+  // make it take full available width of the parent/page
+  width: 1024px;
+  max-width: 80%;
+
+  // optional: remove any default inline size restriction from PrimeNG theme
+  max-width: none;
+
+  // spacing inside the card
+  //padding: 1.5rem;
+
+  // background & shadow for card effect
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  // ensure it grows properly if used inside flex/grid
+  flex: 1 1 auto;
+
+  // if you also want it to take full height of viewport minus top spacing
+  //min-height: calc(100vh - 2rem);
+}

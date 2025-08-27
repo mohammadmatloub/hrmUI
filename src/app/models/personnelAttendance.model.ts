@@ -8,19 +8,19 @@ export interface PersonnelAttendance {
   id?: number; // PanacheEntity includes `id` by default
 
   organization?: Organization;
-  organizationId: number;
+  organizationId?: number;
 
   department?: Department;
-  departmentId: number;
+  departmentId?: number;
 
   month?: Month;
-  monthId: number;
+  monthId?: number;
 
   year?: Year;
-  yearId: number;
+  yearId?: number;
 
   occupation?: Occupation;
-  occupationId: number;
+  occupationId?: number;
 
   totalHoursWorked: number;
   totalMinutesWorked:number;

@@ -10,7 +10,7 @@
       <tr>
           <th>سال</th>
           <th>ماه</th>
-          
+
           <th>عنوان شغلي</th>
           <th>ساعت هاي كاركرد</th>
           <th>دقيقه هاي كاركرد</th>
@@ -31,7 +31,7 @@
       <tr>
         <td>{{attendance.year.name}}</td>
          <td>{{attendance.month.name}}</td>
-        
+
           <td>{{attendance.occupation.name}}</td>
 
           <td>{{attendance.totalHoursWorked}}</td>
@@ -51,7 +51,7 @@
   </ng-template>
 </p-table>
 
-<p-dialog 
+<p-dialog
 [(visible)]="createDialog" [modal]="true">
   <app-personnel-attendance-form
       [attendance]="selectedAttendance"
@@ -61,7 +61,11 @@
 </p-dialog>
 
 <p-dialog [(visible)]="importyDialog" [modal]="true">
-  <app-personnel-attendance-importer>
+  <app-personnel-attendance-importer
+    [organizationList] ="organizationList"
+    [yearList]="yearList"
+    [monthList]="monthList"
+    [occupationList]="occupationList">
 
   </app-personnel-attendance-importer>
 

@@ -20,9 +20,9 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-medical-per-month-importer',
-   imports: [TableModule,CommonModule,FormsModule, FileUploadModule,ToastModule,ButtonModule,Select ],
-   standalone:true,
-   providers: [MessageService],
+  imports: [TableModule,CommonModule,FormsModule, FileUploadModule,ToastModule,ButtonModule,Select ],
+  standalone:true,
+  providers: [MessageService],
   templateUrl: './medical-per-month-importer.html',
   styleUrl: './medical-per-month-importer.scss'
 })
@@ -50,7 +50,7 @@ export class MedicalPerMonthImporter implements OnInit {
     }
   }
 
-  
+
 
   /** Handles file selection event from file upload UI */
   async onFileSelect(event: FileSelectEvent): Promise<void> {
@@ -103,7 +103,6 @@ export class MedicalPerMonthImporter implements OnInit {
       let service :Service | undefined  = this.myMap.get(element[0]);
        // We can directly assign 'element' if its structure matches MedicalPerMonth
        let medicalPerMonth: MedicalPerMonth = {
-         id: element[0],
          organization: this.selectedOrganization,
          organizationId: this.selectedOrganization?.id,
          month: this.selectedmonth,
