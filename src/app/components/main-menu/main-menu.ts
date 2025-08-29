@@ -34,8 +34,8 @@ export class MainMenu {
 
     {
       label: 'گزارشات', icon: 'pi pi-chart-bar', items: [
-        { label: 'ماهانه', routerLink: ['/medicalMonthReport'] },
-        { label: 'سالانه', routerLink: ['/personnelMonthReport'] }
+        { label: 'خدمت', routerLink: ['/medicalMonthReport'] },
+        { label: 'کارکرد', routerLink: ['/personnelMonthReport'] }
       ]
     },
   ];

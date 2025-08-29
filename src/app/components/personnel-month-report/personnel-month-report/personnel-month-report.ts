@@ -10,28 +10,53 @@ import { PersonnelAttendance } from '../../../models/personnelAttendance.model';
 import { Year } from '../../../models/year.model';
 import { Organization } from '../../../models/organization.model';
 import { Month } from '../../../models/month.model';
+import { ToastModule } from 'primeng/toast';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { YearService } from '../../../services/year.service';
+import { OrganizationService } from '../../../services/organization.service';
+import { PanelModule } from 'primeng/panel';
+import { MonthService } from '../../../services/month.service';
 
 
 @Component({
   selector: 'app-personnel-month-report',
-  imports: [TableModule, CommonModule,ButtonModule],
+  imports: [TableModule, CommonModule,ButtonModule, ToastModule,Select,FormsModule,PanelModule],
   templateUrl: './personnel-month-report.html',
   styleUrl: './personnel-month-report.scss'
 })
 export class PersonnelMonthReport implements OnInit {
-  @Input() year?:Year;
-  @Input() month?:Month;
-  @Input() organization?: Organization;
+  months :Month[] = [];
+  selectedMonth?:Month;
+
+  years : Year[] = [];
+  selectedYear?:Year;
+  
+  organizations: Organization[] = [];
+  selectedOrganization?:Organization;
 
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
   personnelAttendanceList :PersonnelAttendance[] =[];
 
-  constructor(private occupationService: OccupationService,private personnelAttendanceService:PersonnelAttendanceService) {}
+  constructor(
+    private occupationService: OccupationService,private monthService: MonthService ,
+    private personnelAttendanceService:PersonnelAttendanceService ,
+    private organizationService: OrganizationService,private yearService:YearService) {}
 
   localData(){
     this.occupationService.getAll().subscribe(data => {
       this.occupations = data;
+    });
+
+        this.monthService.getAll().subscribe(month => {
+      this.months = month;
+    });
+    this.organizationService.getAll().subscribe(organizaion =>{
+      this.organizations = organizaion;
+    });
+    this.yearService.getAll().subscribe(year =>{
+      this.years = year;
     });
 
  
@@ -41,6 +66,9 @@ export class PersonnelMonthReport implements OnInit {
     this.localData();
   }
 
+  search(){
+    console.log(this.selectedYear);
+  }
  
 
 }

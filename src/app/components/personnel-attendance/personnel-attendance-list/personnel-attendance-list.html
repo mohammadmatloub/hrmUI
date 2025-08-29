@@ -1,9 +1,6 @@
 
 <p-toolbar>
-  <div class="p-toolbar-group-left">
-    <button pButton icon="pi pi-plus" (click)="addPersonnelAttendance()"></button>
-    <button pButton icon="pi pi-file-import" (click)="importPersonnelAttendance()"></button>
-  </div>
+
 </p-toolbar>
 <p-table [value]="personnelAttendances" >
   <ng-template pTemplate="header">
@@ -25,6 +22,12 @@
           <th>جمع اضافه كار</th>
 
           <th>تعداد پرسنل حاضر</th>
+          <th>  
+            <div class="p-toolbar-group-left">
+              <button pButton [rounded]="true" severity="success" [text]="true" icon="pi pi-plus" (click)="addPersonnelAttendance()"></button>
+              <button pButton [rounded]="true"  severity="help" [text]="true" icon="pi pi-file-import" (click)="importPersonnelAttendance()"></button>
+            </div>
+          </th>
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-attendance >
@@ -47,6 +50,12 @@
           <td>{{attendance.overtimeTotalWorked}}</td>
 
           <td>{{attendance.attendanceCount}}</td>
+          
+          <td>
+          <button pButton  [rounded]="true" [text]="true" severity="info" icon="pi pi-bars" (click)="detailPersonnelAttendance(attendance)"></button>
+          <button pButton  [rounded]="true" [text]="true" severity="warn" icon="pi pi-pencil" (click)="editPersonnelAttendance(attendance)"></button>
+          <button pButton  [rounded]="true" [text]="true" severity="danger" icon="pi pi-trash" (click)="deletePersonnelAttendance(attendance)"></button>
+        </td>
       </tr>
   </ng-template>
 </p-table>

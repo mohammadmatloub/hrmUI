@@ -36,7 +36,7 @@ export class MedicalPerMonthForm implements OnChanges , OnInit {
 
 
 
-  medical: MedicalPerMonth = {id: 0, organizationId:0,monthId: 0, yearId: 0, serviceId: 0, totalMedicalPerMonth: 0}
+  medical: MedicalPerMonth = { totalMedicalPerMonth: 0}
 
   constructor( ) {
   }
@@ -49,6 +49,10 @@ export class MedicalPerMonthForm implements OnChanges , OnInit {
   }
 
   onSubmit() {
+    this.medical.monthID =this.medical.month?.id;
+    this.medical.organizationID = this.medical.organization?.id;
+    this.medical.yearID = this.medical.year?.id;
+    this.medical.serviceID = this.medical.service?.id;
     this.save.emit(this.medical);
   }
 

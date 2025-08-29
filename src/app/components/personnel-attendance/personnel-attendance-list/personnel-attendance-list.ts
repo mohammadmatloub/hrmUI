@@ -8,11 +8,9 @@ import { PersonnelAttendance } from '../../../models/personnelAttendance.model';
 import { PersonnelAttendanceService } from '../../../services/personnel-attendance.service';
 import { PersonnelAttendanceForm } from '../personnel-attendance-form/personnel-attendance-form';
 import { PersonnelAttendanceImporter } from "../personnel-attendance-importer/personnel-attendance-importer";
-import {MedicalPerMonthImporter} from '../../medical-per-month/medical-per-month-importer/medical-per-month-importer';
 import {Year} from '../../../models/year.model';
 import {Month} from '../../../models/month.model';
 import {Organization} from '../../../models/organization.model';
-import {Service} from '../../../models/service.model';
 import {Occupation} from '../../../models/occupation.model';
 import {YearService} from '../../../services/year.service';
 import {MonthService} from '../../../services/month.service';
@@ -21,7 +19,7 @@ import {OccupationService} from '../../../services/occupation.service';
 @Component({
   selector: 'app-personnel-attendance-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule, PersonnelAttendanceForm, PersonnelAttendanceImporter, MedicalPerMonthImporter],
+  imports: [CommonModule, TableModule, ButtonModule, ToolbarModule, DialogModule, PersonnelAttendanceForm, PersonnelAttendanceImporter],
   templateUrl: './personnel-attendance-list.html',
   styleUrl: './personnel-attendance-list.scss'
 })
@@ -76,5 +74,16 @@ export class PersonnelAttendanceList implements OnInit {
 
   closeDialog(): void {
     this.createDialog = false;
+  }
+
+  detailPersonnelAttendance(personnelAttendance: PersonnelAttendance){
+
+  }
+  editPersonnelAttendance(personnelAttendance: PersonnelAttendance){
+
+  }
+
+  deletePersonnelAttendance(personnelAttendance: PersonnelAttendance){
+
   }
 }

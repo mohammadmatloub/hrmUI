@@ -105,14 +105,14 @@ export class PersonnelAttendanceImporter implements OnInit{
        let occ :Occupation | undefined  = this.occupationMap.get(element[0]);
 
        let attendance : PersonnelAttendance = {
-         year = this.selectedYear,
-         yearId = this.selectedYear?.id,
-         organization = this.selectedOrganization,
-         organizationId = this.selectedOrganization?.id,
-         month = this.selectedMonth,
-         monthId = this.selectedMonth?.id,
-         occupation = occ,
-         occupationId = occ?.id,
+         year : this.selectedYear,
+         yearId : this.selectedYear?.id,
+         organization : this.selectedOrganization,
+         organizationId : this.selectedOrganization?.id,
+         month : this.selectedMonth,
+         monthId : this.selectedMonth?.id,
+         occupation : occ,
+         occupationId : occ?.id,
          totalHoursWorked: 0,
          totalMinutesWorked: 0,
          totalWorked: element[1],

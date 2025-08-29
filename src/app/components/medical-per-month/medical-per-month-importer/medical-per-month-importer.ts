@@ -104,13 +104,13 @@ export class MedicalPerMonthImporter implements OnInit {
        // We can directly assign 'element' if its structure matches MedicalPerMonth
        let medicalPerMonth: MedicalPerMonth = {
          organization: this.selectedOrganization,
-         organizationId: this.selectedOrganization?.id,
+         organizationID: this.selectedOrganization?.id,
          month: this.selectedmonth,
-         monthId: this.selectedmonth?.id,
-         yearId: this.selectedYear?.id,
+         monthID: this.selectedmonth?.id,
+         yearID: this.selectedYear?.id,
          year: this.selectedYear,
          service: service,
-         serviceId: service?.id,
+         serviceID: service?.id,
          totalMedicalPerMonth: element[3]
        };
        this.medicalPerMonthList.push(medicalPerMonth);

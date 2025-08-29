@@ -20,6 +20,7 @@ import { Organization } from '../../../models/organization.model';
 import { Service } from '../../../models/service.model';
 import { Occupation } from '../../../models/occupation.model';
 import { Month } from '../../../models/month.model';
+import { MedicalPerMonthService } from '../../../services/medical-Per-Month.service';
 @Component({
   selector: 'app-medical-per-month-list',
   standalone: true,
@@ -39,7 +40,9 @@ export class MedicalPerMonthList  implements OnInit {
   serviceList: Service[] = [];
   occupationList: Occupation[] = [];
 
-  constructor( private yearService :YearService,
+  constructor( 
+    private medicalPerMonthService :MedicalPerMonthService,
+    private yearService :YearService,
                   private monthService :MonthService,
                   private organizationService :OrganizationService,
                   private serviceService:ServiceService) {
@@ -47,7 +50,7 @@ export class MedicalPerMonthList  implements OnInit {
 
   ngOnInit(): void {
     this.loadMedicalPerMonth();
-        this.organizationService.getAll().subscribe(organizations=>{
+    this.organizationService.getAll().subscribe(organizations=>{
       this.organizationList = organizations;});
     this.serviceService.getAll().subscribe(services => {
       this.serviceList = services; });
@@ -58,12 +61,14 @@ export class MedicalPerMonthList  implements OnInit {
   }
 
   loadMedicalPerMonth(): void {
+    this.medicalPerMonthService.getAll().subscribe(medicalPerMonth=>{
+       this.medicalPerMonths=medicalPerMonth;
+      })
     // Load medical records from a service or API
     // this.medicalRecords = fetchedData;
   }
 
   addMedicalPerMonth(): void {
-
     this.createDialog = true;
   }
 
@@ -71,17 +76,26 @@ export class MedicalPerMonthList  implements OnInit {
     this.selectedMedicalPerMonth = { ...record };
     this.createDialog = true;
   }
+
+  detailMedicalPerMonth(record: MedicalPerMonth): void {
+    this.selectedMedicalPerMonth = { ...record };
+    this.createDialog = true;
+  }
+  
+
   deleteMedicalPerMonth(medicalPerMonth: MedicalPerMonth): void {
     // Logic to delete the record
     this.medicalPerMonths = this.medicalPerMonths.filter(m => m.id !== medicalPerMonth.id);
   }
 
   createMedicalPerMonth(medicalPerMonth: MedicalPerMonth): void {
+
     if (medicalPerMonth.id) {
       // Update existing record logic
     } else {
-      // Create new record logic
+      this.medicalPerMonthService.create(medicalPerMonth).subscribe();  
     }
+
     this.createDialog = false;
     this.loadMedicalPerMonth();
   }
