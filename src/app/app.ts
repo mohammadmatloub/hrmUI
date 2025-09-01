@@ -1,21 +1,20 @@
-import { Component, signal ,OnInit} from '@angular/core';
+import { Component, signal, OnInit, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { TabsModule } from 'primeng/tabs';
-import { MainMenu } from './components/main-menu/main-menu';
+
+import { MainMenu } from './presentation/components/main-menu/main-menu';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, TabsModule, MainMenu],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App implements OnInit {
+  tabs: { title: string; value: number; content?: string }[] = [];
 
-    tabs: { title: string; value: number; content?: string }[] = [];
+  ngOnInit(): void {}
 
-    
-    ngOnInit() {
-
-    }
-  protected readonly title = signal('hrmui');
+  protected readonly title: WritableSignal<string> = signal('hrmui');
 }

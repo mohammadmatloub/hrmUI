@@ -1,6 +1,0 @@
-export interface Month {
-  id?: number;         // from PanacheEntity
-  numberMonth: number; // your int id field renamed
-  code: number;
-  name: string;
-}
