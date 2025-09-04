@@ -1,0 +1,90 @@
+<p-toolbar> </p-toolbar>
+<p-table [value]="medicalPerMonths">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>مرکز</th>
+      <th>سال</th>
+      <th>ماه</th>
+      <th>خدمات</th>
+      <th>خدمات تعداد</th>
+      <th>
+        <div class="p-toolbar-group-left">
+          <button
+            pButton
+            [rounded]="true"
+            severity="success"
+            [text]="true"
+            icon="pi pi-plus"
+            (click)="addMedicalPerMonth()"
+          ></button>
+          <button
+            pButton
+            [rounded]="true"
+            severity="help"
+            [text]="true"
+            icon="pi pi-file-import"
+            (click)="importerMedicalPerMonth()"
+          ></button>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-medicalPerMonth>
+    <tr>
+      <td>{{ medicalPerMonth.organization.name }}</td>
+      <td>{{ medicalPerMonth.year.name }}</td>
+      <td>{{ medicalPerMonth.month.name }}</td>
+      <td>{{ medicalPerMonth.service.name }}</td>
+      <td>{{ medicalPerMonth.totalMedicalPerMonth }}</td>
+      <td>
+        <button
+          pButton
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          icon="pi pi-bars"
+          (click)="detailMedicalPerMonth(medicalPerMonth)"
+        ></button>
+        <button
+          pButton
+          [rounded]="true"
+          [text]="true"
+          severity="warn"
+          icon="pi pi-pencil"
+          (click)="editMedicalPerMonth(medicalPerMonth)"
+        ></button>
+        <button
+          pButton
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+          icon="pi pi-trash"
+          (click)="deleteMedicalPerMonth(medicalPerMonth)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="createDialog" [modal]="true">
+  <app-medical-per-month-form
+    [medicalPerMonth]="selectedMedicalPerMonth"
+    [organizationList]="organizationList"
+    [yearList]="yearList"
+    [monthList]="monthList"
+    [serviceList]="serviceList"
+    (save)="createMedicalPerMonth($event)"
+    (cancel)="onCancel()"
+  >
+  </app-medical-per-month-form>
+</p-dialog>
+
+<p-dialog [(visible)]="importerDialog" [modal]="true">
+  <app-medical-per-month-importer
+    [organizationList]="organizationList"
+    [yearList]="yearList"
+    [monthList]="monthList"
+    [serviceList]="serviceList"
+  >
+  </app-medical-per-month-importer>
+</p-dialog>

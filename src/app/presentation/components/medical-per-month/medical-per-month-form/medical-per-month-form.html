@@ -1,0 +1,98 @@
+<p-panel header="ثبت">
+  <form (ngSubmit)="onSubmit()" @if(medical) dir="rtl">
+    <table class="p-datatable p-grid p-formgrid">
+      <tbody>
+        <tr>
+          <td style="width: 180px">سازمان</td>
+          <td>
+            <p-select
+              [options]="organizationList"
+              [(ngModel)]="medical.organization"
+              name="organization"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب سازمان"
+              class="w-full md:w-56"
+            />
+          </td>
+
+          <td>خدمت</td>
+          <td>
+            <p-select
+              [options]="serviceList"
+              [(ngModel)]="medical.service"
+              name="service"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب خدمت"
+              class="w-full md:w-56"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>سال</td>
+          <td>
+            <p-select
+              [options]="yearList"
+              [(ngModel)]="medical.year"
+              name="year"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب سال"
+              class="w-full md:w-56"
+            />
+          </td>
+
+          <td>ماه</td>
+          <td>
+            <p-select
+              [options]="monthList"
+              [(ngModel)]="medical.month"
+              name="month"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب ماه"
+              class="w-full md:w-56"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td>تعداد خدمت</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="medical.totalMedicalPerMonth"
+              name="totalMedicalPerMonth"
+              inputId="totalMedicalPerMonth"
+              mode="decimal"
+              [min]="0"
+              [max]="1000"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <button
+              pButton
+              icon="pi pi-check"
+              type="submit"
+              class="p-button-success mx-2"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-times"
+              type="button"
+              class="p-button-danger mx-2"
+              (click)="onCancel()"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</p-panel>
