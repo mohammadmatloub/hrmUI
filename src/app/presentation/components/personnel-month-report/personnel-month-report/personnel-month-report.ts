@@ -18,6 +18,9 @@ import { MonthService } from '../../../../infrastructure/services/month.service'
 import { PersonnelAttendanceService } from '../../../../infrastructure/services/personnel-attendance.service';
 import { OrganizationService } from '../../../../infrastructure/services/organization.service';
 import { YearService } from '../../../../infrastructure/services/year.service';
+import { PersonAttendanceReportService } from '../../../../infrastructure/services/person-attendance-report.service';
+import { MedicalPerMonthReportSearch } from '../../../../core/domain/medicalPerMonthReportSearch.model';
+import { PersonAttendanceReport } from '../../../../core/domain/personAttendanceReport.model';
 
 @Component({
   selector: 'app-personnel-month-report',
@@ -46,11 +49,12 @@ export class PersonnelMonthReport implements OnInit {
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
   personnelAttendanceList: PersonnelAttendance[] = [];
+  personnelAttendanceReportList: PersonAttendanceReport[] = [];
 
   constructor(
     private occupationService: OccupationService,
     private monthService: MonthService,
-    private personnelAttendanceService: PersonnelAttendanceService,
+    private personAttendanceReportService: PersonAttendanceReportService,
     private organizationService: OrganizationService,
     private yearService: YearService
   ) {}
@@ -77,7 +81,18 @@ export class PersonnelMonthReport implements OnInit {
     this.localData();
   }
 
-  search(): void {
-    console.log(this.selectedYear);
+search(): void {
+    let search: MedicalPerMonthReportSearch = {};
+    search.yearID = this.selectedYear?.id;
+    search.organizationID = this.selectedOrganization?.id;
+    search.monthID = this.selectedMonth?.id;
+    this.personAttendanceReportService
+      .getAll(search)
+      .subscribe(
+        (person: PersonAttendanceReport[]) =>
+          (this.personnelAttendanceReportList = person)
+      );
+
+    console.log(this.personnelAttendanceReportList);
   }
 }
