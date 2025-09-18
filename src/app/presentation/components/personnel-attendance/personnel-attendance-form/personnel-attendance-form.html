@@ -17,19 +17,6 @@
             />
           </td>
 
-          <td>دپارتمان</td>
-          <td>
-            <p-select
-              [options]="departmentList"
-              [(ngModel)]="personnelAttendance.department"
-              name="department"
-              [checkmark]="true"
-              optionLabel="name"
-              [showClear]="true"
-              placeholder="انتخاب دپارتمان"
-              class="w-full md:w-56"
-            />
-          </td>
         </tr>
         <tr>
           <td>سال</td>
@@ -128,17 +115,7 @@
             />
           </td>
 
-          <td>اضافه‌کاری بدون ضریب</td>
-          <td>
-            <p-inputnumber
-              [(ngModel)]="personnelAttendance.overtimeWithOutMultiplier"
-              name="overtimeWithOutMultiplier"
-              inputId="overtime-without-multiplier"
-              mode="decimal"
-              [min]="0"
-              [max]="100"
-            />
-          </td>
+
         </tr>
         <tr>
           <td>تعداد روزهای اضافه‌کار</td>

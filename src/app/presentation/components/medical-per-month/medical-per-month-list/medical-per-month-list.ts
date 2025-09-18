@@ -117,9 +117,18 @@ export class MedicalPerMonthList implements OnInit {
 
   onCancel(): void {
     this.createDialog = false;
+    this.importerDialog = false;
   }
 
   importerMedicalPerMonth(): void {
     this.importerDialog = true;
+  }
+
+  createMedicalPerMonthList(medicalPerMonthList: MedicalPerMonth[]): void {
+    for (let medicalPerMonth of medicalPerMonthList) {
+      this.medicalPerMonthService.create(medicalPerMonth).subscribe();
+    }
+    this.importerDialog =false;
+    this.loadMedicalPerMonth();
   }
 }

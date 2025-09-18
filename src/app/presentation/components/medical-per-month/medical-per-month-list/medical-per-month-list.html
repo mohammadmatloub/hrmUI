@@ -85,6 +85,8 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [serviceList]="serviceList"
+    (save)="createMedicalPerMonthList($event)"
+    (cancel)="onCancel()"
   >
   </app-medical-per-month-importer>
 </p-dialog>

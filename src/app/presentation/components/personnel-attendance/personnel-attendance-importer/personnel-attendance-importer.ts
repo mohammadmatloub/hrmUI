@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -18,6 +18,7 @@ import {
 } from '../../../../infrastructure/services/excel-importer.service';
 import { Occupation } from '../../../../core/domain/occupation.model';
 import { PersonnelAttendance } from '../../../../core/domain/personnelAttendance.model';
+import {MedicalPerMonth} from '../../../../core/domain/medicalPerMonth.model';
 
 @Component({
   selector: 'app-personnel-attendance-importer',
@@ -40,14 +41,18 @@ export class PersonnelAttendanceImporter implements OnInit {
   @Input() monthList?: Month[];
   @Input() yearList?: Year[];
   @Input() occupationList?: Occupation[] | undefined;
-  @Output() personnelAttendanceList: PersonnelAttendance[] = [];
-  importedData: any[] = [];
+  @Output() save: EventEmitter<PersonnelAttendance[]> =
+    new EventEmitter<PersonnelAttendance[]>();
+  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
+
+  importedData: any[] = [];
+  personnelAttendanceList: PersonnelAttendance[] = [];
   selectedYear?: Year;
   selectedOrganization?: Organization;
   selectedMonth?: Month;
   tableColumns: string[] = [];
-  occupationMap: Map<string, Occupation> = new Map();
+
 
   constructor(
     private messageService: MessageService,
@@ -55,9 +60,6 @@ export class PersonnelAttendanceImporter implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    for (let occupation of this.occupationList ?? []) {
-      this.occupationMap.set(occupation.name, occupation);
-    }
   }
 
   /** Handles file selection event from file upload UI */
@@ -122,30 +124,44 @@ export class PersonnelAttendanceImporter implements OnInit {
   }
 
   public createPersonnelAttendance(): void {
-    this.importedData.forEach((element) => {
-      let occ: Occupation | undefined = this.occupationMap.get(element[0]);
 
-      let attendance: PersonnelAttendance = {
-        year: this.selectedYear,
-        yearId: this.selectedYear?.id,
-        organization: this.selectedOrganization,
-        organizationId: this.selectedOrganization?.id,
-        month: this.selectedMonth,
-        monthId: this.selectedMonth?.id,
-        occupation: occ,
-        occupationId: occ?.id,
-        totalHoursWorked: 0,
-        totalMinutesWorked: 0,
-        totalWorked: element[1],
-        overtimeWithMultiplier: 0,
-        overtimeWithOutMultiplier: 0,
-        overtimeDaysWorked: 0,
-        overtimeHoursWorked: 0,
-        overtimeMinWorked: 0,
-        overtimeTotalWorked: 0,
-        attendanceCount: 0,
-      };
-      this.personnelAttendanceList.push(attendance);
+    let occupationMap: Map<String, Occupation> = new Map();
+    for (let occupation of this.occupationList ?? []) {
+      occupationMap.set(occupation.name, occupation);
+    }
+
+    this.importedData.forEach((element) => {
+
+      let occ:Occupation = <Occupation> occupationMap.get(<String>Object.entries(element)[0][1]);
+      if(occ !=undefined && occ != null) {
+        let attendance: PersonnelAttendance = {
+          year: this.selectedYear,
+          yearID: this.selectedYear?.id,
+          organization: this.selectedOrganization,
+          organizationID: this.selectedOrganization?.id,
+          month: this.selectedMonth,
+          monthID: this.selectedMonth?.id,
+          occupation: occ,
+          occupationId: occ.id,
+          totalDaysWorked: 31,
+          totalHoursWorked: 0,
+          totalMinutesWorked: 0,
+          totalWorked: <number>Object.entries(element)[1][1],
+          overtimeWithMultiplier: 0,
+          overtimeDaysWorked: 0,
+          overtimeHoursWorked: 0,
+          overtimeMinWorked: 0,
+          overtimeTotalWorked: 0,
+          attendanceCount: <number>Object.entries(element)[1][1],
+        };
+        this.personnelAttendanceList.push(attendance);
+      }
     });
+
+    this.personnelAttendanceList.length;
+    this.save.emit(this.personnelAttendanceList);
+  }
+  onCancel(): void {
+    this.cancel.emit();
   }
 }

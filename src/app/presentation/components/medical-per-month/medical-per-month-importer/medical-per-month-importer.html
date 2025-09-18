@@ -16,8 +16,7 @@
           class="w-full md:w-56"
         />
       </td>
-    </tr>
-    <tr>
+
       <td>سال</td>
       <td>
         <p-select
@@ -31,8 +30,7 @@
           class="w-full md:w-56"
         />
       </td>
-    </tr>
-    <tr>
+
       <td>ماه</td>
       <td>
         <p-select
@@ -51,18 +49,23 @@
       <td>
         <button
           pButton
+          [rounded]="true"
+          severity="success"
+          [text]="true"
           value="save"
           icon="pi pi-check"
-          (click)="createMedicalPerMonth()"
+          (click)="onSave()"
         ></button>
       </td>
       <td>
         <button
           pButton
+          [rounded]="true"
           value="save"
+          [text]="true"
           severity="danger"
           icon="pi pi-ban"
-          (click)="createMedicalPerMonth()"
+          (click)="onCancel()"
         ></button>
       </td>
     </tr>

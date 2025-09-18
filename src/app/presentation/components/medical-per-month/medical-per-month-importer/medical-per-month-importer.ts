@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -41,6 +41,9 @@ export class MedicalPerMonthImporter implements OnInit {
   @Input() monthList?: Month[];
   @Input() yearList?: Year[];
   @Input() serviceList?: Service[] | undefined;
+  @Output() save: EventEmitter<MedicalPerMonth[]> =
+    new EventEmitter<MedicalPerMonth[]>();
+  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
   importedData: any[] = [];
   tableColumns: string[] = [];
@@ -48,18 +51,18 @@ export class MedicalPerMonthImporter implements OnInit {
   selectedYear?: Year;
   selectedOrganization?: Organization;
   selectedmonth?: Month;
-  myMap: Map<string, Service> = new Map();
+
 
   constructor(
     private messageService: MessageService,
     private excelImporter: ExcelImporterService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    for (let service of this.serviceList ?? []) {
-      this.myMap.set(service.name, service);
-    }
+
   }
+
 
   /** Handles file selection event from file upload UI */
   async onFileSelect(event: FileSelectEvent): Promise<void> {
@@ -122,23 +125,46 @@ export class MedicalPerMonthImporter implements OnInit {
     this.tableColumns = [];
   }
 
-  public createMedicalPerMonth(): void {
+  public onSave(): void {
+
+    let serviceMap: Map<String, Service> = new Map();
+    for (let service of this.serviceList ?? []) {
+      serviceMap.set(service.name, service);
+    }
+    let monthMap: Map<String, Month> = new Map();
+    for (let month of this.monthList ?? []) {
+      monthMap.set(month.name, month);
+    }
+
     this.importedData.forEach((element: any): void => {
-      let service: Service | undefined = this.myMap.get(element[0]);
-      // We can directly assign 'element' if its structure matches MedicalPerMonth
-      let medicalPerMonth: MedicalPerMonth = {
-        organization: this.selectedOrganization,
-        organizationID: this.selectedOrganization?.id,
-        month: this.selectedmonth,
-        monthID: this.selectedmonth?.id,
-        yearID: this.selectedYear?.id,
-        year: this.selectedYear,
-        service: service,
-        serviceID: service?.id,
-        totalMedicalPerMonth: element[3],
-      };
-      this.medicalPerMonthList.push(medicalPerMonth);
+      let map = new Map(Object.entries(element));
+      for (let key of map.keys()) {
+        if( key === 'ماه') {
+         let monthName:String = <String>map.get(key);
+          this.selectedmonth= monthMap.get(monthName);
+        }
+        if(serviceMap.has(key)) {
+          let service: Service | undefined = serviceMap.get(key);
+          let medicalPerMonth: MedicalPerMonth = {
+            organization: this.selectedOrganization,
+            organizationID: this.selectedOrganization?.id,
+            month: this.selectedmonth,
+            monthID: this.selectedmonth?.id,
+            yearID: this.selectedYear?.id,
+            year: this.selectedYear,
+            service: service,
+            serviceID: service?.id,
+            totalMedicalPerMonth: <number>map.get(<string>service?.name),
+          };
+          this.medicalPerMonthList.push(medicalPerMonth);
+        }
+      }
     });
     console.log('Medical Per Month List:', this.medicalPerMonthList);
+    this.save.emit(this.medicalPerMonthList);
+  }
+
+  onCancel(): void {
+    this.cancel.emit();
   }
 }

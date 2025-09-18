@@ -96,7 +96,7 @@
   <app-personnel-attendance-form
     [attendance]="selectedAttendance"
     (save)="createAttendance($event)"
-    (cancel)="closeDialog()"
+    (cancel)="onCancel()"
   >
   </app-personnel-attendance-form>
 </p-dialog>
@@ -107,6 +107,8 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [occupationList]="occupationList"
+    (save) = "createAttendanceList($event)"
+    (cancel)="onCancel()"
   >
   </app-personnel-attendance-importer>
 </p-dialog>

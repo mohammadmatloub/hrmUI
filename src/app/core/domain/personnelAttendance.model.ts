@@ -8,31 +8,28 @@ export interface PersonnelAttendance {
   id?: number; // PanacheEntity includes `id` by default
 
   organization?: Organization;
-  organizationId?: number;
-
-  department?: Department;
-  departmentId?: number;
+  organizationID?: number;
 
   month?: Month;
-  monthId?: number;
+  monthID?: number;
 
   year?: Year;
-  yearId?: number;
+  yearID?: number;
 
   occupation?: Occupation;
   occupationId?: number;
 
+  totalDaysWorked:number;
   totalHoursWorked: number;
   totalMinutesWorked: number;
   totalWorked: number;
-
-  overtimeWithMultiplier: number;
-  overtimeWithOutMultiplier: number;
 
   overtimeDaysWorked: number;
   overtimeHoursWorked: number;
   overtimeMinWorked: number;
   overtimeTotalWorked: number;
+
+  overtimeWithMultiplier: number;
 
   attendanceCount: number;
 }

@@ -18,6 +18,7 @@ import { YearService } from '../../../../infrastructure/services/year.service';
 import { MonthService } from '../../../../infrastructure/services/month.service';
 import { OrganizationService } from '../../../../infrastructure/services/organization.service';
 import { OccupationService } from '../../../../infrastructure/services/occupation.service';
+import {Department} from '../../../../core/domain/department.model';
 
 @Component({
   selector: 'app-personnel-attendance-list',
@@ -65,6 +66,30 @@ export class PersonnelAttendanceList implements OnInit {
       .subscribe((attendances: PersonnelAttendance[]): void => {
         this.personnelAttendances = attendances;
       });
+    this.organizationService
+      .getAll()
+      .subscribe((organizations: Organization[]): void => {
+        this.organizationList = organizations;
+      });
+
+    this.yearService
+      .getAll()
+      .subscribe((years: Year[]): void => {
+      this.yearList = years;
+    });
+
+    this.monthService
+      .getAll()
+      .subscribe((months: Month[]): void => {
+      this.monthList = months;
+    });
+
+    this.occupationService
+      .getAll()
+      .subscribe((occupations: Occupation[]): void => {
+        this.occupationList = occupations;
+      });
+    this.occupationList.length;
   }
   // Add methods to handle attendance data, such as fetching, displaying, and managing attendance records
 
@@ -83,12 +108,21 @@ export class PersonnelAttendanceList implements OnInit {
     console.log('HI Create');
     this.personnelAttendanceService.create(attendance).subscribe((): void => {
       this.loadPersonnelAttendances();
-      this.closeDialog();
+      this.onCancel();
     });
   }
 
-  closeDialog(): void {
+  createAttendanceList(personnelAttendances: PersonnelAttendance[]): void {
+    for(let personnelAttendance of personnelAttendances) {
+      this.personnelAttendanceService.create(personnelAttendance).subscribe();
+    }
+    this.onCancel();
+    this.loadPersonnelAttendances();
+  }
+
+  onCancel(): void {
     this.createDialog = false;
+    this.importyDialog = false;
   }
 
   detailPersonnelAttendance(personnelAttendance: PersonnelAttendance): void {}

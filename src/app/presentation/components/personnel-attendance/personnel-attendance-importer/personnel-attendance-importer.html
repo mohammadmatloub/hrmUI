@@ -16,8 +16,7 @@
           class="w-full md:w-56"
         />
       </td>
-    </tr>
-    <tr>
+
       <td>سال</td>
       <td>
         <p-select
@@ -31,8 +30,7 @@
           class="w-full md:w-56"
         />
       </td>
-    </tr>
-    <tr>
+
       <td>ماه</td>
       <td>
         <p-select
@@ -52,6 +50,8 @@
         <button
           pButton
           value="save"
+          [rounded]="true"
+          [text]="true"
           icon="pi pi-check"
           (click)="createPersonnelAttendance()"
         ></button>
@@ -59,10 +59,12 @@
       <td>
         <button
           pButton
-          value="save"
+          value="cancel"
+          [rounded]="true"
+          [text]="true"
           severity="danger"
           icon="pi pi-ban"
-          (click)="createPersonnelAttendance()"
+          (click)="onCancel()"
         ></button>
       </td>
     </tr>
@@ -74,6 +76,7 @@
     accept=".xlsx, .xls, .csv"
     chooseLabel="انتخاب"
     chooseIcon="pi pi-upload"
+
     [maxFileSize]="1000000"
     (onSelect)="onFileSelect($event)"
     (onClear)="onFileClear()"

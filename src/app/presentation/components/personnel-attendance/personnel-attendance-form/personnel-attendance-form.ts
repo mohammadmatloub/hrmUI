@@ -50,10 +50,9 @@ export class PersonnelAttendanceForm implements OnChanges, OnInit {
   personnelAttendance: PersonnelAttendance = {
     id: 0,
     occupationId: 0,
-    organizationId: 0,
-    departmentId: 0,
-    yearId: 0,
-    monthId: 0,
+    organizationID: 0,
+    yearID: 0,
+    monthID: 0,
 
     overtimeDaysWorked: 0,
     overtimeHoursWorked: 0,
@@ -61,8 +60,8 @@ export class PersonnelAttendanceForm implements OnChanges, OnInit {
     overtimeTotalWorked: 0,
 
     overtimeWithMultiplier: 0,
-    overtimeWithOutMultiplier: 0,
 
+    totalDaysWorked:0,
     totalHoursWorked: 0,
     totalMinutesWorked: 0,
     totalWorked: 0,
