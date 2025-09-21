@@ -1,0 +1,114 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <table>
+    <tr>
+      <td style="width: 180px">سازمان</td>
+      <td>
+        <p-select
+          [options]="organizationList"
+          [(ngModel)]="selectedOrganization"
+          name="organization"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب سازمان"
+          class="w-full md:w-56"
+        />
+      </td>
+
+      <td>سال</td>
+      <td>
+        <p-select
+          [options]="yearList"
+          [(ngModel)]="selectedYear"
+          name="year"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب سال"
+          class="w-full md:w-56"
+        />
+      </td>
+
+      <td>ماه</td>
+      <td>
+        <p-select
+          [options]="monthList"
+          [(ngModel)]="selectedMonth"
+          name="month"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب ماه"
+          class="w-full md:w-56"
+        />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button
+          pButton
+          value="save"
+          [rounded]="true"
+          [text]="true"
+          icon="pi pi-check"
+          (click)="createPersonnelAttendance()"
+        ></button>
+      </td>
+      <td>
+        <button
+          pButton
+          value="cancel"
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+          icon="pi pi-ban"
+          (click)="onCancel()"
+        ></button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- File Upload Component -->
+  <p-fileUpload
+    mode="basic"
+    accept=".xlsx, .xls, .csv"
+    chooseLabel="انتخاب"
+    chooseIcon="pi pi-upload"
+
+    [maxFileSize]="1000000"
+    (onSelect)="onFileSelect($event)"
+    (onClear)="onFileClear()"
+  >
+  </p-fileUpload>
+
+  @if (importedData.length > 0) {
+  <div style="margin-top: 20px">
+    <h3>Imported Data Preview</h3>
+    <p-table [value]="importedData" [scrollable]="true" scrollHeight="400px">
+      <!-- Dynamic Columns for Header -->
+      <ng-template pTemplate="header">
+        <tr>
+          @for (col of tableColumns; track col) {
+          <th>{{ col }}</th>
+          }
+        </tr>
+      </ng-template>
+
+      <!-- Dynamic Rows for Body -->
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          @for (col of tableColumns; track col) {
+          <td>{{ rowData[col] }}</td>
+          }
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  } @else {} @if(importedData.length === 0){
+  <div style="margin-top: 20px">
+    <p>فایل مورد نظر انتخاب نشده</p>
+  </div>
+  }
+</div>

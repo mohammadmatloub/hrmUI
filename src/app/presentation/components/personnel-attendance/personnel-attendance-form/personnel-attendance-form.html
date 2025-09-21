@@ -1,0 +1,205 @@
+<p-panel header="ثبت">
+  <form (ngSubmit)="onSubmit()" @if(personnelAttendance) dir="rtl">
+    <table class="p-datatable p-grid p-formgrid">
+      <tbody>
+        <tr>
+          <td style="width: 180px">سازمان</td>
+          <td>
+            <p-select
+              [options]="organizationList"
+              [(ngModel)]="personnelAttendance.organization"
+              name="organization"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب سازمان"
+              class="w-full md:w-56"
+            />
+          </td>
+
+        </tr>
+        <tr>
+          <td>سال</td>
+          <td>
+            <p-select
+              [options]="yearList"
+              [(ngModel)]="personnelAttendance.year"
+              name="year"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب سال"
+              class="w-full md:w-56"
+            />
+          </td>
+
+          <td>ماه</td>
+          <td>
+            <p-select
+              [options]="monthList"
+              [(ngModel)]="personnelAttendance.month"
+              name="month"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب ماه"
+              class="w-full md:w-56"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>شغل</td>
+          <td>
+            <p-select
+              [options]="occupationList"
+              [(ngModel)]="personnelAttendance.occupation"
+              name="occupation"
+              [checkmark]="true"
+              optionLabel="name"
+              [showClear]="true"
+              placeholder="انتخاب شغل"
+              class="w-full md:w-56"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>تعداد حضور</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.attendanceCount"
+              name="attendanceCount"
+              inputId="attendance-count"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td>ساعت کارکرد</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.totalHoursWorked"
+              name="totalHoursWorked"
+              inputId="hours-worked"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+
+          <td>دقیقه کارکرد</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.totalMinutesWorked"
+              name="totalMinutesWorked"
+              inputId="minutes-worked"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td>اضافه‌کاری با ضریب</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.overtimeWithMultiplier"
+              name="overtimeWithMultiplier"
+              inputId="overtime-multiplier"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+
+
+        </tr>
+        <tr>
+          <td>تعداد روزهای اضافه‌کار</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.overtimeDaysWorked"
+              name="overtimeDaysWorked"
+              inputId="overtime-days"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>ساعت اضافه‌کاری</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.overtimeHoursWorked"
+              name="overtimeHoursWorked"
+              inputId="overtime-hours"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+
+          <td>دقیقه اضافه‌کاری</td>
+          <td>
+            <p-inputnumber
+              [(ngModel)]="personnelAttendance.overtimeMinWorked"
+              name="overtimeMinWorked"
+              inputId="overtime-minutes"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>جمع کل اضافه‌کاری</td>
+          <td>
+            <p-inputnumber
+              disabled="true"
+              [(ngModel)]="personnelAttendance.overtimeTotalWorked"
+              name="overtimeTotalWorked"
+              inputId="overtime-total"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+          <td>جمع کل کارکرد</td>
+          <td>
+            <p-inputnumber
+              disabled="true"
+              [(ngModel)]="personnelAttendance.totalWorked"
+              name="totalWorked"
+              inputId="total-worked"
+              mode="decimal"
+              [min]="0"
+              [max]="100"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <button
+              pButton
+              icon="pi pi-check"
+              type="submit"
+              class="p-button-success mx-2"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-times"
+              type="button"
+              class="p-button-danger mx-2"
+              (click)="onCancel()"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</p-panel>

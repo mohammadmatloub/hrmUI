@@ -1,0 +1,31 @@
+import { Component, OnInit } from '@angular/core';
+
+import { TabsModule } from 'primeng/tabs';
+import { TableModule } from 'primeng/table';
+
+import { Occupation } from '../../../../core/domain/occupation.model';
+import { OccupationService } from '../../../../infrastructure/services/occupation.service';
+
+@Component({
+  selector: 'app-occupation-list',
+  imports: [TabsModule, TableModule],
+  templateUrl: './occupation-list.html',
+  styleUrl: './occupation-list.scss',
+})
+export class OccupationList implements OnInit {
+  occupations: Occupation[] = [];
+
+  constructor(private occupationService: OccupationService) {}
+
+  ngOnInit(): void {
+    this.loadOccupation();
+  }
+
+  loadOccupation(): void {
+    this.occupationService
+      .getAll()
+      .subscribe((occupationList: Occupation[]): void => {
+        this.occupations = occupationList;
+      });
+  }
+}
