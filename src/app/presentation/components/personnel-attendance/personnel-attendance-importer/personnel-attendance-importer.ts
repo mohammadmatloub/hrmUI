@@ -142,22 +142,22 @@ export class PersonnelAttendanceImporter implements OnInit {
 
     this.importedData.forEach((element) => {
 
-      let occ:Occupation = <Occupation> occupationMap.get(<String>Object.entries(element)[0][1]);
+      let occ:Occupation = <Occupation> occupationMap.get(<String>Object.entries(element)[1][1]);
       if(occ !=undefined && occ != null) {
         let attendance: PersonnelAttendanceDetail = {
-          master: master,
+         // master: master,
           occupation: occ,
           occupationId: occ.id,
           totalDaysWorked: 31,
           totalHoursWorked: 0,
           totalMinutesWorked: 0,
-          totalWorked: <number>Object.entries(element)[1][1],
+          totalWorked: 0,
           overtimeWithMultiplier: 0,
           overtimeDaysWorked: 0,
-          overtimeHoursWorked: 0,
-          overtimeMinWorked: 0,
+          overtimeHoursWorked: <number>Object.entries(element)[4][1],
+          overtimeMinWorked: <number>Object.entries(element)[3][1],
           overtimeTotalWorked: 0,
-          attendanceCount: <number>Object.entries(element)[1][1],
+          attendanceCount: <number>Object.entries(element)[2][1],
         };
         details.push(attendance);
       }

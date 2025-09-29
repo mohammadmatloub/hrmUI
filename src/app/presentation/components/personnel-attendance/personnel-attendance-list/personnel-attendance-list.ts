@@ -39,8 +39,10 @@ export class PersonnelAttendanceList implements OnInit {
   // Define properties and methods for the component here
   // For example, you might want to fetch attendance data from a service
   personnelAttendances: PersonnelAttendanceMaster[] = [];
+  detailsList: PersonnelAttendanceDetail[] = [];
   selectedAttendance?: PersonnelAttendanceMaster;
   createDialog: boolean = false;
+  detailDialog: boolean = false;
   isEditing: boolean = false;
   importyDialog: boolean = false;
   yearList: Year[] = [];
@@ -118,6 +120,14 @@ export class PersonnelAttendanceList implements OnInit {
   }
 
   detailPersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
+    this.selectedAttendance = { ...personnelAttendance };
+
+    // @ts-ignore
+    for (let attendance of this.selectedAttendance?.personnelAttendanceDetails) {
+      this.detailsList.push(attendance);
+    }
+
+    this.detailDialog = true;
   //  this.personnelAttendanceService.getById(personnelAttendance.id).subscribe();
   }
   editPersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
