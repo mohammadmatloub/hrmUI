@@ -17,8 +17,8 @@ import {
   ImportResult,
 } from '../../../../infrastructure/services/excel-importer.service';
 import { Occupation } from '../../../../core/domain/occupation.model';
-import { PersonnelAttendance } from '../../../../core/domain/personnelAttendance.model';
-import {MedicalPerMonth} from '../../../../core/domain/medicalPerMonth.model';
+import { PersonnelAttendanceMaster,PersonnelAttendanceDetail } from '../../../../core/domain/personnelAttendance.model';
+import {MedicalPerMonthMaster,MedicalPerMonthDetail} from '../../../../core/domain/medicalPerMonth.model';
 
 @Component({
   selector: 'app-personnel-attendance-importer',
@@ -41,13 +41,13 @@ export class PersonnelAttendanceImporter implements OnInit {
   @Input() monthList?: Month[];
   @Input() yearList?: Year[];
   @Input() occupationList?: Occupation[] | undefined;
-  @Output() save: EventEmitter<PersonnelAttendance[]> =
-    new EventEmitter<PersonnelAttendance[]>();
+  @Output() save: EventEmitter<PersonnelAttendanceMaster> =
+    new EventEmitter<PersonnelAttendanceMaster>();
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
 
   importedData: any[] = [];
-  personnelAttendanceList: PersonnelAttendance[] = [];
+
   selectedYear?: Year;
   selectedOrganization?: Organization;
   selectedMonth?: Month;
@@ -130,17 +130,22 @@ export class PersonnelAttendanceImporter implements OnInit {
       occupationMap.set(occupation.name, occupation);
     }
 
+    let master:PersonnelAttendanceMaster={
+      year: this.selectedYear,
+      yearID: this.selectedYear?.id,
+      organization: this.selectedOrganization,
+      organizationID: this.selectedOrganization?.id,
+      month: this.selectedMonth,
+      monthID: this.selectedMonth?.id,
+    };
+    let details: PersonnelAttendanceDetail[]=[]
+
     this.importedData.forEach((element) => {
 
       let occ:Occupation = <Occupation> occupationMap.get(<String>Object.entries(element)[0][1]);
       if(occ !=undefined && occ != null) {
-        let attendance: PersonnelAttendance = {
-          year: this.selectedYear,
-          yearID: this.selectedYear?.id,
-          organization: this.selectedOrganization,
-          organizationID: this.selectedOrganization?.id,
-          month: this.selectedMonth,
-          monthID: this.selectedMonth?.id,
+        let attendance: PersonnelAttendanceDetail = {
+          master: master,
           occupation: occ,
           occupationId: occ.id,
           totalDaysWorked: 31,
@@ -154,12 +159,13 @@ export class PersonnelAttendanceImporter implements OnInit {
           overtimeTotalWorked: 0,
           attendanceCount: <number>Object.entries(element)[1][1],
         };
-        this.personnelAttendanceList.push(attendance);
+        details.push(attendance);
       }
     });
 
-    this.personnelAttendanceList.length;
-    this.save.emit(this.personnelAttendanceList);
+    details.length;
+    master.personnelAttendanceDetails = details ;
+    this.save.emit(master);
   }
   onCancel(): void {
     this.cancel.emit();

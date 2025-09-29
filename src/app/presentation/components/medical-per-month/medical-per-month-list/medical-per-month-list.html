@@ -5,8 +5,6 @@
       <th>مرکز</th>
       <th>سال</th>
       <th>ماه</th>
-      <th>خدمات</th>
-      <th>خدمات تعداد</th>
       <th>
         <div class="p-toolbar-group-left">
           <button
@@ -34,8 +32,6 @@
       <td>{{ medicalPerMonth.organization.name }}</td>
       <td>{{ medicalPerMonth.year.name }}</td>
       <td>{{ medicalPerMonth.month.name }}</td>
-      <td>{{ medicalPerMonth.service.name }}</td>
-      <td>{{ medicalPerMonth.totalMedicalPerMonth }}</td>
       <td>
         <button
           pButton
@@ -85,8 +81,43 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [serviceList]="serviceList"
-    (save)="createMedicalPerMonthList($event)"
+    (save)="createMedicalPerMonth($event)"
     (cancel)="onCancel()"
   >
   </app-medical-per-month-importer>
+</p-dialog>
+
+<p-dialog
+  header="نمایش جزییات"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  appendTo="body"
+  [(visible)]="detailDialog"
+  [style]="{ width: '75vw' }"
+  [contentStyle]="{ height: '300px' }"
+>
+  <p-table [value]="detailsList" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="code " style="width:20%">
+          <div class="flex items-center gap-2">
+            کد خدمت
+            <p-sortIcon field="code" />
+          </div>
+        </th>
+        <th>نام خدمت</th>
+        <th>تعداد</th>
+
+      </tr>
+    </ng-template>
+    <ng-template #body let-detail>
+      <tr>
+        <td>{{ detail.service.code }}</td>
+        <td>{{ detail.service.name }}</td>
+        <td>{{ detail.totalMedicalPerMonth}}</td>
+
+      </tr>
+    </ng-template>
+  </p-table>
 </p-dialog>

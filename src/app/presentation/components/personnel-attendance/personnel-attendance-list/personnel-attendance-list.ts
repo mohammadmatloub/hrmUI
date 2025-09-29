@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
 
-import { PersonnelAttendance } from '../../../../core/domain/personnelAttendance.model';
+import { PersonnelAttendanceMaster,PersonnelAttendanceDetail } from '../../../../core/domain/personnelAttendance.model';
 import { PersonnelAttendanceService } from '../../../../infrastructure/services/personnel-attendance.service';
 import { PersonnelAttendanceForm } from '../personnel-attendance-form/personnel-attendance-form';
 import { PersonnelAttendanceImporter } from '../personnel-attendance-importer/personnel-attendance-importer';
@@ -38,8 +38,8 @@ import {Department} from '../../../../core/domain/department.model';
 export class PersonnelAttendanceList implements OnInit {
   // Define properties and methods for the component here
   // For example, you might want to fetch attendance data from a service
-  personnelAttendances: PersonnelAttendance[] = [];
-  selectedAttendance?: PersonnelAttendance;
+  personnelAttendances: PersonnelAttendanceMaster[] = [];
+  selectedAttendance?: PersonnelAttendanceMaster;
   createDialog: boolean = false;
   isEditing: boolean = false;
   importyDialog: boolean = false;
@@ -63,7 +63,7 @@ export class PersonnelAttendanceList implements OnInit {
   loadPersonnelAttendances(): void {
     this.personnelAttendanceService
       .getAll()
-      .subscribe((attendances: PersonnelAttendance[]): void => {
+      .subscribe((attendances: PersonnelAttendanceMaster[]): void => {
         this.personnelAttendances = attendances;
       });
     this.organizationService
@@ -103,7 +103,7 @@ export class PersonnelAttendanceList implements OnInit {
     this.importyDialog = true;
   }
 
-  createAttendance(attendance: PersonnelAttendance): void {
+  createAttendance(attendance: PersonnelAttendanceMaster): void {
     // Create new attendance
     console.log('HI Create');
     this.personnelAttendanceService.create(attendance).subscribe((): void => {
@@ -112,21 +112,19 @@ export class PersonnelAttendanceList implements OnInit {
     });
   }
 
-  createAttendanceList(personnelAttendances: PersonnelAttendance[]): void {
-    for(let personnelAttendance of personnelAttendances) {
-      this.personnelAttendanceService.create(personnelAttendance).subscribe();
-    }
-    this.onCancel();
-    this.loadPersonnelAttendances();
-  }
-
   onCancel(): void {
     this.createDialog = false;
     this.importyDialog = false;
   }
 
-  detailPersonnelAttendance(personnelAttendance: PersonnelAttendance): void {}
-  editPersonnelAttendance(personnelAttendance: PersonnelAttendance): void {}
+  detailPersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
+  //  this.personnelAttendanceService.getById(personnelAttendance.id).subscribe();
+  }
+  editPersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
+  //  this.personnelAttendanceService.update(personnelAttendance.id,personnelAttendance).subscribe();
+  }
 
-  deletePersonnelAttendance(personnelAttendance: PersonnelAttendance): void {}
+  deletePersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
+  //  this.personnelAttendanceService.delete(personnelAttendance.id).subscribe();
+  }
 }

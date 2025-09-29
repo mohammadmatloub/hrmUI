@@ -14,7 +14,7 @@ import { Organization } from '../../../../core/domain/organization.model';
 import { Month } from '../../../../core/domain/month.model';
 import { Year } from '../../../../core/domain/year.model';
 import { Service } from '../../../../core/domain/service.model';
-import { MedicalPerMonth } from '../../../../core/domain/medicalPerMonth.model';
+import { MedicalPerMonthMaster,MedicalPerMonthDetail } from '../../../../core/domain/medicalPerMonth.model';
 import {
   ExcelImporterService,
   ImportResult,
@@ -41,13 +41,13 @@ export class MedicalPerMonthImporter implements OnInit {
   @Input() monthList?: Month[];
   @Input() yearList?: Year[];
   @Input() serviceList?: Service[] | undefined;
-  @Output() save: EventEmitter<MedicalPerMonth[]> =
-    new EventEmitter<MedicalPerMonth[]>();
+  @Output() save: EventEmitter<MedicalPerMonthMaster> =
+    new EventEmitter<MedicalPerMonthMaster>();
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
   importedData: any[] = [];
   tableColumns: string[] = [];
-  medicalPerMonthList: MedicalPerMonth[] = [];
+  masters : MedicalPerMonthMaster[] = [];
   selectedYear?: Year;
   selectedOrganization?: Organization;
   selectedmonth?: Month;
@@ -136,32 +136,45 @@ export class MedicalPerMonthImporter implements OnInit {
       monthMap.set(month.name, month);
     }
 
+
+
     this.importedData.forEach((element: any): void => {
       let map = new Map(Object.entries(element));
+
+      let master: MedicalPerMonthMaster={
+        organization: this.selectedOrganization,
+        organizationID: this.selectedOrganization?.id,
+        month: this.selectedmonth,
+        monthID: this.selectedmonth?.id,
+        yearID: this.selectedYear?.id,
+        year: this.selectedYear,
+      }
+      let medicalPerMonthDetails :MedicalPerMonthDetail[] = [];
       for (let key of map.keys()) {
+
         if( key === 'ماه') {
          let monthName:String = <String>map.get(key);
           this.selectedmonth= monthMap.get(monthName);
         }
         if(serviceMap.has(key)) {
           let service: Service | undefined = serviceMap.get(key);
-          let medicalPerMonth: MedicalPerMonth = {
-            organization: this.selectedOrganization,
-            organizationID: this.selectedOrganization?.id,
-            month: this.selectedmonth,
-            monthID: this.selectedmonth?.id,
-            yearID: this.selectedYear?.id,
-            year: this.selectedYear,
+          let medicalPerMonth: MedicalPerMonthDetail = {
             service: service,
             serviceID: service?.id,
             totalMedicalPerMonth: <number>map.get(<string>service?.name),
           };
-          this.medicalPerMonthList.push(medicalPerMonth);
+          medicalPerMonthDetails.push(medicalPerMonth);
         }
       }
+      master.medicalPerMonthDetails = medicalPerMonthDetails;
+      this.masters.push(master);
+
     });
-    console.log('Medical Per Month List:', this.medicalPerMonthList);
-    this.save.emit(this.medicalPerMonthList);
+
+    for (const master of this.masters) {
+      this.save.emit(master);
+    }
+
   }
 
   onCancel(): void {

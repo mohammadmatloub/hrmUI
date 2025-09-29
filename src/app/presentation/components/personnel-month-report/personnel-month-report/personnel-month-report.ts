@@ -12,10 +12,8 @@ import { Month } from '../../../../core/domain/month.model';
 import { Year } from '../../../../core/domain/year.model';
 import { Organization } from '../../../../core/domain/organization.model';
 import { Occupation } from '../../../../core/domain/occupation.model';
-import { PersonnelAttendance } from '../../../../core/domain/personnelAttendance.model';
 import { OccupationService } from '../../../../infrastructure/services/occupation.service';
 import { MonthService } from '../../../../infrastructure/services/month.service';
-import { PersonnelAttendanceService } from '../../../../infrastructure/services/personnel-attendance.service';
 import { OrganizationService } from '../../../../infrastructure/services/organization.service';
 import { YearService } from '../../../../infrastructure/services/year.service';
 import { PersonAttendanceReportService } from '../../../../infrastructure/services/person-attendance-report.service';
@@ -48,7 +46,6 @@ export class PersonnelMonthReport implements OnInit {
 
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
-  personnelAttendanceList: PersonnelAttendance[] = [];
   personnelAttendanceReportList: PersonAttendanceReport[] = [];
 
   constructor(

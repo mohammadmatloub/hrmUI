@@ -15,7 +15,7 @@ import { PanelModule } from 'primeng/panel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
-import { PersonnelAttendance } from '../../../../core/domain/personnelAttendance.model';
+import { PersonnelAttendanceMaster,PersonnelAttendanceDetail } from '../../../../core/domain/personnelAttendance.model';
 import { Month } from '../../../../core/domain/month.model';
 import { Year } from '../../../../core/domain/year.model';
 import { Organization } from '../../../../core/domain/organization.model';
@@ -42,31 +42,16 @@ import { OccupationService } from '../../../../infrastructure/services/occupatio
   styleUrl: './personnel-attendance-form.scss',
 })
 export class PersonnelAttendanceForm implements OnChanges, OnInit {
-  @Input() attendance?: PersonnelAttendance;
-  @Output() save: EventEmitter<PersonnelAttendance> =
-    new EventEmitter<PersonnelAttendance>();
+  @Input() attendance?: PersonnelAttendanceMaster;
+  @Output() save: EventEmitter<PersonnelAttendanceMaster> =
+    new EventEmitter<PersonnelAttendanceMaster>();
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
 
-  personnelAttendance: PersonnelAttendance = {
+  personnelAttendance: PersonnelAttendanceMaster = {
     id: 0,
-    occupationId: 0,
     organizationID: 0,
     yearID: 0,
     monthID: 0,
-
-    overtimeDaysWorked: 0,
-    overtimeHoursWorked: 0,
-    overtimeMinWorked: 0,
-    overtimeTotalWorked: 0,
-
-    overtimeWithMultiplier: 0,
-
-    totalDaysWorked:0,
-    totalHoursWorked: 0,
-    totalMinutesWorked: 0,
-    totalWorked: 0,
-
-    attendanceCount: 0,
   };
 
   yearList: Year[] = [];

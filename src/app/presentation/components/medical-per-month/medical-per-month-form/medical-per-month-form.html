@@ -1,7 +1,6 @@
 <p-panel header="ثبت">
-  <form (ngSubmit)="onSubmit()" @if(medical) dir="rtl">
+  <form (ngSubmit)="onSubmit()"  dir="rtl">
     <table class="p-datatable p-grid p-formgrid">
-      <tbody>
         <tr>
           <td style="width: 180px">سازمان</td>
           <td>
@@ -17,19 +16,6 @@
             />
           </td>
 
-          <td>خدمت</td>
-          <td>
-            <p-select
-              [options]="serviceList"
-              [(ngModel)]="medical.service"
-              name="service"
-              [checkmark]="true"
-              optionLabel="name"
-              [showClear]="true"
-              placeholder="انتخاب خدمت"
-              class="w-full md:w-56"
-            />
-          </td>
         </tr>
         <tr>
           <td>سال</td>
@@ -60,21 +46,6 @@
             />
           </td>
         </tr>
-
-        <tr>
-          <td>تعداد خدمت</td>
-          <td>
-            <p-inputnumber
-              [(ngModel)]="medical.totalMedicalPerMonth"
-              name="totalMedicalPerMonth"
-              inputId="totalMedicalPerMonth"
-              mode="decimal"
-              [min]="0"
-              [max]="1000"
-            />
-          </td>
-        </tr>
-
         <tr>
           <td colspan="2" style="text-align: center">
             <button
@@ -92,7 +63,48 @@
             ></button>
           </td>
         </tr>
-      </tbody>
     </table>
+
+    <p-table [value]="detailsList" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+        <tr>
+          <th style="width:25%">
+            Service Code
+          </th>
+          <th style="width:25%">
+            Service name
+          </th>
+
+          <th style="width:25%">
+            totalMedicalPerMonth
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-product let-editing="editing">
+        <tr>
+          <td>
+            {{ product.service.code}}
+          </td>
+          <td >
+
+              {{ product.service.name }}
+          </td>
+          <td [pEditableColumn]="product.totalMedicalPerMonth" pEditableColumnField="quantity">
+            <p-cellEditor>
+              <ng-template #input>
+                <input
+                  pInputText
+                  [(ngModel)]="product.totalMedicalPerMonth"
+                  fluid />
+              </ng-template>
+              <ng-template #output>
+                {{ product.totalMedicalPerMonth }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+
+        </tr>
+      </ng-template>
+    </p-table>
   </form>
 </p-panel>

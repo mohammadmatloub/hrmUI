@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { PersonnelAttendance } from '../../core/domain/personnelAttendance.model';
+import { PersonnelAttendanceMaster,PersonnelAttendanceDetail } from '../../core/domain/personnelAttendance.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +13,26 @@ export class PersonnelAttendanceService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<PersonnelAttendance[]> {
-    return this.http.get<PersonnelAttendance[]>(this.apiUrl);
+  getAll(): Observable<PersonnelAttendanceMaster[]> {
+    return this.http.get<PersonnelAttendanceMaster[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<PersonnelAttendance> {
-    return this.http.get<PersonnelAttendance>(`${this.apiUrl}/${id}`);
+  getById(id: number): Observable<PersonnelAttendanceMaster> {
+    return this.http.get<PersonnelAttendanceMaster>(`${this.apiUrl}/${id}`);
+  }
+  getDetailById(id: number): Observable<PersonnelAttendanceDetail[]> {
+    return this.http.get<PersonnelAttendanceDetail[]>(`${this.apiUrl}/detail/${id}`);
   }
 
-  create(attendance: PersonnelAttendance): Observable<PersonnelAttendance> {
-    return this.http.post<PersonnelAttendance>(this.apiUrl, attendance);
+  create(attendance: PersonnelAttendanceMaster): Observable<PersonnelAttendanceMaster> {
+    return this.http.post<PersonnelAttendanceMaster>(this.apiUrl, attendance);
   }
 
   update(
     id: number,
-    attendance: PersonnelAttendance
-  ): Observable<PersonnelAttendance> {
-    return this.http.put<PersonnelAttendance>(
+    attendance: PersonnelAttendanceMaster
+  ): Observable<PersonnelAttendanceMaster> {
+    return this.http.put<PersonnelAttendanceMaster>(
       `${this.apiUrl}/${id}`,
       attendance
     );
