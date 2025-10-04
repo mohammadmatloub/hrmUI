@@ -101,6 +101,7 @@
     <ng-template #header>
       <tr>
         <th>عنوان شغلي</th>
+        <th>تعداد پرسنل حاضر</th>
         <th>ساعت هاي كاركرد</th>
         <th>دقيقه هاي كاركرد</th>
         <th>جمع كاركرد</th>
@@ -113,7 +114,7 @@
         <th>دقيقه هاي اضافه كار</th>
         <th>جمع اضافه كار</th>
 
-        <th>تعداد پرسنل حاضر</th>
+
 
       </tr>
     </ng-template>
@@ -121,6 +122,7 @@
       <tr>
         <td>{{ detail.occupation.name }}</td>
 
+        <td>{{ detail.attendanceCount }}</td>
         <td>{{ detail.totalHoursWorked }}</td>
         <td>{{ detail.totalMinutesWorked }}</td>
         <td>{{ detail.totalWorked }}</td>
@@ -133,7 +135,7 @@
         <td>{{ detail.overtimeMinWorked }}</td>
         <td>{{ detail.overtimeTotalWorked }}</td>
 
-        <td>{{ detail.attendanceCount }}</td>
+
 
       </tr>
     </ng-template>

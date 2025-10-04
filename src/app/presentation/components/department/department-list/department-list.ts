@@ -9,7 +9,8 @@ import { DialogModule } from 'primeng/dialog';
 import { DepartmentForm } from '../department-form/department-form';
 import { Department } from '../../../../core/domain/department.model';
 import { DepartmentService } from '../../../../infrastructure/services/department.service';
-
+import { CategoryService } from '../../../../infrastructure/services/category.service';
+import {Category} from '../../../../core/domain/category.model';
 @Component({
   selector: 'app-department-list',
   standalone: true,
@@ -26,11 +27,13 @@ import { DepartmentService } from '../../../../infrastructure/services/departmen
 })
 export class DepartmentList implements OnInit {
   departments: Department[] = [];
+  categories: Category[] = [];
   selectedDepartment?: Department;
   displayDialog: boolean = false;
   isEditing: boolean = false;
 
-  constructor(private departmentService: DepartmentService) {}
+
+  constructor(private departmentService: DepartmentService , private categoryService : CategoryService) {}
 
   ngOnInit(): void {
     this.loadDepartments();
@@ -42,6 +45,10 @@ export class DepartmentList implements OnInit {
       .subscribe((departments: Department[]): void => {
         this.departments = departments;
       });
+    this.categoryService.getAll().subscribe((categories: Category[]): void => {
+      this.categories =categories;
+    })
+    this.categories.length;
   }
 
   addDepartment(): void {
@@ -56,7 +63,7 @@ export class DepartmentList implements OnInit {
     this.displayDialog = true;
   }
   showDialog(department?: Department): void {
-    this.selectedDepartment = department || { id: 0, name: '', code: 0 };
+
     this.displayDialog = true;
   }
 

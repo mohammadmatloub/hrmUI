@@ -1,21 +1,19 @@
-<p-toolbar>
-  <div class="p-toolbar-group-left">
-    <button pButton icon="pi pi-plus" (click)="addDepartment()"></button>
-  </div>
-</p-toolbar>
+
 
 <p-table [value]="departments">
   <ng-template pTemplate="header">
     <tr>
       <th>کد</th>
       <th>نام</th>
-      <th></th>
+      <th>دسته بندی</th>
+      <th> <button pButton icon="pi pi-plus" (click)="addDepartment()"></button></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-emp>
     <tr>
       <td>{{ emp.code }}</td>
       <td>{{ emp.name }}</td>
+      <td>{{ emp.category.name }}</td>
       <td>
         <button
           pButton
@@ -41,6 +39,7 @@
 >
   <app-department-form
     [department]="selectedDepartment"
+    [categories]="categories"
     (save)="createDepartment($event)"
     (cancel)="closeDialog()"
   >

@@ -1,3 +1,5 @@
+import {Department} from './department.model';
+
 export interface Occupation {
   id?: number; // PanacheEntity provides 'id'
   name: string;
@@ -5,4 +7,5 @@ export interface Occupation {
   approvedHeadcount: number;
   regulatoryOvertime: number;
   mandatoryShifts: number;
+  department: Department;
 }
