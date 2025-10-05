@@ -30,7 +30,7 @@ export class DepartmentForm implements OnChanges {
   categoryList?: Category[]=[];
 
   ngOnChanges(): void {
-    this.categoryList = this.categories;
+
     this.model = this.department
       ? { ...this.department }
       : { id: 0, name: '', code: 0 };

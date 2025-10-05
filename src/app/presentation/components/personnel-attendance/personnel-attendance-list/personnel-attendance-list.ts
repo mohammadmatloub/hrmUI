@@ -135,6 +135,8 @@ export class PersonnelAttendanceList implements OnInit {
   }
 
   deletePersonnelAttendance(personnelAttendance: PersonnelAttendanceMaster): void {
-  //  this.personnelAttendanceService.delete(personnelAttendance.id).subscribe();
+    this.personnelAttendanceService.delete(personnelAttendance.id!).subscribe((): void => {
+      this.loadPersonnelAttendances();
+    });
   }
 }

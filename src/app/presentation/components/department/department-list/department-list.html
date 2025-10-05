@@ -6,7 +6,11 @@
       <th>کد</th>
       <th>نام</th>
       <th>دسته بندی</th>
-      <th> <button pButton icon="pi pi-plus" (click)="addDepartment()"></button></th>
+      <th> <button pButton
+                   [rounded]="true"
+                   severity="success"
+                   [text]="true"
+                   icon="pi pi-plus" (click)="addDepartment()"></button></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-emp>
@@ -33,9 +37,10 @@
 </p-table>
 
 <p-dialog
-  header="{{ isEditing ? 'Edit Department' : 'Add Department' }}"
+  header="{{ isEditing ? 'ویرایش بخش' : 'ایجاد بخش' }}"
   [(visible)]="displayDialog"
   [modal]="true"
+  [maximizable]="true"
 >
   <app-department-form
     [department]="selectedDepartment"

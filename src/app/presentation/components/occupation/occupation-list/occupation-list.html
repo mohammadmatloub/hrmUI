@@ -39,7 +39,7 @@
           [text]="true"
           severity="warn"
           icon="pi pi-pencil"
-          (click)="editOccupation()"
+          (click)="editOccupation(emp)"
         ></button>
         <button
           pButton
@@ -47,9 +47,24 @@
           [text]="true"
           severity="danger"
           icon="pi pi-trash"
-          (click)="deleteOccupation()"
+          (click)="deleteOccupation(emp.id)"
         ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-dialog
+  header="{{ isEditing ? 'ویرایش شغل' : 'ایجاد شغل' }}"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [maximizable]="true"
+>
+  <app-occupation-form
+    [occupation]="selectedOccupation"
+    [departments]="departments"
+    (save)="createOccupation($event)"
+    (cancel)="closeDialog()"
+  >
+  </app-occupation-form>
+</p-dialog>
