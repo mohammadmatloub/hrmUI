@@ -47,6 +47,7 @@ export class PersonnelMonthReport implements OnInit {
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
   personnelAttendanceReportList: PersonAttendanceReport[] = [];
+  reportSearchList :MedicalPerMonthReportSearch[] = [];
 
   constructor(
     private occupationService: OccupationService,
@@ -78,18 +79,30 @@ export class PersonnelMonthReport implements OnInit {
     this.localData();
   }
 
-search(): void {
-    let search: MedicalPerMonthReportSearch = {};
-    search.yearID = this.selectedYear?.id;
-    search.organizationID = this.selectedOrganization?.id;
-    search.monthID = this.selectedMonth?.id;
-    this.personAttendanceReportService
-      .getAll(search)
-      .subscribe(
-        (person: PersonAttendanceReport[]) =>
-          (this.personnelAttendanceReportList = person)
-      );
-
-    console.log(this.personnelAttendanceReportList);
+  addReportSearch(): void {
+    let searchReport: MedicalPerMonthReportSearch = {
+      yearID: this.selectedYear!.id,
+      yearName: this.selectedYear!.name,
+      organizationID: this.selectedOrganization!.id,
+      organizationName: this.selectedOrganization!.name,
+      monthID: this.selectedMonth!.id,
+      monthName: this.selectedMonth!.name,
+    };
+    this.reportSearchList.push(searchReport);
   }
+  deleteReportSearch(search :MedicalPerMonthReportSearch): void {
+    this.reportSearchList=  this.reportSearchList.filter(item => item !== search);
+
+  }
+
+  search(): void {
+      this.personAttendanceReportService
+        .getAll(this.reportSearchList)
+        .subscribe(
+          (person: PersonAttendanceReport[]) =>
+            (this.personnelAttendanceReportList = person)
+        );
+
+      console.log(this.personnelAttendanceReportList);
+    }
 }
