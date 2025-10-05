@@ -19,6 +19,7 @@ import { ServiceService } from '../../../../infrastructure/services/service.serv
 import { OrganizationService } from '../../../../infrastructure/services/organization.service';
 import { YearService } from '../../../../infrastructure/services/year.service';
 import { MedicalPerMonthReportSearch } from '../../../../core/domain/medicalPerMonthReportSearch.model';
+import { ChartModule } from 'primeng/chart';
 
 interface Column {
   field: string;
@@ -35,6 +36,7 @@ interface Column {
     Select,
     FormsModule,
     PanelModule,
+    ChartModule,
   ],
   templateUrl: './medical-month-report.html',
   styleUrl: './medical-month-report.scss',
@@ -67,6 +69,7 @@ export class MedicalMonthReport implements OnInit {
 
   localData(): void {
     this.serviceService.getAll().subscribe((service: Service[]): void => {
+
       this.services = service;
       this.createColumn(service);
     });

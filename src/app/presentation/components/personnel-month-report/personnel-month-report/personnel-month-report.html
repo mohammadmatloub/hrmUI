@@ -29,10 +29,7 @@
             class="w-full md:w-56"
           />
         </td>
-        <td></td>
-      </tr>
 
-      <tr>
         <td>سازمان</td>
         <td>
           <p-select
@@ -52,31 +49,82 @@
             pButton
             [rounded]="true"
             [text]="true"
-            severity="info"
+            severity="success"
             value="save"
-            icon="pi pi-search"
-            (click)="search()"
+            icon="pi pi-plus"
+            (click)="addReportSearch()"
           ></button>
         </td>
       </tr>
     </table>
+    <p-table [value]="reportSearchList">
+      <ng-template #header>
+        <tr>
+          <th>واحد</th>
+          <th>سال</th>
+          <th>ماه</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-searchDTO>
+        <tr>
+          <td>{{searchDTO.organizationName}}</td>
+          <td>{{ searchDTO.yearName}}</td>
+          <td>{{ searchDTO.monthName}}</td>
+
+          <td><button
+            pButton
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            value="save"
+            icon="pi pi-trash"
+            (click)="deleteReportSearch(searchDTO)"
+          ></button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <button
+      pButton
+      [rounded]="true"
+      [text]="true"
+      severity="info"
+      value="save"
+      icon="pi pi-search"
+      (click)="search()"
+    ></button>
   </p-panel>
   <p-table [value]="personnelAttendanceReportList">
     <ng-template #header>
       <tr>
-        <th>شغل</th>
-        <th>تعداد پرسنل حاضر</th>
-        <th>اضافه كار با ضريب</th>
-        <th>اضافه كار بدون ضريب</th>
+        <th pSortableColumn="occupation.name">
+          <div >
+            شغل
+            <p-sortIcon field="occupation.name" />
+          </div>
+        </th>
+
+
+        @for (item of reportSearchList;track item.monthID){
+          <th>تعداد پرسنل حاضر</th>
+
+          <th>اضافه كار بدون ضريب</th>
+          <th>اضافه كار با ضريب</th>
+
+        }
+
       </tr>
     </ng-template>
     <ng-template #body let-personAttendanceReport>
       <tr>
-        <td>{{ personAttendanceReport.occupationName}}</td>
-        <td>{{personAttendanceReport.attendanceCount}}</td>
-        <td>{{personAttendanceReport.totalWorked}}</td>
-        <td>{{personAttendanceReport.overtimeTotalWorked}}</td>
-        <td>{{personAttendanceReport.overtimeWithMultiplier}}</td>
+        <td>{{ personAttendanceReport.occupation.name}}</td>
+        @for ( item of personAttendanceReport.reportDetail;track item.occupationID){
+          <td>{{ item.attendanceCount }}</td>
+
+          <td>{{ item.overtimeTotalWorked }}</td>
+          <td>{{ item.overtimeWithMultiplier }}</td>
+        }
+
 
       </tr>
     </ng-template>

@@ -14,7 +14,7 @@ export class PersonAttendanceReportService {
   constructor(private http: HttpClient) {}
 
   getAll(
-    search: MedicalPerMonthReportSearch
+    search: MedicalPerMonthReportSearch[]
   ): Observable<PersonAttendanceReport[]> {
     let test = this.http.post<PersonAttendanceReport[]>(
       this.apiUrl,

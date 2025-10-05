@@ -4,7 +4,7 @@ import { Occupation } from './occupation.model';
 import { Organization } from './organization.model';
 import { Year } from './year.model';
 
-export interface PersonnelAttendance {
+export interface PersonnelAttendanceMaster {
   id?: number; // PanacheEntity includes `id` by default
 
   organization?: Organization;
@@ -15,6 +15,14 @@ export interface PersonnelAttendance {
 
   year?: Year;
   yearID?: number;
+
+  personnelAttendanceDetails?: PersonnelAttendanceDetail[];
+}
+
+export interface PersonnelAttendanceDetail {
+  id?: number;
+  master?: PersonnelAttendanceMaster;
+  masterID?: number;
 
   occupation?: Occupation;
   occupationId?: number;

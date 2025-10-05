@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { MedicalPerMonth } from '../../core/domain/medicalPerMonth.model';
+import { MedicalPerMonthMaster,MedicalPerMonthDetail } from '../../core/domain/medicalPerMonth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +13,26 @@ export class MedicalPerMonthService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<MedicalPerMonth[]> {
-    return this.http.get<MedicalPerMonth[]>(this.apiUrl);
+  getAll(): Observable<MedicalPerMonthMaster[]> {
+    return this.http.get<MedicalPerMonthMaster[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<MedicalPerMonth> {
-    return this.http.get<MedicalPerMonth>(`${this.apiUrl}/${id}`);
+  getById(id: number): Observable<MedicalPerMonthMaster> {
+    return this.http.get<MedicalPerMonthMaster>(`${this.apiUrl}/${id}`);
+  }
+  getDetailById(id: number): Observable<MedicalPerMonthDetail[]> {
+    return this.http.get<MedicalPerMonthDetail[]>(`${this.apiUrl}/detail/${id}`);
   }
 
-  create(medicalPerMonth: MedicalPerMonth): Observable<MedicalPerMonth> {
-    return this.http.post<MedicalPerMonth>(this.apiUrl, medicalPerMonth);
+  create(medicalPerMonth: MedicalPerMonthMaster): Observable<MedicalPerMonthMaster> {
+    return this.http.post<MedicalPerMonthMaster>(this.apiUrl, medicalPerMonth);
   }
 
   update(
     id: number,
-    medicalPerMonth: MedicalPerMonth
-  ): Observable<MedicalPerMonth> {
-    return this.http.put<MedicalPerMonth>(
+    medicalPerMonth: MedicalPerMonthMaster
+  ): Observable<MedicalPerMonthMaster> {
+    return this.http.put<MedicalPerMonthMaster>(
       `${this.apiUrl}/${id}`,
       medicalPerMonth
     );

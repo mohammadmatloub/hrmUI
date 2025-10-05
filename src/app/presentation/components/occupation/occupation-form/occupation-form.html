@@ -1,3 +1,4 @@
+
 <form (ngSubmit)="onSubmit()" *ngIf="model">
   <div class="p-field">
     <label for="code">کد : </label>
@@ -22,10 +23,10 @@
     />
   </div>
   <div class="p-field">
-    <label for="name">دسته بندی : </label>
+    <label for="name">محل خدمت : </label>
     <p-select
-      [options]="categories"
-      [(ngModel)]="model.category"
+      [options]="departments"
+      [(ngModel)]="model.department"
       name="month"
       [checkmark]="true"
       optionLabel="name"
@@ -38,7 +39,7 @@
     <button pButton type="submit"
             [rounded]="true"
             [text]="true"
-            icon="pi pi-check" ></button>
+            icon="pi pi-check"></button>
     <button
       pButton
       type="button"

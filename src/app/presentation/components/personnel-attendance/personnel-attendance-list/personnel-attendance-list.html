@@ -2,23 +2,11 @@
 <p-table [value]="personnelAttendances">
   <ng-template pTemplate="header">
     <tr>
+      <th>مرکز</th>
       <th>سال</th>
       <th>ماه</th>
 
-      <th>عنوان شغلي</th>
-      <th>ساعت هاي كاركرد</th>
-      <th>دقيقه هاي كاركرد</th>
-      <th>جمع كاركرد</th>
 
-      <th>اضافه كار با ضريب</th>
-      <th>اضافه كار بدون ضريب</th>
-
-      <th>تعداد روزهاي اضافه كار</th>
-      <th>ساعت هاي اضافه كار</th>
-      <th>دقيقه هاي اضافه كار</th>
-      <th>جمع اضافه كار</th>
-
-      <th>تعداد پرسنل حاضر</th>
       <th>
         <div class="p-toolbar-group-left">
           <button
@@ -43,24 +31,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-attendance>
     <tr>
+      <td>{{ attendance.organization.name }}</td>
       <td>{{ attendance.year.name }}</td>
       <td>{{ attendance.month.name }}</td>
 
-      <td>{{ attendance.occupation.name }}</td>
-
-      <td>{{ attendance.totalHoursWorked }}</td>
-      <td>{{ attendance.totalMinutesWorked }}</td>
-      <td>{{ attendance.totalWorked }}</td>
-
-      <td>{{ attendance.overtimeWithMultiplier }}</td>
-      <td>{{ attendance.overtimeWithOutMultiplier }}</td>
-
-      <td>{{ attendance.overtimeDaysWorked }}</td>
-      <td>{{ attendance.overtimeHoursWorked }}</td>
-      <td>{{ attendance.overtimeMinWorked }}</td>
-      <td>{{ attendance.overtimeTotalWorked }}</td>
-
-      <td>{{ attendance.attendanceCount }}</td>
 
       <td>
         <button
@@ -107,8 +81,63 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [occupationList]="occupationList"
-    (save) = "createAttendanceList($event)"
+    (save) = "createAttendance($event)"
     (cancel)="onCancel()"
   >
   </app-personnel-attendance-importer>
+</p-dialog>
+
+<p-dialog
+  header="نمایش جزییات"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  appendTo="body"
+  [(visible)]="detailDialog"
+  [style]="{ width: '75vw' }"
+  [contentStyle]="{ height: '300px' }"
+>
+  <p-table [value]="detailsList" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th>عنوان شغلي</th>
+        <th>تعداد پرسنل حاضر</th>
+        <th>ساعت هاي كاركرد</th>
+        <th>دقيقه هاي كاركرد</th>
+        <th>جمع كاركرد</th>
+
+        <th>اضافه كار با ضريب</th>
+        <th>اضافه كار بدون ضريب</th>
+
+        <th>تعداد روزهاي اضافه كار</th>
+        <th>ساعت هاي اضافه كار</th>
+        <th>دقيقه هاي اضافه كار</th>
+        <th>جمع اضافه كار</th>
+
+
+
+      </tr>
+    </ng-template>
+    <ng-template #body let-detail>
+      <tr>
+        <td>{{ detail.occupation.name }}</td>
+
+        <td>{{ detail.attendanceCount }}</td>
+        <td>{{ detail.totalHoursWorked }}</td>
+        <td>{{ detail.totalMinutesWorked }}</td>
+        <td>{{ detail.totalWorked }}</td>
+
+        <td>{{ detail.overtimeWithMultiplier }}</td>
+        <td>{{ detail.overtimeWithOutMultiplier }}</td>
+
+        <td>{{ detail.overtimeDaysWorked }}</td>
+        <td>{{ detail.overtimeHoursWorked }}</td>
+        <td>{{ detail.overtimeMinWorked }}</td>
+        <td>{{ detail.overtimeTotalWorked }}</td>
+
+
+
+      </tr>
+    </ng-template>
+  </p-table>
 </p-dialog>

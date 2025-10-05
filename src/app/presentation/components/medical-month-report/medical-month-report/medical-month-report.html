@@ -71,10 +71,10 @@
       <tr>
         <td>{{ medicalPersonAttendanceMonthReport.monthName }}</td>
         <td>{{ medicalPersonAttendanceMonthReport.totalPerson }}</td>
-        <td>{{ medicalPersonAttendanceMonthReport.totalOverTime }}</td>
         <td></td>
-        @for (medicalPerMonthReport of
-        medicalPersonAttendanceMonthReport.medicalPerMonthDTOList; track
+        <td>{{ medicalPersonAttendanceMonthReport.totalOverTime }}</td>
+        
+        @for (medicalPerMonthReport of medicalPersonAttendanceMonthReport.medicalPerMonthDTOList; track
         medicalPerMonthReport.serviceID) {
         <td>
           {{ medicalPerMonthReport.medicalCount }}
