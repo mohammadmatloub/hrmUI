@@ -18,6 +18,7 @@ import {RatioReportType, RatioServiceRes, RatioServiceSearch} from '../../../cor
 import { TabsModule} from 'primeng/tabs';
 import { ChartModule } from 'primeng/chart';
 import { isPlatformBrowser } from '@angular/common';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 
 
@@ -32,6 +33,7 @@ import { isPlatformBrowser } from '@angular/common';
     FormsModule,
     ChartModule,
     PanelModule,
+    MultiSelectModule,
     TabsModule
   ],
   templateUrl: './ratio-report.html',
@@ -39,7 +41,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class RatioReport implements OnInit {
   months: Month[] = [];
-  selectedMonth?: Month;
+  selectedMonths?: Month[]=[];
 
   years: Year[] = [];
   selectedYear?: Year;
@@ -82,11 +84,11 @@ export class RatioReport implements OnInit {
 
 
   search(tabIndex:number): void {
-    if (this.selectedYear && this.selectedOrganization && this.selectedMonth) {
+    if (this.selectedYear && this.selectedOrganization) {
       let search: RatioServiceSearch = {
         yearID: this.selectedYear.id ?? 0,
         organizationID: this.selectedOrganization.id ?? 0,
-        monthID: this.selectedMonth.id ?? 0,
+        months: this.months,
         ratioReportType: this.selectedTab
       };
       this.ratioService

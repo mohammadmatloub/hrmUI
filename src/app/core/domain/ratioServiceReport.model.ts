@@ -1,7 +1,8 @@
+import {Month} from '../../core/domain/month.model';
 export interface  RatioServiceSearch {
   yearID: number;
   organizationID: number;
-  monthID: number;
+  months: Month[];
   ratioReportType: RatioReportType;
 }
 export interface RatioServiceRes {

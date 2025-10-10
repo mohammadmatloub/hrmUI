@@ -17,13 +17,10 @@
 
       <td>ماه</td>
       <td>
-        <p-select
-          [options]="months"
-          [(ngModel)]="selectedMonth"
+        <p-multiselect
+          [options]="months" [(ngModel)]="selectedMonths"
           name="month"
-          [checkmark]="true"
           optionLabel="name"
-          [showClear]="true"
           placeholder="انتخاب ماه"
           class="w-full md:w-56"
         />
@@ -97,6 +94,7 @@
               <td>{{ratioServiceRes.countWith}}</td>
             </tr>
           </ng-template>
+
           <ng-template #footer>
             <tr>
               <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
