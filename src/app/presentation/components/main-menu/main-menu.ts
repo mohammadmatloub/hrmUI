@@ -50,6 +50,7 @@ export class MainMenu {
       items: [
         { label: 'خدمت', routerLink: ['/medicalMonthReport'] },
         { label: 'کارکرد', routerLink: ['/personnelMonthReport'] },
+        { label: 'نسبت', routerLink: ['/ratioServiceReport'] },
       ],
     },
   ];

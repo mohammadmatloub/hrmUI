@@ -1,0 +1,139 @@
+<p-panel header="جستجو" [toggleable]="true">
+  <table>
+    <tr>
+      <td>سال</td>
+      <td>
+        <p-select
+          [options]="years"
+          [(ngModel)]="selectedYear"
+          name="year"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب سال"
+          class="w-full md:w-56"
+        />
+      </td>
+
+      <td>ماه</td>
+      <td>
+        <p-select
+          [options]="months"
+          [(ngModel)]="selectedMonth"
+          name="month"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب ماه"
+          class="w-full md:w-56"
+        />
+      </td>
+      <td></td>
+
+      <td>سازمان</td>
+      <td>
+        <p-select
+          [options]="organizations"
+          [(ngModel)]="selectedOrganization"
+          name="organization"
+          [checkmark]="true"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="انتخاب سازمان"
+          class="w-full md:w-56"
+        />
+      </td>
+
+    </tr>
+  </table>
+  <p-tabs  value="0" [(value)]="selectedTab" (valueChange) ="onTabChange(selectedTab)" >
+    <p-tablist>
+      <p-tab value="0">نسبت به کل</p-tab>
+      <p-tab value="1">نسبت به تشکیلات</p-tab>
+      <p-tab value="2">نسبت به دسته بندی</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <p-table [value]="ratioServiceResList">
+          <ng-template #header>
+            <tr>
+              <th>خدمت</th>
+
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-ratioServiceRes>
+            <tr>
+              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
+              <td>{{ratioServiceRes.count}}</td>
+              <td>{{ratioServiceRes.countWith}}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footer>
+            <tr>
+              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
+              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+      </p-tabpanel>
+      <p-tabpanel value="1">
+        <p-table [value]="ratioServiceResList">
+          <ng-template #header>
+            <tr>
+              <th>خدمت</th>
+
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-ratioServiceRes>
+            <tr>
+              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
+              <td>{{ratioServiceRes.count}}</td>
+              <td>{{ratioServiceRes.countWith}}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footer>
+            <tr>
+              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
+              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+      </p-tabpanel>
+      <p-tabpanel value="2">
+        <p-table [value]="ratioServiceResList">
+          <ng-template #header>
+            <tr>
+              <th>خدمت</th>
+
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-ratioServiceRes>
+            <tr>
+              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
+              <td>{{ratioServiceRes.count}}</td>
+              <td>{{ratioServiceRes.countWith}}</td>
+            </tr>
+          </ng-template>
+          <ng-template #footer>
+            <tr>
+              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
+              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</p-panel>

@@ -10,6 +10,7 @@ import { PersonnelAttendanceList } from './presentation/components/personnel-att
 import { MedicalPerMonthList } from './presentation/components/medical-per-month/medical-per-month-list/medical-per-month-list';
 import { MedicalMonthReport } from './presentation/components/medical-month-report/medical-month-report/medical-month-report';
 import { PersonnelMonthReport } from './presentation/components/personnel-month-report/personnel-month-report/personnel-month-report';
+import {RatioReport} from './presentation/components/ratio-report/ratio-report';
 
 export const routes: Routes = [
   { path: 'departments', component: DepartmentList },
@@ -22,4 +23,5 @@ export const routes: Routes = [
   { path: 'medicalPerMonth', component: MedicalPerMonthList },
   { path: 'medicalMonthReport', component: MedicalMonthReport },
   { path: 'personnelMonthReport', component: PersonnelMonthReport },
+  { path: 'ratioServiceReport', component: RatioReport },
 ];
