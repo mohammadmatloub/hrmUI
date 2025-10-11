@@ -125,9 +125,9 @@ export class PersonnelAttendanceImporter implements OnInit {
 
   public createPersonnelAttendance(): void {
 
-    let occupationMap: Map<String, Occupation> = new Map();
+    let occupationMap: Map<number, Occupation> = new Map();
     for (let occupation of this.occupationList ?? []) {
-      occupationMap.set(occupation.name, occupation);
+      occupationMap.set(occupation.code, occupation);
     }
 
     let master:PersonnelAttendanceMaster={
@@ -142,20 +142,20 @@ export class PersonnelAttendanceImporter implements OnInit {
 
     this.importedData.forEach((element) => {
 
-      let occ:Occupation = <Occupation> occupationMap.get(<String>Object.entries(element)[1][1]);
+      let occ:Occupation = <Occupation> occupationMap.get(<number>Object.entries(element)[1][1]);
       if(occ !=undefined && occ != null) {
         let attendance: PersonnelAttendanceDetail = {
          // master: master,
           occupation: occ,
           occupationId: occ.id,
-          totalDaysWorked: 31,
-          totalHoursWorked: 0,
-          totalMinutesWorked: 0,
+          totalDaysWorked: 0,
+          totalHoursWorked: (<number>Object.entries(element)[3][1] ) * (Object.entries(element)[5][1] === "+"  ? 1 : -1),
+          totalMinutesWorked: (<number>Object.entries(element)[4][1] ) * (Object.entries(element)[5][1] === "+"  ? 1 : -1),
           totalWorked: 0,
           overtimeWithMultiplier: 0,
           overtimeDaysWorked: 0,
-          overtimeHoursWorked: <number>Object.entries(element)[4][1],
-          overtimeMinWorked: <number>Object.entries(element)[3][1],
+          overtimeHoursWorked: (<number>Object.entries(element)[6][1] ) * (Object.entries(element)[8][1] === "+"  ? 1 : -1),
+          overtimeMinutesWorked: <number>Object.entries(element)[7][1] * (Object.entries(element)[8][1] === "+"  ? 1 : -1),
           overtimeTotalWorked: 0,
           attendanceCount: <number>Object.entries(element)[2][1],
         };

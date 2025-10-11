@@ -34,7 +34,7 @@ export interface PersonnelAttendanceDetail {
 
   overtimeDaysWorked: number;
   overtimeHoursWorked: number;
-  overtimeMinWorked: number;
+  overtimeMinutesWorked: number;
   overtimeTotalWorked: number;
 
   overtimeWithMultiplier: number;
