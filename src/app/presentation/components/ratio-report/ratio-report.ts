@@ -103,7 +103,7 @@ export class RatioReport implements OnInit {
 
   search(tabIndex:number): void {
       this.ratioService
-        .getAll(this.reportSearchList)
+        .getAll(this.reportSearchList,tabIndex)
         .subscribe((person: RatioServiceRes[]) =>{
             this.ratioServiceResList = person;
            // this.data=this.convertRatioDataToChart(person);
