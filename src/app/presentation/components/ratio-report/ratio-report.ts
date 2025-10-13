@@ -50,6 +50,8 @@ export class RatioReport implements OnInit {
   selectedOrganization?: Organization;
   ratioServiceResList:RatioServiceRes[]=[];
 
+  reportSearchList:RatioServiceSearch[] =[];
+
 
   constructor(
     private ratioService: RatioServiceReportService,
@@ -80,39 +82,42 @@ export class RatioReport implements OnInit {
   // The selected tab index
   selectedTab: number = 0;
 
-
-
-
-  search(tabIndex:number): void {
+  addReportSearch(): void {
     if (this.selectedYear && this.selectedOrganization) {
       let search: RatioServiceSearch = {
         yearID: this.selectedYear.id ?? 0,
+        yearName: this.selectedYear.name,
         organizationID: this.selectedOrganization.id ?? 0,
-        months: this.months,
+        organizationName: this.selectedOrganization.name,
+        months: this.selectedMonths ?? [],
         ratioReportType: this.selectedTab
       };
+      this.reportSearchList.push(search);
+    }
+  }
+
+  deleteReportSearch(search: RatioServiceSearch): void {
+    this.reportSearchList=  this.reportSearchList.filter(item => item !== search);
+  }
+
+
+  search(tabIndex:number): void {
       this.ratioService
-        .getAll(search)
+        .getAll(this.reportSearchList)
         .subscribe((person: RatioServiceRes[]) =>{
             this.ratioServiceResList = person;
-            this.data=this.convertRatioDataToChart(person);
+           // this.data=this.convertRatioDataToChart(person);
           }
 
         );
 
       console.log(this.ratioServiceResList);
-      // Continue with your logic
-    } else {
-      // Handle the case where any of the properties are undefined
-      console.error("Missing required fields.");
-    }
-
   }
 
   calculateCountTotal():number {
     let total = 0;
     for (let ratio of this.ratioServiceResList) {
-      total += ratio.count;
+      //total += ratio.count;
     }
 
     return total;
@@ -121,7 +126,7 @@ export class RatioReport implements OnInit {
   calculateWithCountTotal() {
     let total = 0;
     for (let ratio of this.ratioServiceResList) {
-      total += ratio.countWith;
+      //total += ratio.countWith;
     }
 
     return  total;
@@ -141,7 +146,7 @@ export class RatioReport implements OnInit {
   platformId = inject(PLATFORM_ID);
 
 
-  convertRatioDataToChart(ratios: RatioServiceRes[]): any {
+  /*convertRatioDataToChart(ratios: RatioServiceRes[]): any {
     const labels = Array.from(new Set(ratios.map(r => r.monthName)));
     const categories = Array.from(new Set(ratios.map(r => r.categoryName)));
 
@@ -161,6 +166,6 @@ export class RatioReport implements OnInit {
     return { labels, datasets };
 
   }
-
+*/
 
 }

@@ -14,7 +14,7 @@ export class RatioServiceReportService {
   constructor(private http: HttpClient) {}
 
   getAll(
-    search: RatioServiceSearch
+    search: RatioServiceSearch[]
   ): Observable<RatioServiceRes[]> {
     let test = this.http.post<RatioServiceRes[]>(
       this.apiUrl,
