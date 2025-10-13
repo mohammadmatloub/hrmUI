@@ -151,11 +151,6 @@ export class MedicalPerMonthImporter implements OnInit {
       }
       let medicalPerMonthDetails :MedicalPerMonthDetail[] = [];
       for (let key of map.keys()) {
-
-        if( key === 'ماه') {
-         let monthName:String = <String>map.get(key);
-          this.selectedmonth= monthMap.get(monthName);
-        }
         if(serviceMap.has(key)) {
           let service: Service | undefined = serviceMap.get(key);
           let medicalPerMonth: MedicalPerMonthDetail = {

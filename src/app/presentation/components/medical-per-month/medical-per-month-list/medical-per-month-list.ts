@@ -97,6 +97,7 @@ export class MedicalPerMonthList implements OnInit {
 
   detailMedicalPerMonth(record: MedicalPerMonthMaster): void {
     this.selectedMedicalPerMonth = { ...record };
+    this.detailsList =[];
 
     // @ts-ignore
     for (let medicalPerMonthDetail of this.selectedMedicalPerMonth.medicalPerMonthDetails) {
@@ -108,21 +109,26 @@ export class MedicalPerMonthList implements OnInit {
 
   deleteMedicalPerMonth(medicalPerMonth: MedicalPerMonthMaster): void {
     // Logic to delete the record
-    this.medicalPerMonths = this.medicalPerMonths.filter(
-      (m: MedicalPerMonthMaster): boolean => m.id !== medicalPerMonth.id
-    );
+    this.medicalPerMonthService.delete(medicalPerMonth.id!).subscribe((): void => {
+      this.loadMedicalPerMonth();
+    });
+
+
+
   }
 
   createMedicalPerMonth(medicalPerMonth: MedicalPerMonthMaster): void {
     if (medicalPerMonth.id) {
       // Update existing record logic
     } else {
-      this.medicalPerMonthService.create(medicalPerMonth).subscribe();
+      this.medicalPerMonthService.create(medicalPerMonth).subscribe(():void=>{
+        this.createDialog = false;
+        this.importerDialog = false;
+        this.loadMedicalPerMonth();
+      });
     }
 
-    this.createDialog = false;
-    this.importerDialog = false;
-    this.loadMedicalPerMonth();
+
   }
 
   onCancel(): void {
