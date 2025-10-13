@@ -104,10 +104,10 @@ export class ExcelImporterService implements IFileImporter {
       .trim()
       .split(/\s+/);
     const [first, ...rest] = parts;
-    const camel =
+/*    const camel =
       (first ?? '').toLowerCase() +
-      rest.map((w) => this.capitalize(w)).join('');
-    return camel || value.replace(/\s+/g, ' ');
+      rest.map((w) => this.capitalize(w)).join('');*/
+    return  value.replace(/\s+/g, ' ');
   }
 
   private capitalize(s: string): string {
