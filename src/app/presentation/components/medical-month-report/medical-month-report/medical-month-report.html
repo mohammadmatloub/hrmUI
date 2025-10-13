@@ -13,7 +13,7 @@
             [showClear]="true"
             placeholder="انتخاب سازمان"
             class="w-full md:w-56"
-          />
+          ></p-select>
         </td>
         <td></td>
       </tr>
@@ -29,7 +29,7 @@
             [showClear]="true"
             placeholder="انتخاب سال"
             class="w-full md:w-56"
-          />
+          ></p-select>
         </td>
         <td>
           <button
@@ -52,39 +52,37 @@
     [tableStyle]="{ 'min-width': '50rem' }"
   >
     <!-- Header Template -->
-    <ng-template #header let-columns>
+    <ng-template pTemplate="header" let-columns>
       <tr>
         <th>ماه</th>
         <th>تعداد پرسنل حاضر</th>
         <th>اضافه كار با ضريب</th>
         <th>اضافه كار بدون ضريب</th>
         @for (col of columns; track col.field) {
-        <th>
-          {{ col.header }}
-        </th>
+        <th>{{ col.header }}</th>
         }
       </tr>
     </ng-template>
 
     <!-- Body Template -->
-    <ng-template #body let-rowData let-medicalPersonAttendanceMonthReport>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td>{{ medicalPersonAttendanceMonthReport.monthName }}</td>
-        <td>{{ medicalPersonAttendanceMonthReport.totalPerson }}</td>
+        <td>{{ rowData.monthName }}</td>
+        <td>{{ rowData.totalPerson }}</td>
+        <td>{{ rowData.totalOverTime }}</td>
         <td></td>
-        <td>{{ medicalPersonAttendanceMonthReport.totalOverTime }}</td>
-        
-        @for (medicalPerMonthReport of medicalPersonAttendanceMonthReport.medicalPerMonthDTOList; track
-        medicalPerMonthReport.serviceID) {
+        @for (col of columns; track col.field) {
         <td>
-          {{ medicalPerMonthReport.medicalCount }}
+          {{
+            getMedicalCountByServiceId(
+              rowData.medicalPerMonthDTOList,
+              col.field
+            )
+          }}
         </td>
-        }@empty {
-        <td>Empty List</td>
-
         }
       </tr>
     </ng-template>
   </p-table>
-  <p-panel></p-panel
-></p-panel>
+  <p-panel></p-panel>
+</p-panel>

@@ -35,6 +35,8 @@ import { PersonAttendanceReport } from '../../../../core/domain/personAttendance
   styleUrl: './personnel-month-report.scss',
 })
 export class PersonnelMonthReport implements OnInit {
+  //#region properties
+
   months: Month[] = [];
   selectedMonth?: Month;
 
@@ -47,7 +49,11 @@ export class PersonnelMonthReport implements OnInit {
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
   personnelAttendanceReportList: PersonAttendanceReport[] = [];
-  reportSearchList :MedicalPerMonthReportSearch[] = [];
+  reportSearchList: MedicalPerMonthReportSearch[] = [];
+
+  //#endregion
+
+  //#region constructor
 
   constructor(
     private occupationService: OccupationService,
@@ -56,6 +62,18 @@ export class PersonnelMonthReport implements OnInit {
     private organizationService: OrganizationService,
     private yearService: YearService
   ) {}
+
+  //#endregion
+
+  //#region angular lifecycle hooks
+
+  ngOnInit(): void {
+    this.localData();
+  }
+
+  //#endregion
+
+  //#region methods
 
   localData(): void {
     this.occupationService.getAll().subscribe((data: Occupation[]): void => {
@@ -75,10 +93,6 @@ export class PersonnelMonthReport implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.localData();
-  }
-
   addReportSearch(): void {
     let searchReport: MedicalPerMonthReportSearch = {
       yearID: this.selectedYear!.id,
@@ -90,19 +104,22 @@ export class PersonnelMonthReport implements OnInit {
     };
     this.reportSearchList.push(searchReport);
   }
-  deleteReportSearch(search :MedicalPerMonthReportSearch): void {
-    this.reportSearchList=  this.reportSearchList.filter(item => item !== search);
-
+  deleteReportSearch(search: MedicalPerMonthReportSearch): void {
+    this.reportSearchList = this.reportSearchList.filter(
+      (item) => item !== search
+    );
   }
 
   search(): void {
-      this.personAttendanceReportService
-        .getAll(this.reportSearchList)
-        .subscribe(
-          (person: PersonAttendanceReport[]) =>
-            (this.personnelAttendanceReportList = person)
-        );
+    this.personAttendanceReportService
+      .getAll(this.reportSearchList)
+      .subscribe(
+        (person: PersonAttendanceReport[]) =>
+          (this.personnelAttendanceReportList = person)
+      );
 
-      console.log(this.personnelAttendanceReportList);
-    }
+    console.log(this.personnelAttendanceReportList);
+  }
+
+  //#endregion
 }

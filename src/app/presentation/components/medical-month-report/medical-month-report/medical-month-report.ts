@@ -22,7 +22,7 @@ import { MedicalPerMonthReportSearch } from '../../../../core/domain/medicalPerM
 import { ChartModule } from 'primeng/chart';
 
 interface Column {
-  field: string;
+  field: number;
   header: string;
 }
 
@@ -69,27 +69,30 @@ export class MedicalMonthReport implements OnInit {
 
   localData(): void {
     this.serviceService.getAll().subscribe((service: Service[]): void => {
-
       this.services = service;
       this.createColumn(service);
     });
+
     this.monthService.getAll().subscribe((month: Month[]): void => {
       this.months = month;
     });
+
     this.organizationService
       .getAll()
       .subscribe((organizaion: Organization[]): void => {
         this.organizations = organizaion;
       });
+
     this.yearService.getAll().subscribe((year: Year[]): void => {
       this.years = year;
     });
   }
 
   createColumn(ServiceList: Service[]): void {
-    ServiceList.forEach((service: Service): void => {
-      this.cols.push({ field: 'name', header: service.name });
-    });
+    this.cols = ServiceList.map((item: Service) => ({
+      field: item.id || 0,
+      header: item.name,
+    }));
   }
 
   search(): void {
@@ -98,11 +101,26 @@ export class MedicalMonthReport implements OnInit {
     search.organizationID = this.selectedOrganization?.id;
     this.medicalPerMonthReportService
       .getAll(search)
-      .subscribe(
-        (medical: MedicalPersonAttendanceMonthReport[]) =>
-          (this.medicalPersonAttendanceMonthReport = medical)
-      );
+      .subscribe((medical: MedicalPersonAttendanceMonthReport[]) => {
+        this.medicalPersonAttendanceMonthReport = medical;
+        console.log(
+          'medicalPersonAttendanceMonthReport',
+          this.medicalPersonAttendanceMonthReport
+        );
+      });
+  }
 
-    console.log(this.medicalPersonAttendanceMonthReport);
+  getMedicalCountByServiceId(
+    medicalPerMonthDTOList: any[] = [],
+    serviceID: number | string
+  ): number {
+    if (!medicalPerMonthDTOList || medicalPerMonthDTOList.length === 0)
+      return 0;
+    const id: number =
+      typeof serviceID === 'string' ? Number(serviceID) : serviceID;
+    const found: any = medicalPerMonthDTOList.find(
+      (item: any): boolean => item.serviceID === id
+    );
+    return found ? found.medicalCount : 0;
   }
 }
