@@ -1,71 +1,11 @@
 <p-toolbar> </p-toolbar>
-<p-table [value]="personnelAttendances">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>مرکز</th>
-      <th>سال</th>
-      <th>ماه</th>
-
-
-      <th>
-        <div class="p-toolbar-group-left">
-          <button
-            pButton
-            [rounded]="true"
-            severity="success"
-            [text]="true"
-            icon="pi pi-plus"
-            (click)="addPersonnelAttendance()"
-          ></button>
-          <button
-            pButton
-            [rounded]="true"
-            severity="help"
-            [text]="true"
-            icon="pi pi-file-import"
-            (click)="importPersonnelAttendance()"
-          ></button>
-        </div>
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-attendance>
-    <tr>
-      <td>{{ attendance.organization.name }}</td>
-      <td>{{ attendance.year.name }}</td>
-      <td>{{ attendance.month.name }}</td>
-
-
-      <td>
-        <button
-          pButton
-          [rounded]="true"
-          [text]="true"
-          severity="info"
-          icon="pi pi-bars"
-          (click)="detailPersonnelAttendance(attendance)"
-        ></button>
-        <button
-          pButton
-          [rounded]="true"
-          [text]="true"
-          severity="warn"
-          icon="pi pi-pencil"
-          (click)="editPersonnelAttendance(attendance)"
-        ></button>
-        <button
-          pButton
-          [rounded]="true"
-          [text]="true"
-          severity="danger"
-          icon="pi pi-trash"
-          (click)="deletePersonnelAttendance(attendance)"
-        ></button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-
+<div class="ag-theme-alpine" style="width: 100%">
+  <ag-grid-angular
+    (gridReady)="onGridReady($event)"
+    [columnDefs]="columns$ | async"
+    [gridOptions]="gridOptions"
+  ></ag-grid-angular>
+</div>
 <p-dialog [(visible)]="createDialog" [modal]="true">
   <app-personnel-attendance-form
     [attendance]="selectedAttendance"
@@ -81,7 +21,7 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [occupationList]="occupationList"
-    (save) = "createAttendance($event)"
+    (save)="createAttendance($event)"
     (cancel)="onCancel()"
   >
   </app-personnel-attendance-importer>
@@ -97,7 +37,12 @@
   [style]="{ width: '75vw' }"
   [contentStyle]="{ height: '300px' }"
 >
-  <p-table [value]="detailsList" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table
+    [value]="detailsList"
+    [scrollable]="true"
+    scrollHeight="flex"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
     <ng-template #header>
       <tr>
         <th>عنوان شغلي</th>
@@ -113,9 +58,6 @@
         <th>ساعت هاي اضافه كار</th>
         <th>دقيقه هاي اضافه كار</th>
         <th>جمع اضافه كار</th>
-
-
-
       </tr>
     </ng-template>
     <ng-template #body let-detail>
@@ -134,9 +76,6 @@
         <td>{{ detail.overtimeHoursWorked }}</td>
         <td>{{ detail.overtimeMinutesWorked }}</td>
         <td>{{ detail.overtimeTotalWorked }}</td>
-
-
-
       </tr>
     </ng-template>
   </p-table>
