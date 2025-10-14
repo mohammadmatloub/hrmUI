@@ -6,7 +6,6 @@
       <th>سال</th>
       <th>ماه</th>
 
-
       <th>
         <div class="p-toolbar-group-left">
           <button
@@ -34,7 +33,6 @@
       <td>{{ attendance.organization.name }}</td>
       <td>{{ attendance.year.name }}</td>
       <td>{{ attendance.month.name }}</td>
-
 
       <td>
         <button
@@ -81,7 +79,7 @@
     [yearList]="yearList"
     [monthList]="monthList"
     [occupationList]="occupationList"
-    (save) = "createAttendance($event)"
+    (save)="createAttendance($event)"
     (cancel)="onCancel()"
   >
   </app-personnel-attendance-importer>
@@ -97,7 +95,12 @@
   [style]="{ width: '75vw' }"
   [contentStyle]="{ height: '300px' }"
 >
-  <p-table [value]="detailsList" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table
+    [value]="detailsList"
+    [scrollable]="true"
+    scrollHeight="flex"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
     <ng-template #header>
       <tr>
         <th>عنوان شغلي</th>
@@ -113,9 +116,6 @@
         <th>ساعت هاي اضافه كار</th>
         <th>دقيقه هاي اضافه كار</th>
         <th>جمع اضافه كار</th>
-
-
-
       </tr>
     </ng-template>
     <ng-template #body let-detail>
@@ -134,9 +134,23 @@
         <td>{{ detail.overtimeHoursWorked }}</td>
         <td>{{ detail.overtimeMinutesWorked }}</td>
         <td>{{ detail.overtimeTotalWorked }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <tr class="footer-row">
+        <td>جمع</td>
+        <td>{{ totalsRow.attendanceCount || 0 }}</td>
+        <td>{{ totalsRow.totalHoursWorked || 0 }}</td>
+        <td>{{ totalsRow.totalMinutesWorked || 0 }}</td>
+        <td>{{ totalsRow.totalWorked || 0 }}</td>
 
+        <td>{{ totalsRow.overtimeWithMultiplier || 0 }}</td>
+        <td>{{ totalsRow.overtimeWithOutMultiplier || 0 }}</td>
 
-
+        <td>{{ totalsRow.overtimeDaysWorked || 0 }}</td>
+        <td>{{ totalsRow.overtimeHoursWorked || 0 }}</td>
+        <td>{{ totalsRow.overtimeMinutesWorked || 0 }}</td>
+        <td>{{ totalsRow.overtimeTotalWorked || 0 }}</td>
       </tr>
     </ng-template>
   </p-table>
