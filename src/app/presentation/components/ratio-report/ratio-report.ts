@@ -204,7 +204,7 @@ export class RatioReport implements OnInit {
     if (this.reportSearchList.length === 0) return;
 
     this.ratioService
-      .getAll(this.reportSearchList)
+      .getAll(this.reportSearchList,tabIndex)
       .subscribe((data: RatioServiceRes[]): void => {
         this.ratioServiceResList = data;
         // this.data=this.convertRatioDataToChart(data);
