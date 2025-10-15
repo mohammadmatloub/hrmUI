@@ -96,7 +96,12 @@
       (click)="search()"
     ></button>
   </p-panel>
-  <p-table [value]="personnelAttendanceReportList">
+  <p-table
+    [value]="personnelAttendanceReportList"
+    [scrollable]="true"
+    scrollHeight="50vh"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
     <ng-template #header>
       <tr>
         <th pSortableColumn="occupation.name">
@@ -124,6 +129,24 @@
 
         <td>{{ item.overtimeTotalWorked }}</td>
         <td>{{ item.overtimeWithMultiplier }}</td>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #footer>
+      <tr>
+        <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
+        @for (item of reportSearchList;track item.monthID){
+        <td class="font-bold p-1 pb-0">
+          {{ calculateAttendanceTotalForMonth(item.monthID) }}
+        </td>
+
+        <td class="font-bold p-1 pb-0">
+          {{ calculateOvertimeTotalForMonth(item.monthID) }}
+        </td>
+        <td class="font-bold p-1 pb-0">
+          {{ calculateOvertimeWithMultiplierTotalForMonth(item.monthID) }}
+        </td>
+
         }
       </tr>
     </ng-template>
