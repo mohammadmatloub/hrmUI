@@ -7,7 +7,10 @@ export interface MedicalPersonAttendanceMonthReport {
   yearName: string;
   organizationID: number;
   organizationName: string;
-  totalPerson: number;
-  totalOverTime: number;
+   attendance : number;
+   overtimeHoursWorked :number;
+   overtimeMinutesWorked:number;
+   overtimeWithHoursWorked :number;
+   overtimeWithMinutesWorked:number;
   medicalPerMonthDTOList?: MedicalPerMonthReport[];
 }

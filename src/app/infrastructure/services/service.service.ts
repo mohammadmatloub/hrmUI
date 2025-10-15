@@ -16,6 +16,9 @@ export class ServiceService {
   getAll(): Observable<Service[]> {
     return this.http.get<Service[]>(this.apiUrl);
   }
+  getLeaf(): Observable<Service[]> {
+    return this.http.get<Service[]>(this.apiUrl+"/leaf");
+  }
 
   getById(id: number): Observable<Service> {
     return this.http.get<Service>(`${this.apiUrl}/${id}`);

@@ -74,7 +74,7 @@ export class MedicalMonthReport implements OnInit {
   }
 
   localData(): void {
-    this.serviceService.getAll().subscribe((service: Service[]): void => {
+    this.serviceService.getLeaf().subscribe((service: Service[]): void => {
       this.services = service;
       this.createColumn(service);
     });
@@ -127,10 +127,10 @@ export class MedicalMonthReport implements OnInit {
     if (!this.medicalPersonAttendanceMonthReport) return;
 
     this.medicalPersonAttendanceMonthReport.forEach((row) => {
-      this.totalPersonSum += Number(row.totalPerson) || 0;
+      this.totalPersonSum += Number(row.attendance) || 0;
 
       // totalOverTime may be a time string like "HH:MM" or numeric
-      const ot = this.parseTimeToMinutes(row.totalOverTime);
+      const ot = this.parseTimeToMinutes(row.overtimeHoursWorked);
       this.totalOverTimeMinutes += ot;
 
       // sum services by cols order (cols.field is service id)

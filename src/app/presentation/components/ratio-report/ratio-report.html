@@ -98,7 +98,7 @@
     <p-tablist>
       <p-tab value="0">نسبت به کل</p-tab>
       <p-tab value="1">نسبت به تشکیلات</p-tab>
-      <p-tab value="2">نسبت به دسته بندی</p-tab>
+      <p-tab value="2">نسبت به پشتیبانی</p-tab>
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
@@ -107,8 +107,10 @@
           <ng-template #header>
             <tr>
               <th>خدمت</th>
+              @for(item of reportSearchList; track item){
               <th>بدون اضافه کار</th>
               <th>با اضافه کار</th>
+              }
             </tr>
           </ng-template>
           <ng-template #body let-ratioServiceRes>
@@ -125,15 +127,15 @@
               }
             </tr>
           </ng-template>
-          <ng-template #footer>
-            <tr>
-              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
-              <td class="font-bold p-1 pb-0">
-                {{ calculateWithCountTotal() }}
-              </td>
-            </tr>
-          </ng-template>
+<!--          <ng-template #footer>-->
+<!--            <tr>-->
+<!--              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>-->
+<!--              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>-->
+<!--              <td class="font-bold p-1 pb-0">-->
+<!--                {{ calculateWithCountTotal() }}-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </ng-template>-->
         </p-table>
 
         <!-- چارت‌های جدید (دو ستونه - کنار هم) -->
@@ -228,15 +230,15 @@
               }
             </tr>
           </ng-template>
-          <ng-template #footer>
-            <tr>
-              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
-              <td class="font-bold p-1 pb-0">
-                {{ calculateWithCountTotal() }}
-              </td>
-            </tr>
-          </ng-template>
+<!--          <ng-template #footer>-->
+<!--            <tr>-->
+<!--              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>-->
+<!--              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>-->
+<!--              <td class="font-bold p-1 pb-0">-->
+<!--                {{ calculateWithCountTotal() }}-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </ng-template>-->
         </p-table>
 
         <!-- چارت‌های جدید برای تب دوم (دو ستونه - کنار هم) -->
@@ -331,15 +333,15 @@
               }
             </tr>
           </ng-template>
-          <ng-template #footer>
-            <tr>
-              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
-              <td class="font-bold p-1 pb-0">
-                {{ calculateWithCountTotal() }}
-              </td>
-            </tr>
-          </ng-template>
+<!--          <ng-template #footer>-->
+<!--            <tr>-->
+<!--              <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>-->
+<!--              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>-->
+<!--              <td class="font-bold p-1 pb-0">-->
+<!--                {{ calculateWithCountTotal() }}-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </ng-template>-->
         </p-table>
 
         <!-- چارت‌های جدید برای تب سوم (دو ستونه - کنار هم) -->
