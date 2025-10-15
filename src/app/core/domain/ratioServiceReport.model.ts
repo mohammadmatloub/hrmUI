@@ -26,6 +26,5 @@ export interface RatioServiceResDetail {
 export enum RatioReportType {
   total,
   category,
-  support,
   categoryType
 }

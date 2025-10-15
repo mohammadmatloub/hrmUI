@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {RatioServiceRes, RatioServiceSearch} from '../../core/domain/ratioServiceReport.model';
+import {RatioReportType, RatioServiceRes, RatioServiceSearch} from '../../core/domain/ratioServiceReport.model';
 
 
 @Injectable({
@@ -13,15 +13,12 @@ export class RatioServiceReportService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(
-    search: RatioServiceSearch[]
-  ): Observable<RatioServiceRes[]> {
-    let test = this.http.post<RatioServiceRes[]>(
-      this.apiUrl,
-      search
-    );
-    console.log(test.subscribe());
-    return test;
+  getAll(search: RatioServiceSearch[],ratioReportType:RatioReportType): Observable<RatioServiceRes[]> {
+
+    const params = new HttpParams().set('ratioReportType', ratioReportType.toString());
+
+    return this.http.post<RatioServiceRes[]>(`${this.apiUrl}?${params.toString()}`, search);
+
   }
 
 }
