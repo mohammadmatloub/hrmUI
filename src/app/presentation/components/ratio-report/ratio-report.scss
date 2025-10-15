@@ -1,0 +1,175 @@
+.charts-container {
+  padding: 20px;
+  direction: rtl;
+
+  /* دو ستون برای چارت‌ها */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+    overflow-x: auto;
+    /* allow horizontal scroll for wide charts */
+    min-width: 0;
+  }
+
+  .chart-content {
+    overflow-x: auto;
+    min-width: 0;
+  }
+
+  .chart-wrapper {
+    background: var(--background-color, inherit);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    padding: 26px;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .chart-header {
+      margin-bottom: 20px;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 15px;
+
+      h3 {
+        margin: 0 0 8px 0;
+        color: #2c3e50;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .chart-subtitle {
+        margin: 0;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+      }
+    }
+
+    .chart-content {
+      padding: 10px;
+      /* فضای عمودی بیشتر برای چارت‌ها - اجازه بدهد تا محتوا رشد کند */
+      flex: 1 1 auto;
+      min-height: 520px; /* افزایش ارتفاع برای نمایش بهتر ستون‌ها */
+
+      /* اطمینان از اینکه نمودار فضای والد را پر کند */
+      p-chart,
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 920px;
+        display: block;
+      }
+    }
+  }
+
+  .summary-table {
+    background: var(--background-color, inherit);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 30px;
+
+    h4 {
+      margin: 0 0 20px 0;
+      color: #2c3e50;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        tr th {
+          padding: 15px;
+          text-align: center;
+          color: white;
+          font-weight: 600;
+          font-size: 0.95rem;
+          border: none;
+
+          /* چون جهت داخل کانتینر RTL است، گوشه‌ها را معکوس می‌کنیم */
+          &:first-child {
+            /* اولین عنصر در DOM در RTL در سمت راست نمایش داده می‌شود -> گوشه بالای راست گرد باشد */
+            border-radius: 0 8px 0 0;
+          }
+
+          &:last-child {
+            /* آخرین عنصر در DOM در RTL در سمت چپ نمایش داده می‌شود -> گوشه بالای چپ گرد باشد */
+            border-radius: 8px 0 0 0;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          transition: background-color 0.2s ease;
+
+          &:nth-child(even) {
+            background-color: #f8f9fa;
+          }
+
+          &:hover {
+            background-color: #e3f2fd;
+          }
+
+          td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+            color: #34495e;
+
+            &:first-child {
+              font-weight: 600;
+              color: #2c3e50;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// استایل‌های ریسپانسیو
+@media (max-width: 768px) {
+  .charts-container {
+    padding: 10px;
+
+    /* روی موبایل به یک ستون تبدیل شود */
+    .charts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-wrapper {
+      padding: 15px;
+
+      .chart-header h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    .summary-table {
+      overflow-x: auto;
+
+      table {
+        font-size: 0.85rem;
+
+        thead tr th,
+        tbody tr td {
+          padding: 10px 8px;
+        }
+      }
+    }
+  }
+}

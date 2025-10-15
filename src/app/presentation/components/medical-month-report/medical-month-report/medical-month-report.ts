@@ -52,6 +52,12 @@ export class MedicalMonthReport implements OnInit {
   medicalPersonAttendanceMonthReport: MedicalPersonAttendanceMonthReport[] = [];
 
   services: Service[] = [];
+  // totals per column (service id order matches cols)
+  serviceTotals: number[] = [];
+  // totals for totalPerson
+  totalPersonSum: number = 0;
+  // total over time (may be numeric or time string) stored in minutes if string
+  totalOverTimeMinutes: number = 0;
 
   constructor(
     private medicalPerMonthReportService: MedicalPerMonthsReportService,
@@ -103,11 +109,62 @@ export class MedicalMonthReport implements OnInit {
       .getAll(search)
       .subscribe((medical: MedicalPersonAttendanceMonthReport[]) => {
         this.medicalPersonAttendanceMonthReport = medical;
+        // compute totals
+        this.computeTotals();
         console.log(
           'medicalPersonAttendanceMonthReport',
           this.medicalPersonAttendanceMonthReport
         );
       });
+  }
+
+  computeTotals(): void {
+    const cols = this.cols ? this.cols.length : 0;
+    this.serviceTotals = new Array(cols).fill(0);
+    this.totalPersonSum = 0;
+    this.totalOverTimeMinutes = 0;
+
+    if (!this.medicalPersonAttendanceMonthReport) return;
+
+    this.medicalPersonAttendanceMonthReport.forEach((row) => {
+      this.totalPersonSum += Number(row.totalPerson) || 0;
+
+      // totalOverTime may be a time string like "HH:MM" or numeric
+      const ot = this.parseTimeToMinutes(row.totalOverTime);
+      this.totalOverTimeMinutes += ot;
+
+      // sum services by cols order (cols.field is service id)
+      for (let i = 0; i < cols; i++) {
+        const serviceId = this.cols[i].field;
+        const val = this.getMedicalCountByServiceId(
+          row.medicalPerMonthDTOList,
+          serviceId
+        );
+        this.serviceTotals[i] += Number(val) || 0;
+      }
+    });
+  }
+
+  parseTimeToMinutes(value: any): number {
+    if (value === null || value === undefined) return 0;
+    if (typeof value === 'number') return Math.floor(value);
+    const s = String(value).trim();
+    if (!s) return 0;
+    const parts = s.split(':');
+    if (parts.length === 1) {
+      const n = Number(parts[0]);
+      return isNaN(n) ? 0 : n;
+    }
+    const hours = Number(parts[0]) || 0;
+    const minutes = Number(parts[1]) || 0;
+    return hours * 60 + minutes;
+  }
+
+  formatMinutesToTime(totalMinutes: number): string {
+    if (!totalMinutes || totalMinutes === 0) return '0:00';
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.abs(totalMinutes % 60);
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
   getMedicalCountByServiceId(

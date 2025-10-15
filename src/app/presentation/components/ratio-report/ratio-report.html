@@ -18,7 +18,8 @@
       <td>ماه</td>
       <td>
         <p-multiselect
-          [options]="months" [(ngModel)]="selectedMonths"
+          [options]="months"
+          [(ngModel)]="selectedMonths"
           name="month"
           optionLabel="name"
           placeholder="انتخاب ماه"
@@ -53,40 +54,47 @@
       </td>
     </tr>
   </table>
+
   <p-table [value]="reportSearchList">
     <ng-template #header>
       <tr>
+        <th>#</th>
         <th>واحد</th>
         <th>سال</th>
         <th>ماه</th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template #body let-searchDTO>
+    <ng-template #body let-searchDTO let-i="rowIndex">
       <tr>
-        <td>{{searchDTO.organizationName}}</td>
-        <td>{{ searchDTO.yearName}}</td>
-
+        <td>{{ +i + 1 }}</td>
+        <td>{{ searchDTO.organizationName }}</td>
+        <td>{{ searchDTO.yearName }}</td>
         <td>
           @for (month of searchDTO.months ;track month.id){
-            {{ month.name }}
+          {{ month.name }}
           }
         </td>
-
-        <td><button
-          pButton
-          [rounded]="true"
-          [text]="true"
-          severity="danger"
-          value="save"
-          icon="pi pi-trash"
-          (click)="deleteReportSearch(searchDTO)"
-        ></button></td>
+        <td>
+          <button
+            pButton
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            value="save"
+            icon="pi pi-trash"
+            (click)="deleteReportSearch(searchDTO)"
+          ></button>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <p-tabs  value="0" [(value)]="selectedTab" (valueChange) ="onTabChange(selectedTab)" >
+  <p-tabs
+    value="0"
+    [(value)]="selectedTab"
+    (valueChange)="onTabChange(selectedTab)"
+  >
     <p-tablist>
       <p-tab value="0">نسبت به کل</p-tab>
       <p-tab value="1">نسبت به تشکیلات</p-tab>
@@ -94,97 +102,310 @@
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel value="0">
+        <!-- جدول داده‌ها -->
         <p-table [value]="ratioServiceResList">
           <ng-template #header>
             <tr>
               <th>خدمت</th>
-              @for(item of reportSearchList; track item){
-                <th>بدون اضافه کار</th>
-                <th>با اضافه کار</th>
-              }
-
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
             </tr>
           </ng-template>
           <ng-template #body let-ratioServiceRes>
             <tr>
-              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
-              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track item){
-                <td>{{item.count}}</td>
-                <td>{{item.countWith}}</td>
+              <td>
+                {{ ratioServiceRes.categoryCode }}-{{
+                  ratioServiceRes.categoryName
+                }}
+              </td>
+              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track
+              item){
+              <td>{{ item.count }}</td>
+              <td>{{ item.countWith }}</td>
               }
             </tr>
           </ng-template>
           <ng-template #footer>
             <tr>
               <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
-              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
+              <td class="font-bold p-1 pb-0">
+                {{ calculateWithCountTotal() }}
+              </td>
             </tr>
           </ng-template>
         </p-table>
-        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+
+        <!-- چارت‌های جدید (دو ستونه - کنار هم) -->
+        <div class="charts-container mt-6" *ngIf="chartDataWithoutOvertime">
+          <div class="charts-grid">
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - بدون اضافه‌کاری</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithoutOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - با اضافه‌کاری</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+          </div>
+
+          <!-- نمایش جدول خلاصه -->
+          <div class="summary-table">
+            <h4>خلاصه آماری</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>درخواست</th>
+                  <th>مجموع بدون اضافه‌کاری</th>
+                  <th>مجموع با اضافه‌کاری</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let lbl of chartDataWithoutOvertime.labels;
+                    let i = index
+                  "
+                >
+                  <td>{{ i + 1 }}. {{ lbl }}</td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "count").toFixed(2) }}
+                  </td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "countWith").toFixed(2) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </p-tabpanel>
+
       <p-tabpanel value="1">
+        <!-- همان محتوای تب اول -->
         <p-table [value]="ratioServiceResList">
           <ng-template #header>
             <tr>
               <th>خدمت</th>
               @for(item of reportSearchList; track item){
-                <th>بدون اضافه کار</th>
-                <th>با اضافه کار</th>
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
               }
-
             </tr>
           </ng-template>
           <ng-template #body let-ratioServiceRes>
             <tr>
-              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
-              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track item){
-                <td>{{item.count}}</td>
-                <td>{{item.countWith}}</td>
+              <td>
+                {{ ratioServiceRes.categoryCode }}-{{
+                  ratioServiceRes.categoryName
+                }}
+              </td>
+              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track
+              item){
+              <td>{{ item.count }}</td>
+              <td>{{ item.countWith }}</td>
               }
             </tr>
           </ng-template>
           <ng-template #footer>
             <tr>
               <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
-              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
+              <td class="font-bold p-1 pb-0">
+                {{ calculateWithCountTotal() }}
+              </td>
             </tr>
           </ng-template>
         </p-table>
-        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+
+        <!-- چارت‌های جدید برای تب دوم (دو ستونه - کنار هم) -->
+        <div class="charts-container mt-6" *ngIf="chartDataWithoutOvertime">
+          <div class="charts-grid">
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - بدون اضافه‌کاری (نسبت به تشکیلات)</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithoutOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - با اضافه‌کاری (نسبت به تشکیلات)</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+          </div>
+
+          <!-- نمایش جدول خلاصه -->
+          <div class="summary-table">
+            <h4>خلاصه آماری</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>درخواست</th>
+                  <th>مجموع بدون اضافه‌کاری</th>
+                  <th>مجموع با اضافه‌کاری</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let lbl of chartDataWithoutOvertime.labels;
+                    let i = index
+                  "
+                >
+                  <td>{{ lbl }}</td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "count").toFixed(2) }}
+                  </td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "countWith").toFixed(2) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </p-tabpanel>
+
       <p-tabpanel value="2">
+        <!-- همان محتوای تب اول -->
         <p-table [value]="ratioServiceResList">
           <ng-template #header>
             <tr>
               <th>خدمت</th>
               @for(item of reportSearchList; track item){
-                <th>بدون اضافه کار</th>
-                <th>با اضافه کار</th>
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
               }
-
             </tr>
           </ng-template>
           <ng-template #body let-ratioServiceRes>
             <tr>
-              <td>{{ratioServiceRes.categoryCode}}-{{ratioServiceRes.categoryName}}</td>
-              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track item){
-              <td>{{item.count}}</td>
-              <td>{{item.countWith}}</td>
+              <td>
+                {{ ratioServiceRes.categoryCode }}-{{
+                  ratioServiceRes.categoryName
+                }}
+              </td>
+              @for (item of ratioServiceRes.ratioServiceResDetailWrappers; track
+              item){
+              <td>{{ item.count }}</td>
+              <td>{{ item.countWith }}</td>
               }
             </tr>
           </ng-template>
           <ng-template #footer>
             <tr>
               <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-              <td class="font-bold p-1 pb-0">{{calculateCountTotal()}}</td>
-              <td class="font-bold p-1 pb-0">{{calculateWithCountTotal()}}</td>
+              <td class="font-bold p-1 pb-0">{{ calculateCountTotal() }}</td>
+              <td class="font-bold p-1 pb-0">
+                {{ calculateWithCountTotal() }}
+              </td>
             </tr>
           </ng-template>
         </p-table>
-        <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+
+        <!-- چارت‌های جدید برای تب سوم (دو ستونه - کنار هم) -->
+        <div class="charts-container mt-6" *ngIf="chartDataWithoutOvertime">
+          <div class="charts-grid">
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - بدون اضافه‌کاری (نسبت به دسته‌بندی)</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithoutOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+
+            <div class="chart-wrapper">
+              <div class="chart-header">
+                <h3>گزارش خدمات - با اضافه‌کاری (نسبت به دسته‌بندی)</h3>
+                <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
+              </div>
+              <div class="chart-content">
+                <p-chart
+                  type="bar"
+                  [data]="chartDataWithOvertime"
+                  [options]="chartOptions"
+                >
+                </p-chart>
+              </div>
+            </div>
+          </div>
+
+          <!-- نمایش جدول خلاصه -->
+          <div class="summary-table">
+            <h4>خلاصه آماری</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>درخواست</th>
+                  <th>مجموع بدون اضافه‌کاری</th>
+                  <th>مجموع با اضافه‌کاری</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let lbl of chartDataWithoutOvertime.labels;
+                    let i = index
+                  "
+                >
+                  <td>{{ lbl }}</td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "count").toFixed(2) }}
+                  </td>
+                  <td>
+                    {{ getTotalForLabelIndex(i, "countWith").toFixed(2) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>
