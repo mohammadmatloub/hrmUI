@@ -1,16 +1,18 @@
 .charts-container {
   padding: 20px;
   direction: rtl;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 
-  /* دو ستون برای چارت‌ها */
+  /* چارت‌ها به صورت عمودی */
   .charts-grid {
-   //display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-    overflow-x: auto;
-    /* allow horizontal scroll for wide charts */
-    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
   }
 
   .chart-content {
@@ -22,11 +24,12 @@
     background: var(--background-color, inherit);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
     padding: 26px;
     transition: box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    min-height: 400px;
 
     &:hover {
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
