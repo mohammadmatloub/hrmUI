@@ -204,7 +204,7 @@ export class RatioReport implements OnInit {
     if (this.reportSearchList.length === 0) return;
 
     this.ratioService
-      .getAll(this.reportSearchList,tabIndex)
+      .getAll(this.reportSearchList, tabIndex)
       .subscribe((data: RatioServiceRes[]): void => {
         this.ratioServiceResList = data;
         // this.data=this.convertRatioDataToChart(data);
@@ -244,6 +244,17 @@ export class RatioReport implements OnInit {
             family: 'IRANSans, Tahoma, Arial',
           },
           callbacks: {
+            title: (context: any) => {
+              // نمایش اطلاعات کامل در tooltip
+              const reportSearch = this.reportSearchList[context[0].dataIndex];
+              if (reportSearch) {
+                const months =
+                  reportSearch.months?.map((m) => m.name).join(',') || '';
+                const monthPart = months ? ` (${months})` : '';
+                return `${reportSearch.organizationName} - ${reportSearch.yearName}${monthPart}`;
+              }
+              return '';
+            },
             label: (context: any) => {
               const label = context.dataset.label || '';
               const value = context.parsed.y.toFixed(2);
@@ -267,19 +278,14 @@ export class RatioReport implements OnInit {
               family: 'IRANSans, Tahoma, Arial',
               size: 11,
             },
-            // Don't rotate labels; shorten them instead to keep them horizontal
-            maxRotation: 0,
-            minRotation: 0,
+            // چرخش 45 درجه برای خوانایی بهتر برچسب‌های طولانی
+            maxRotation: 45,
+            minRotation: 45,
             autoSkip: true,
-            autoSkipPadding: 8,
-            callback: function (value: any, index: number) {
-              // value can be string label; truncate long labels with ellipsis
-              let label = value;
-              if (typeof label === 'string' && label.length > 30) {
-                label = label.slice(0, 28) + '...';
-              }
-              // show index starting from 1
-              return (index + 1).toString();
+            autoSkipPadding: 15,
+            callback: (value: any, index: number, values: any[]) => {
+              // از labels برای دسترسی به نام سازمان استفاده می‌کنیم
+              return this.reportSearchList[index]?.organizationName || '';
             },
           },
           grid: {
@@ -311,22 +317,13 @@ export class RatioReport implements OnInit {
 
     // Labels: one label per report search (each request becomes one column)
     const labels = this.reportSearchList.map((r: any): string => {
-      // ساخت لیبل خوانا: سازمان - سال (ماه‌ها اگر وجود داشته باشند)
-      const months =
-        r.months && r.months.length
-          ? r.months.map((m: any) => m.name).join(',')
-          : '';
-      const monthPart = months ? ` (${months})` : '';
-      const yearPart = r.yearName ? ` - ${r.yearName}` : '';
-      return `${r.organizationName || ''}${yearPart}${monthPart}`;
+      // فقط نام سازمان را برمی‌گردانیم
+      return r.organizationName || '';
     });
 
     // ایجاد دیتاست‌ها برای هر خدمت، هر دیتاست مقادیر را مطابق با ترتیب reportSearchList تولید می‌کند
-    const datasetsWithoutOvertime = this.createDatasets(labels.length, 'count');
-    const datasetsWithOvertime = this.createDatasets(
-      labels.length,
-      'countWith'
-    );
+    const datasetsWithoutOvertime = this.createDatasets(labels, 'count');
+    const datasetsWithOvertime = this.createDatasets(labels, 'countWith');
 
     this.chartDataWithoutOvertime = {
       labels: labels,
@@ -378,17 +375,17 @@ export class RatioReport implements OnInit {
     this.chartDataWithOvertime = null;
   }
 
-  private getUniqueOrganizations(): string[] {
-    const organizationsSet = new Set<string>();
+  // private getUniqueOrganizations(): string[] {
+  //   const organizationsSet = new Set<string>();
 
-    this.ratioServiceResList.forEach((category) => {
-      category.ratioServiceResDetailWrappers.forEach((detail): void => {
-        organizationsSet.add(detail.organizationName as string);
-      });
-    });
+  //   this.ratioServiceResList.forEach((category) => {
+  //     category.ratioServiceResDetailWrappers.forEach((detail): void => {
+  //       organizationsSet.add(detail.organizationName as string);
+  //     });
+  //   });
 
-    return Array.from(organizationsSet);
-  }
+  //   return Array.from(organizationsSet);
+  // }
 
   /**
    * Create datasets for charts.
