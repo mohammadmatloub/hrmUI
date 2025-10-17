@@ -1,21 +1,17 @@
 <p-panel header="جستجو" [toggleable]="true">
   <table>
     <tr>
-      <td>سال</td>
+      <td>سال : </td>
       <td>
-        <p-select
-          [options]="years"
-          [(ngModel)]="selectedYear"
-          name="year"
-          [checkmark]="true"
-          optionLabel="name"
-          [showClear]="true"
-          placeholder="انتخاب سال"
-          class="w-full md:w-56"
-        />
+        @for ( year of years; track year.id){
+          <div class="field-checkbox">
+            <p-radiobutton [inputId]="year.name" name="year" [value]="year" [(ngModel)]="selectedYear" />
+            <label [for]="year.name" class="ml-2">{{ year.name }}</label>
+          </div>
+        }
       </td>
 
-      <td>ماه</td>
+      <td>ماه : </td>
       <td>
         <p-multiselect
           [options]="months"
@@ -27,68 +23,39 @@
         />
       </td>
       <td></td>
+    </tr>
+    <tr>
+      <td>سازمان : </td>
+      <td>
+        @for ( organization of organizations; track organization.id){
+        <div class="flex items-center">
+          <p-checkbox [inputId]="organization.name" name="group"
+                      (onChange)="addReportSearch($event, organization)"
+                      [value]="organization" [(ngModel)]="selectedOrganizations" />
+          <label [for]="organization.name" class="ml-2"> {{ organization.name }} </label>
+        </div>
+        }
+      </td>
+      <td>
 
-      <td>سازمان</td>
-      <td>
-        <p-select
-          [options]="organizations"
-          [(ngModel)]="selectedOrganization"
-          name="organization"
-          [checkmark]="true"
-          optionLabel="name"
-          [showClear]="true"
-          placeholder="انتخاب سازمان"
-          class="w-full md:w-56"
-        />
       </td>
-      <td>
-        <button
-          pButton
-          [rounded]="true"
-          [text]="true"
-          severity="success"
-          value="save"
-          icon="pi pi-plus"
-          (click)="addReportSearch()"
-        ></button>
-      </td>
+<td>
+  @for (search of reportSearchList;track search.organizationID) {
+    <div class="flex items-center">
+          {{search.yearName}}/{{search.organizationName}}/ <button
+      pButton
+      [rounded]="true"
+      [text]="true"
+      severity="danger"
+      value="save"
+      icon="pi pi-trash"
+      (click)="deleteReportSearch(search)"
+    ></button>
+    </div>
+    }
+</td>
     </tr>
   </table>
-
-  <p-table [value]="reportSearchList">
-    <ng-template #header>
-      <tr>
-        <th>#</th>
-        <th>واحد</th>
-        <th>سال</th>
-        <th>ماه</th>
-        <th></th>
-      </tr>
-    </ng-template>
-    <ng-template #body let-searchDTO let-i="rowIndex">
-      <tr>
-        <td>{{ +i + 1 }}</td>
-        <td>{{ searchDTO.organizationName }}</td>
-        <td>{{ searchDTO.yearName }}</td>
-        <td>
-          @for (month of searchDTO.months ;track month.id){
-          {{ month.name }}
-          }
-        </td>
-        <td>
-          <button
-            pButton
-            [rounded]="true"
-            [text]="true"
-            severity="danger"
-            value="save"
-            icon="pi pi-trash"
-            (click)="deleteReportSearch(searchDTO)"
-          ></button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
 </p-panel>
 
 <p-tabs
@@ -97,9 +64,9 @@
   (valueChange)="onTabChange(selectedTab)"
 >
   <p-tablist>
-    <p-tab value="0">نسبت به کل</p-tab>
-    <p-tab value="1">نسبت به تشکیلات</p-tab>
-    <p-tab value="2">نسبت به پشتیبانی</p-tab>
+    <p-tab value="0"> خدمات به کل نیروانسانی</p-tab>
+    <p-tab value="1">خدمات به گروه بندی</p-tab>
+    <p-tab value="2">خدمات به نیروی پشتیبانی</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
@@ -170,15 +137,28 @@
       }
 
       <!-- جدول داده‌ها -->
-      <p-table [value]="ratioServiceResList">
+      <p-table
+        stripedRows
+        [value]="ratioServiceResList">
         <ng-template #header>
+
           <tr>
-            <th>خدمت</th>
-            @for(item of reportSearchList; track item){
-            <th>بدون اضافه کار</th>
-            <th>با اضافه کار</th>
-            }
+            <th rowspan="3"> خدمت </th>
           </tr>
+
+              <tr>
+                @for(item of reportSearchList; track item){
+                      <th colspan="2">{{item.organizationName}} - {{item.yearName}} </th>
+                }
+              </tr>
+
+              <tr>
+                @for (item of reportSearchList; track item){
+                <th>بدون اضافه کار</th>
+                <th>با اضافه کار</th>
+                }
+              <tr>
+
         </ng-template>
         <ng-template #body let-ratioServiceRes>
           <tr>
@@ -231,7 +211,7 @@
         <div class="charts-grid">
           <div class="chart-wrapper">
             <div class="chart-header">
-              <h3>گزارش خدمات - بدون اضافه‌کاری (نسبت به تشکیلات)</h3>
+              <h3>گزارش خدمات - بدون اضافه‌کاری</h3>
               <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
             </div>
             <div class="chart-content">
@@ -247,7 +227,7 @@
 
           <div class="chart-wrapper">
             <div class="chart-header">
-              <h3>گزارش خدمات - با اضافه‌کاری (نسبت به تشکیلات)</h3>
+              <h3>گزارش خدمات - با اضافه‌کاری</h3>
               <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
             </div>
             <div class="chart-content">
@@ -265,15 +245,25 @@
       }
 
       <!-- همان محتوای تب اول -->
-      <p-table [value]="ratioServiceResList">
+      <p-table
+        stripedRows [value]="ratioServiceResList">
         <ng-template #header>
           <tr>
-            <th>خدمت</th>
+            <th rowspan="3"> خدمت </th>
+          </tr>
+
+          <tr>
             @for(item of reportSearchList; track item){
-            <th>بدون اضافه کار</th>
-            <th>با اضافه کار</th>
+                  <th colspan="2">{{item.organizationName}} - {{item.yearName}} </th>
             }
           </tr>
+
+          <tr>
+            @for (item of reportSearchList; track item){
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
+            }
+          <tr>
         </ng-template>
         <ng-template #body let-ratioServiceRes>
           <tr>
@@ -326,7 +316,7 @@
         <div class="charts-grid">
           <div class="chart-wrapper">
             <div class="chart-header">
-              <h3>گزارش خدمات - بدون اضافه‌کاری (نسبت به دسته‌بندی)</h3>
+              <h3>گزارش خدمات - بدون اضافه‌کاری </h3>
               <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
             </div>
             <div class="chart-content">
@@ -342,7 +332,7 @@
 
           <div class="chart-wrapper">
             <div class="chart-header">
-              <h3>گزارش خدمات - با اضافه‌کاری (نسبت به دسته‌بندی)</h3>
+              <h3>گزارش خدمات - با اضافه‌کاری </h3>
               <p class="chart-subtitle">توزیع خدمات به تفکیک سازمان</p>
             </div>
             <div class="chart-content">
@@ -360,15 +350,25 @@
       }
 
       <!-- همان محتوای تب اول -->
-      <p-table [value]="ratioServiceResList">
+      <p-table  stripedRows
+                [value]="ratioServiceResList">
         <ng-template #header>
           <tr>
-            <th>خدمت</th>
+            <th rowspan="3"> خدمت </th>
+          </tr>
+
+          <tr>
             @for(item of reportSearchList; track item){
-            <th>بدون اضافه کار</th>
-            <th>با اضافه کار</th>
+              <th colspan="2">{{item.organizationName}} - {{item.yearName}} - @for (month of item.months; track month.id){ {{ month.name }}/}</th>
             }
           </tr>
+
+          <tr>
+            @for (item of reportSearchList; track item){
+              <th>بدون اضافه کار</th>
+              <th>با اضافه کار</th>
+            }
+          <tr>
         </ng-template>
         <ng-template #body let-ratioServiceRes>
           <tr>

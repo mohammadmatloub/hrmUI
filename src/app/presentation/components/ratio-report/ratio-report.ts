@@ -29,6 +29,9 @@ import {
   RatioServiceResDetail,
   RatioServiceSearch,
 } from '../../../core/domain/ratioServiceReport.model';
+import {CheckboxModule} from 'primeng/checkbox';
+import {ListboxModule} from 'primeng/listbox';
+import {RadioButton} from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-ratio-report',
@@ -45,6 +48,9 @@ import {
     PanelModule,
     MultiSelectModule,
     TabsModule,
+    CheckboxModule,
+    ListboxModule,
+    RadioButton
   ],
 })
 export class RatioReport implements OnInit {
@@ -73,8 +79,6 @@ export class RatioReport implements OnInit {
     '#FF9F40', // نارنجی روشن
   ];
 
-  platformId = inject(PLATFORM_ID);
-
   months: Month[] = [];
   selectedMonths?: Month[] = [];
 
@@ -82,7 +86,8 @@ export class RatioReport implements OnInit {
   selectedYear?: Year;
 
   organizations: Organization[] = [];
-  selectedOrganization?: Organization;
+  selectedOrganizations?: Organization[]=[];
+
   ratioServiceResList: RatioServiceRes[] = [];
 
   reportSearchList: RatioServiceSearch[] = [];
@@ -112,18 +117,19 @@ export class RatioReport implements OnInit {
 
   //#region protected methods
 
-  protected addReportSearch(): void {
-    if (this.selectedYear && this.selectedOrganization) {
-      let search: RatioServiceSearch = {
-        yearID: this.selectedYear.id ?? 0,
-        yearName: this.selectedYear.name,
-        organizationID: this.selectedOrganization.id ?? 0,
-        organizationName: this.selectedOrganization.name,
-        months: this.selectedMonths ?? [],
-        ratioReportType: this.selectedTab,
-      };
-      this.reportSearchList.push(search);
-
+  protected addReportSearch(event: any, organization: Organization): void {
+    if (this.selectedYear && this.selectedOrganizations) {
+      if (event.checked.length > 0) {
+        let search: RatioServiceSearch = {
+          yearID: this.selectedYear.id ?? 0,
+          yearName: this.selectedYear.name,
+          organizationID: organization.id ?? 0,
+          organizationName: organization.name,
+          months: this.selectedMonths ?? [],
+          ratioReportType: this.selectedTab,
+        };
+        this.reportSearchList.push(search);
+      }
       this.search(this.selectedTab);
     }
   }
