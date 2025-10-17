@@ -1,5 +1,7 @@
 <p-toolbar> </p-toolbar>
-<p-table [value]="medicalPerMonths">
+<p-table
+  stripedRows
+  [value]="medicalPerMonths">
   <ng-template pTemplate="header">
     <tr>
       <th>مرکز</th>
@@ -97,7 +99,10 @@
   [style]="{ width: '75vw' }"
   [contentStyle]="{ height: '300px' }"
 >
-  <p-table [value]="detailsList" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [value]="detailsList"
+           [scrollable]="true"
+           stripedRows
+           scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template #header>
       <tr>
         <th pSortableColumn="code " style="width:20%">
