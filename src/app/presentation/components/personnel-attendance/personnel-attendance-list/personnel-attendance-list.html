@@ -104,8 +104,10 @@
   >
     <ng-template #header>
       <tr>
+        <th>کد شغلي</th>
         <th>عنوان شغلي</th>
         <th>تعداد پرسنل حاضر</th>
+
         <th>ساعت هاي كاركرد</th>
         <th>دقيقه هاي كاركرد</th>
         <th>جمع كاركرد</th>
@@ -123,8 +125,8 @@
       <tr>
         <td>{{ detail.occupation.code }}</td>
         <td>{{ detail.occupation.name }}</td>
-
         <td>{{ detail.attendanceCount }}</td>
+
         <td>{{ detail.totalHoursWorked }}</td>
         <td>{{ detail.totalMinutesWorked }}</td>
         <td>{{ detail.totalWorked }}</td>
@@ -141,6 +143,7 @@
     <ng-template pTemplate="footer">
       <tr class="footer-row">
         <td>جمع</td>
+        <td> </td>
         <td>{{ totalsRow.attendanceCount || 0 }}</td>
         <td>{{ totalsRow.totalHoursWorked || 0 }}</td>
         <td>{{ totalsRow.totalMinutesWorked || 0 }}</td>
