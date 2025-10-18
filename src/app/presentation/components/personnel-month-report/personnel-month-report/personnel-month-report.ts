@@ -54,9 +54,8 @@ export class PersonnelMonthReport implements OnInit {
   personnelAttendanceReportList: PersonAttendanceReport[] = [];
   reportSearchList: MedicalPerMonthReportSearch[] = [];
 
-  // Totals per reportSearchList index (assumes reportDetail entries align with reportSearchList order)
+  // Totals per reportSearchList index
   attendanceTotals: number[] = [];
-  // stored in total minutes
   overtimeTotals: number[] = [];
   overtimeWithMultiplierTotals: number[] = [];
 
@@ -94,7 +93,6 @@ export class PersonnelMonthReport implements OnInit {
       monthName: this.selectedMonth!.name,
     };
     this.reportSearchList.push(searchReport);
-    // recompute totals (will be zeros until search() fills data)
     this.computeTotals();
   }
 
@@ -110,42 +108,30 @@ export class PersonnelMonthReport implements OnInit {
       .getAll(this.reportSearchList)
       .subscribe((person: PersonAttendanceReport[]) => {
         this.personnelAttendanceReportList = person;
-        // compute totals now that we have data
         this.computeTotals();
-      });
 
-    console.log(this.personnelAttendanceReportList);
-    // compute totals after personnelAttendanceReportList is set by the subscription
-    // note: subscription is async — computeTotals will run after data assignment inside subscribe
-    // to ensure this, subscribe callback should call computeTotals; adjust above to call computeTotals there.
+        console.log('Personnel List:', this.personnelAttendanceReportList);
+        console.log('Report Search List:', this.reportSearchList);
+        console.log('Attendance Totals:', this.attendanceTotals);
+        console.log('Overtime Totals:', this.overtimeTotals);
+        console.log(
+          'Overtime Multiplier Totals:',
+          this.overtimeWithMultiplierTotals
+        );
+      });
   }
 
-  protected calculateOvertimeTotalForMonth(monthID?: number): string {
-    if (monthID === undefined || monthID === null) return '0:00';
-    const idx: number = this.reportSearchList.findIndex(
-      (r: MedicalPerMonthReportSearch): boolean => r.monthID === monthID
-    );
-    const minutes: number = idx >= 0 ? this.overtimeTotals[idx] || 0 : 0;
+  protected calculateAttendanceTotalByIndex(index: number): number {
+    return this.attendanceTotals[index] || 0;
+  }
+
+  protected calculateOvertimeTotalByIndex(index: number): string {
+    const minutes: number = this.overtimeTotals[index] || 0;
     return this.formatMinutesToTime(minutes);
   }
 
-  protected calculateAttendanceTotalForMonth(monthID?: number): number {
-    if (monthID === undefined || monthID === null) return 0;
-    const idx: number = this.reportSearchList.findIndex(
-      (r: MedicalPerMonthReportSearch): boolean => r.monthID === monthID
-    );
-    return idx >= 0 ? this.attendanceTotals[idx] || 0 : 0;
-  }
-
-  protected calculateOvertimeWithMultiplierTotalForMonth(
-    monthID?: number
-  ): string {
-    if (monthID === undefined || monthID === null) return '0:00';
-    const idx: number = this.reportSearchList.findIndex(
-      (r: MedicalPerMonthReportSearch): boolean => r.monthID === monthID
-    );
-    const minutes: number =
-      idx >= 0 ? this.overtimeWithMultiplierTotals[idx] || 0 : 0;
+  protected calculateOvertimeWithMultiplierTotalByIndex(index: number): string {
+    const minutes: number = this.overtimeWithMultiplierTotals[index] || 0;
     return this.formatMinutesToTime(minutes);
   }
 
@@ -173,11 +159,11 @@ export class PersonnelMonthReport implements OnInit {
     });
   }
 
-  // compute totals arrays based on current personnelAttendanceReportList and reportSearchList
   private computeTotals(): void {
     const cols: number = this.reportSearchList
       ? this.reportSearchList.length
       : 0;
+
     this.attendanceTotals = new Array(cols).fill(0);
     this.overtimeTotals = new Array(cols).fill(0);
     this.overtimeWithMultiplierTotals = new Array(cols).fill(0);
@@ -189,51 +175,52 @@ export class PersonnelMonthReport implements OnInit {
       return;
     }
 
-    // Assume that for each PersonAttendanceReport, reportDetail array aligns with reportSearchList order
     this.personnelAttendanceReportList.forEach(
       (report: PersonAttendanceReport): void => {
-        for (let i: number = 0; i < cols; i++) {
-          const detail: PersonAttendanceReportDetail =
-            report.reportDetail && report.reportDetail[i];
-          if (detail) {
-            const att: number = Number(detail.attendanceCount) || 0;
-            // overtime fields are stored as strings like "HH:MM" — parse to minutes
-            const otTotal: number = this.parseTimeToMinutes(
-              detail.overtimeTotalWorked as any
-            );
-            const otWith: number = this.parseTimeToMinutes(
-              detail.overtimeWithMultiplier as any
-            );
+        if (!report.reportDetail) return;
 
-            this.attendanceTotals[i] += att;
-            this.overtimeTotals[i] += otTotal;
-            this.overtimeWithMultiplierTotals[i] += otWith;
+        report.reportDetail.forEach(
+          (detail: PersonAttendanceReportDetail, index: number): void => {
+            if (index < cols) {
+              const att: number = Number(detail.attendanceCount) || 0;
+              const otTotal: number = this.parseTimeToMinutes(
+                detail.overtimeTotalWorked as string
+              );
+              const otWith: number = this.parseTimeToMinutes(
+                detail.overtimeWithMultiplier as string
+              );
+
+              this.attendanceTotals[index] += att;
+              this.overtimeTotals[index] += otTotal;
+              this.overtimeWithMultiplierTotals[index] += otWith;
+            }
           }
-        }
+        );
       }
     );
   }
 
-  // parse a time value like "HH:MM" (or numeric) into total minutes
   private parseTimeToMinutes(
     value: string | number | undefined | null
   ): number {
     if (value === undefined || value === null) return 0;
     if (typeof value === 'number') return Math.floor(value);
+
     const s: string = String(value).trim();
     if (!s) return 0;
-    const parts: string[] = s.split(':');
+
+    const parts: string[] = s.split(':').map((p: string): string => p.trim());
+
     if (parts.length === 1) {
-      // treat as minutes or hours? assume it's minutes
       const n: number = Number(parts[0]);
       return isNaN(n) ? 0 : n;
     }
+
     const hours: number = Number(parts[0]) || 0;
     const minutes: number = Number(parts[1]) || 0;
     return hours * 60 + minutes;
   }
 
-  // format minutes back to H:MM (minutes padded to 2 digits)
   private formatMinutesToTime(totalMinutes: number): string {
     if (!totalMinutes || totalMinutes === 0) return '0:00';
     const hours: number = Math.floor(totalMinutes / 60);
@@ -241,7 +228,41 @@ export class PersonnelMonthReport implements OnInit {
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
-  // helpers to get totals by monthID (finds index in reportSearchList)
+  protected getReportDetailByMonthId(
+    reportDetails: PersonAttendanceReportDetail[] | undefined,
+    monthId: number
+  ): PersonAttendanceReportDetail | undefined {
+    if (!reportDetails || monthId === undefined) {
+      return undefined;
+    }
+
+    const index: number = this.reportSearchList.findIndex(
+      (r: MedicalPerMonthReportSearch): boolean => r.monthID === monthId
+    );
+    if (index === -1 || index >= reportDetails.length) {
+      return undefined;
+    }
+
+    return reportDetails[index];
+  }
+
+  protected formatTimeDisplay(timeStr: string | undefined | null): string {
+    if (!timeStr) return '0:00';
+
+    const cleaned: string = timeStr.replace(/\s+/g, '');
+    const parts: string[] = cleaned.split(':');
+
+    if (parts.length !== 2) return '0:00';
+
+    const hours: number = parseInt(parts[0]) || 0;
+    const minutes: number = parseInt(parts[1]) || 0;
+
+    const totalMinutes: number = hours * 60 + minutes;
+    const finalHours: number = Math.floor(totalMinutes / 60);
+    const finalMinutes: number = totalMinutes % 60;
+
+    return `${finalHours}:${finalMinutes.toString().padStart(2, '0')}`;
+  }
 
   //#endregion
 }

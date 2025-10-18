@@ -1,0 +1,67 @@
+// نمایش زمان با جهت چپ به راست - وسط‌چین
+.time-display {
+  direction: ltr;
+  text-align: center !important;
+}
+
+// هدر گروه‌بندی شده
+.group-header {
+  padding: 12px 8px;
+  text-align: center;
+  border-left: 2px solid var(--surface-border);
+
+  &:last-child {
+    border-left: none;
+  }
+
+  .header-group-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .organization-name {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .period-info {
+      font-size: 0.85em;
+      opacity: 0.7;
+      font-weight: normal;
+    }
+  }
+}
+
+// هدر زیرمجموعه
+.sub-header {
+  font-size: 0.9em;
+  padding: 8px 4px;
+  text-align: center;
+  border-left: 2px solid var(--surface-border);
+
+  &:nth-child(3n) {
+    border-left: none;
+  }
+}
+
+// تراز عمودی برای ستون شغل
+.vertical-middle {
+  vertical-align: middle;
+  text-align: center;
+}
+
+// وسط‌چین کردن تمام سلول‌های body
+::ng-deep {
+  .p-datatable {
+    .p-datatable-tbody > tr > td {
+      text-align: center !important;
+    }
+
+    // جداکننده بین گروه‌ها در body
+    .p-datatable-tbody > tr > td {
+      &:nth-child(3n + 2) {
+        border-left: 2px solid var(--surface-border);
+      }
+    }
+  }
+}

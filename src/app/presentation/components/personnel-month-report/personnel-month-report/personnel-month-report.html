@@ -104,50 +104,82 @@
     [tableStyle]="{ 'min-width': '50rem' }"
   >
     <ng-template #header>
+      <!-- ردیف اول: گروه‌بندی اصلی -->
       <tr>
-        <th pSortableColumn="occupation.name">
+        <th
+          rowspan="2"
+          pSortableColumn="occupation.name"
+          class="vertical-middle"
+        >
           <div>
             شغل
             <p-sortIcon field="occupation.name" />
           </div>
         </th>
+        @for (item of reportSearchList; track item.monthID) {
+        <th colspan="3" class="group-header">
+          <div class="header-group-content">
+            <div class="organization-name">{{ item.organizationName }}</div>
+            <div class="period-info">
+              {{ item.yearName }}
+            </div>
+          </div>
+        </th>
+        }
+      </tr>
 
-        @for (item of reportSearchList;track item.monthID){
-        <th>تعداد پرسنل حاضر</th>
-
-        <th>اضافه كار بدون ضريب</th>
-        <th>اضافه كار با ضريب</th>
-
+      <!-- ردیف دوم: ستون‌های جزئیات -->
+      <tr>
+        @for (item of reportSearchList; track item.monthID) {
+        <th class="sub-header">تعداد پرسنل حاضر</th>
+        <th class="sub-header">اضافه کار بدون ضریب</th>
+        <th class="sub-header">اضافه کار با ضریب</th>
         }
       </tr>
     </ng-template>
+
     <ng-template #body let-personAttendanceReport>
       <tr>
         <td>{{ personAttendanceReport.occupation.name }}</td>
-        @for ( item of personAttendanceReport.reportDetail;track
-        item.occupationID){
-        <td>{{ item.attendanceCount }}</td>
-
-        <td>{{ item.overtimeTotalWorked }}</td>
-        <td>{{ item.overtimeWithMultiplier }}</td>
-        }
+        @for (searchItem of reportSearchList; track searchItem.monthID; let i =
+        $index) { @if (personAttendanceReport.reportDetail &&
+        personAttendanceReport.reportDetail[i]) {
+        <td>{{ personAttendanceReport.reportDetail[i].attendanceCount }}</td>
+        <td class="time-display">
+          {{
+            formatTimeDisplay(
+              personAttendanceReport.reportDetail[i].overtimeTotalWorked
+            )
+          }}
+        </td>
+        <td class="time-display">
+          {{
+            formatTimeDisplay(
+              personAttendanceReport.reportDetail[i].overtimeWithMultiplier
+            )
+          }}
+        </td>
+        } @else {
+        <td>0</td>
+        <td class="time-display">0:00</td>
+        <td class="time-display">0:00</td>
+        } }
       </tr>
     </ng-template>
+
     <ng-template #footer>
       <tr>
         <td colspan="1" class="text-right font-bold p-1 pb-0">مجموع</td>
-        @for (item of reportSearchList;track item.monthID){
+        @for (item of reportSearchList; track item.monthID; let i = $index) {
         <td class="font-bold p-1 pb-0">
-          {{ calculateAttendanceTotalForMonth(item.monthID) }}
+          {{ calculateAttendanceTotalByIndex(i) }}
         </td>
-
-        <td class="font-bold p-1 pb-0">
-          {{ calculateOvertimeTotalForMonth(item.monthID) }}
+        <td class="font-bold p-1 pb-0 time-display">
+          {{ calculateOvertimeTotalByIndex(i) }}
         </td>
-        <td class="font-bold p-1 pb-0">
-          {{ calculateOvertimeWithMultiplierTotalForMonth(item.monthID) }}
+        <td class="font-bold p-1 pb-0 time-display">
+          {{ calculateOvertimeWithMultiplierTotalByIndex(i) }}
         </td>
-
         }
       </tr>
     </ng-template>
