@@ -72,13 +72,14 @@
         <td>{{ rowData.monthName }}</td>
         <td>{{ rowData.attendance }}</td>
         <td>
-          {{ rowData.overtimeMinutesWorked }} :
-          {{ rowData.overtimeHoursWorked }}
-        </td>
-        <td>
           {{ rowData.overtimeWithMinutesWorked }} :
           {{ rowData.overtimeWithHoursWorked }}
         </td>
+        <td>
+          {{ rowData.overtimeMinutesWorked }} :
+          {{ rowData.overtimeHoursWorked }}
+        </td>
+
         @for (col of columns; track col.field) {
         <td>
           {{

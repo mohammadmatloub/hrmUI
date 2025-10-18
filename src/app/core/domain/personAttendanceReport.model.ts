@@ -1,7 +1,7 @@
 import {Occupation} from './occupation.model';
 
 export interface PersonAttendanceReport{
-  occupation:Occupation;
+  occupationName:String;
   occupationID:number;
   reportDetail:PersonAttendanceReportDetail[];
 }

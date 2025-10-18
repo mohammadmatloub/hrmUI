@@ -1,6 +1,7 @@
+
+import {Month} from '../../core/domain/month.model';
 export interface MedicalPerMonthReportSearch {
-  monthID?: number;
-  monthName?: string;
+  months?: Month[];
   yearID?: number;
   yearName?: string;
   organizationID?: number;

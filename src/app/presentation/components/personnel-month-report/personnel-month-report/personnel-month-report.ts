@@ -22,6 +22,7 @@ import {
   PersonAttendanceReport,
   PersonAttendanceReportDetail,
 } from '../../../../core/domain/personAttendanceReport.model';
+import {MultiSelect} from 'primeng/multiselect';
 
 @Component({
   selector: 'app-personnel-month-report',
@@ -33,6 +34,7 @@ import {
     Select,
     FormsModule,
     PanelModule,
+    MultiSelect,
   ],
   templateUrl: './personnel-month-report.html',
   styleUrl: './personnel-month-report.scss',
@@ -41,7 +43,7 @@ export class PersonnelMonthReport implements OnInit {
   //#region properties
 
   months: Month[] = [];
-  selectedMonth?: Month;
+  selectedMonths?: Month[] =[];
 
   years: Year[] = [];
   selectedYear?: Year;
@@ -89,8 +91,7 @@ export class PersonnelMonthReport implements OnInit {
       yearName: this.selectedYear!.name,
       organizationID: this.selectedOrganization!.id,
       organizationName: this.selectedOrganization!.name,
-      monthID: this.selectedMonth!.id,
-      monthName: this.selectedMonth!.name,
+      months: this.selectedMonths ?? []
     };
     this.reportSearchList.push(searchReport);
     this.computeTotals();
@@ -228,7 +229,7 @@ export class PersonnelMonthReport implements OnInit {
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
-  protected getReportDetailByMonthId(
+/*  protected getReportDetailByMonthId(
     reportDetails: PersonAttendanceReportDetail[] | undefined,
     monthId: number
   ): PersonAttendanceReportDetail | undefined {
@@ -244,7 +245,7 @@ export class PersonnelMonthReport implements OnInit {
     }
 
     return reportDetails[index];
-  }
+  }*/
 
   protected formatTimeDisplay(timeStr: string | undefined | null): string {
     if (!timeStr) return '0:00';
