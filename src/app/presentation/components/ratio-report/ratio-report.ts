@@ -1,17 +1,10 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  PLATFORM_ID,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { Select } from 'primeng/select';
 import { TabsModule } from 'primeng/tabs';
 import { ChartModule } from 'primeng/chart';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -26,12 +19,11 @@ import { YearService } from '../../../infrastructure/services/year.service';
 import { RatioServiceReportService } from '../../../infrastructure/services/ratioServiceReport.service';
 import {
   RatioServiceRes,
-  RatioServiceResDetail,
   RatioServiceSearch,
 } from '../../../core/domain/ratioServiceReport.model';
-import {CheckboxModule} from 'primeng/checkbox';
-import {ListboxModule} from 'primeng/listbox';
-import {RadioButton} from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ListboxModule } from 'primeng/listbox';
+import { RadioButton } from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-ratio-report',
@@ -42,7 +34,6 @@ import {RadioButton} from 'primeng/radiobutton';
     CommonModule,
     ButtonModule,
     ToastModule,
-    Select,
     FormsModule,
     ChartModule,
     PanelModule,
@@ -50,7 +41,7 @@ import {RadioButton} from 'primeng/radiobutton';
     TabsModule,
     CheckboxModule,
     ListboxModule,
-    RadioButton
+    RadioButton,
   ],
 })
 export class RatioReport implements OnInit {
@@ -86,7 +77,7 @@ export class RatioReport implements OnInit {
   selectedYear?: Year;
 
   organizations: Organization[] = [];
-  selectedOrganizations?: Organization[]=[];
+  selectedOrganizations?: Organization[] = [];
 
   ratioServiceResList: RatioServiceRes[] = [];
 

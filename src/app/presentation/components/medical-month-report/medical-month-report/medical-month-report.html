@@ -71,8 +71,14 @@
       <tr>
         <td>{{ rowData.monthName }}</td>
         <td>{{ rowData.attendance }}</td>
-        <td>{{ rowData.overtimeHoursWorked }} : {{rowData.overtimeMinutesWorked}} </td>
-        <td>{{rowData.overtimeWithHoursWorked}} : {{rowData.overtimeWithMinutesWorked}}</td>
+        <td>
+          {{ rowData.overtimeMinutesWorked }} :
+          {{ rowData.overtimeHoursWorked }}
+        </td>
+        <td>
+          {{ rowData.overtimeWithMinutesWorked }} :
+          {{ rowData.overtimeWithHoursWorked }}
+        </td>
         @for (col of columns; track col.field) {
         <td>
           {{
@@ -90,7 +96,7 @@
         <td class="text-right font-bold p-1 pb-0">مجموع</td>
         <td class="font-bold p-1 pb-0">{{ totalPersonSum }}</td>
         <td class="font-bold p-1 pb-0">
-<!--          {{ formatMinutesToTime(totalOverTimeMinutes) }}-->
+          <!--          {{ formatMinutesToTime(totalOverTimeMinutes) }}-->
         </td>
         <td class="font-bold p-1 pb-0"></td>
         @for (col of cols; track col.field) {
