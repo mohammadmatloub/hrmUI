@@ -147,19 +147,15 @@
         @for (searchItem of reportSearchList; track searchItem.months; let i = $index) {
           @if (personAttendanceReport.reportDetail && personAttendanceReport.reportDetail[i]) {
             <td>{{ personAttendanceReport.reportDetail[i].attendanceCount }}</td>
-            <td class="time-display">
-              {{
-                formatTimeDisplay(
-                  personAttendanceReport.reportDetail[i].overtimeTotalWorked
-                )
-              }}
+            <td >
+
+              {{personAttendanceReport.reportDetail[i].overtimeTotalWorked}}
+
             </td>
-            <td class="time-display">
-              {{
-                formatTimeDisplay(
-                  personAttendanceReport.reportDetail[i].overtimeWithMultiplier
-                )
-              }}
+            <td >
+
+                  {{personAttendanceReport.reportDetail[i].overtimeWithMultiplier}}
+
             </td>
         } @else {
         <td>0</td>
