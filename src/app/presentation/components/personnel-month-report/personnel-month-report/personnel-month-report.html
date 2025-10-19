@@ -68,7 +68,13 @@
         <tr>
           <td>{{ searchDTO.organizationName }}</td>
           <td>{{ searchDTO.yearName }}</td>
-          <td>{{ searchDTO.monthName }}</td>
+
+            <td>
+              @for (month of searchDTO.months ; track month.id){
+              {{ month.name }}
+              }
+            </td>
+
 
           <td>
             <button
@@ -97,7 +103,6 @@
   <p-table
     [value]="personnelAttendanceReportList"
     [scrollable]="true"
-    scrollHeight="50vh"
     stripedRows
     [tableStyle]="{ 'min-width': '50rem' }"
   >
