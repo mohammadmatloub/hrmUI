@@ -3,6 +3,7 @@
     <table>
       <tr>
         <td>سال</td>
+        <td>&nbsp;</td>
         <td>
           <p-select
             [options]="years"
@@ -15,8 +16,9 @@
             class="w-full md:w-56"
           />
         </td>
-
+        <td>&nbsp;</td>
         <td>ماه</td>
+        <td>&nbsp;</td>
         <td>
           <p-multiselect
             [options]="months"
@@ -27,69 +29,46 @@
             class="w-full md:w-56"
           />
         </td>
-
+        <td>&nbsp;</td>
         <td>سازمان</td>
+        <td>&nbsp;</td>
         <td>
-          <p-select
-            [options]="organizations"
-            [(ngModel)]="selectedOrganization"
-            name="organization"
-            [checkmark]="true"
-            optionLabel="name"
-            [showClear]="true"
-            placeholder="انتخاب سازمان"
-            class="w-full md:w-56"
-          />
+          @for ( organization of organizations; track organization.id){
+            <div class="flex items-center">
+              <p-checkbox
+                [inputId]="organization.name"
+                name="group"
+                (onChange)="addReportSearch($event, organization)"
+                [value]="organization"
+                [(ngModel)]="selectedOrganizations"
+              />
+              <label [for]="organization.name" class="ml-2">
+                {{ organization.name }}
+              </label>
+            </div>
+          }
         </td>
-        <td></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
-          <button
-            pButton
-            [rounded]="true"
-            [text]="true"
-            severity="success"
-            value="save"
-            icon="pi pi-plus"
-            (click)="addReportSearch()"
-          ></button>
+          @for (search of reportSearchList;track search.organizationID) {
+            <div class="flex items-center">
+              {{ search.yearName }}/{{ search.organizationName }}/
+              <button
+                pButton
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                value="save"
+                icon="pi pi-trash"
+                (click)="deleteReportSearch(search)"
+              ></button>
+            </div>
+          }
         </td>
       </tr>
     </table>
-    <p-table [value]="reportSearchList">
-      <ng-template #header>
-        <tr>
-          <th>واحد</th>
-          <th>سال</th>
-          <th>ماه</th>
-          <th></th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-searchDTO>
-        <tr>
-          <td>{{ searchDTO.organizationName }}</td>
-          <td>{{ searchDTO.yearName }}</td>
 
-            <td>
-              @for (month of searchDTO.months ; track month.id){
-              {{ month.name }}
-              }
-            </td>
-
-
-          <td>
-            <button
-              pButton
-              [rounded]="true"
-              [text]="true"
-              severity="danger"
-              value="save"
-              icon="pi pi-trash"
-              (click)="deleteReportSearch(searchDTO)"
-            ></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
     <button
       pButton
       [rounded]="true"
