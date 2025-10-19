@@ -68,7 +68,13 @@
         <tr>
           <td>{{ searchDTO.organizationName }}</td>
           <td>{{ searchDTO.yearName }}</td>
-          <td>{{ searchDTO.monthName }}</td>
+
+            <td>
+              @for (month of searchDTO.months ; track month.id){
+              {{ month.name }}
+              }
+            </td>
+
 
           <td>
             <button
@@ -97,7 +103,6 @@
   <p-table
     [value]="personnelAttendanceReportList"
     [scrollable]="true"
-    scrollHeight="50vh"
     stripedRows
     [tableStyle]="{ 'min-width': '50rem' }"
   >
@@ -142,19 +147,15 @@
         @for (searchItem of reportSearchList; track searchItem.months; let i = $index) {
           @if (personAttendanceReport.reportDetail && personAttendanceReport.reportDetail[i]) {
             <td>{{ personAttendanceReport.reportDetail[i].attendanceCount }}</td>
-            <td class="time-display">
-              {{
-                formatTimeDisplay(
-                  personAttendanceReport.reportDetail[i].overtimeTotalWorked
-                )
-              }}
+            <td >
+
+              {{personAttendanceReport.reportDetail[i].overtimeTotalWorked}}
+
             </td>
-            <td class="time-display">
-              {{
-                formatTimeDisplay(
-                  personAttendanceReport.reportDetail[i].overtimeWithMultiplier
-                )
-              }}
+            <td >
+
+                  {{personAttendanceReport.reportDetail[i].overtimeWithMultiplier}}
+
             </td>
         } @else {
         <td>0</td>
