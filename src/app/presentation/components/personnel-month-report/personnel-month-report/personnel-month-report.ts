@@ -7,6 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { Select } from 'primeng/select';
 import { PanelModule } from 'primeng/panel';
+import { MultiSelect } from 'primeng/multiselect';
+import { Checkbox } from 'primeng/checkbox';
 
 import { Month } from '../../../../core/domain/month.model';
 import { Year } from '../../../../core/domain/year.model';
@@ -22,8 +24,6 @@ import {
   PersonAttendanceReport,
   PersonAttendanceReportDetail,
 } from '../../../../core/domain/personAttendanceReport.model';
-import {MultiSelect} from 'primeng/multiselect';
-import {Checkbox} from 'primeng/checkbox';
 
 @Component({
   selector: 'app-personnel-month-report',
@@ -45,7 +45,7 @@ export class PersonnelMonthReport implements OnInit {
   //#region properties
 
   months: Month[] = [];
-  selectedMonths?: Month[] =[];
+  selectedMonths?: Month[] = [];
 
   years: Year[] = [];
   selectedYear?: Year;
@@ -88,14 +88,13 @@ export class PersonnelMonthReport implements OnInit {
   //#region protected methods
 
   protected addReportSearch(event: any, organization: Organization): void {
-
     if (event.checked.length > 0) {
       let searchReport: MedicalPerMonthReportSearch = {
         yearID: this.selectedYear!.id,
         yearName: this.selectedYear!.name,
         organizationID: organization.id ?? 0,
         organizationName: organization.name,
-        months: this.selectedMonths ?? []
+        months: this.selectedMonths ?? [],
       };
       this.reportSearchList.push(searchReport);
     }
@@ -233,24 +232,6 @@ export class PersonnelMonthReport implements OnInit {
     const minutes: number = Math.abs(totalMinutes % 60);
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
-
-/*  protected getReportDetailByMonthId(
-    reportDetails: PersonAttendanceReportDetail[] | undefined,
-    monthId: number
-  ): PersonAttendanceReportDetail | undefined {
-    if (!reportDetails || monthId === undefined) {
-      return undefined;
-    }
-
-    const index: number = this.reportSearchList.findIndex(
-      (r: MedicalPerMonthReportSearch): boolean => r.monthID === monthId
-    );
-    if (index === -1 || index >= reportDetails.length) {
-      return undefined;
-    }
-
-    return reportDetails[index];
-  }*/
 
   protected formatTimeDisplay(timeStr: string | undefined | null): string {
     if (!timeStr) return '0:00';

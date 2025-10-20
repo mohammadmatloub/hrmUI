@@ -34,36 +34,36 @@
         <td>&nbsp;</td>
         <td>
           @for ( organization of organizations; track organization.id){
-            <div class="flex items-center">
-              <p-checkbox
-                [inputId]="organization.name"
-                name="group"
-                (onChange)="addReportSearch($event, organization)"
-                [value]="organization"
-                [(ngModel)]="selectedOrganizations"
-              />
-              <label [for]="organization.name" class="ml-2">
-                {{ organization.name }}
-              </label>
-            </div>
+          <div class="flex items-center">
+            <p-checkbox
+              [inputId]="organization.name"
+              name="group"
+              (onChange)="addReportSearch($event, organization)"
+              [value]="organization"
+              [(ngModel)]="selectedOrganizations"
+            />
+            <label [for]="organization.name" class="ml-2">
+              {{ organization.name }}
+            </label>
+          </div>
           }
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
           @for (search of reportSearchList;track search.organizationID) {
-            <div class="flex items-center">
-              {{ search.yearName }}/{{ search.organizationName }}/
-              <button
-                pButton
-                [rounded]="true"
-                [text]="true"
-                severity="danger"
-                value="save"
-                icon="pi pi-trash"
-                (click)="deleteReportSearch(search)"
-              ></button>
-            </div>
+          <div class="flex items-center">
+            {{ search.yearName }}/{{ search.organizationName }}/
+            <button
+              pButton
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              value="save"
+              icon="pi pi-trash"
+              (click)="deleteReportSearch(search)"
+            ></button>
+          </div>
           }
         </td>
       </tr>
@@ -122,20 +122,17 @@
 
     <ng-template #body let-personAttendanceReport>
       <tr>
-        <td>{{ personAttendanceReport.occupationName}}</td>
-        @for (searchItem of reportSearchList; track searchItem.months; let i = $index) {
-          @if (personAttendanceReport.reportDetail && personAttendanceReport.reportDetail[i]) {
-            <td>{{ personAttendanceReport.reportDetail[i].attendanceCount }}</td>
-            <td >
-
-              {{personAttendanceReport.reportDetail[i].overtimeTotalWorked}}
-
-            </td>
-            <td >
-
-                  {{personAttendanceReport.reportDetail[i].overtimeWithMultiplier}}
-
-            </td>
+        <td>{{ personAttendanceReport.occupationName }}</td>
+        @for (searchItem of reportSearchList; track searchItem.months; let i =
+        $index) { @if (personAttendanceReport.reportDetail &&
+        personAttendanceReport.reportDetail[i]) {
+        <td>{{ personAttendanceReport.reportDetail[i].attendanceCount }}</td>
+        <td>
+          {{ personAttendanceReport.reportDetail[i].overtimeTotalWorked }}
+        </td>
+        <td>
+          {{ personAttendanceReport.reportDetail[i].overtimeWithMultiplier }}
+        </td>
         } @else {
         <td>0</td>
         <td class="time-display">0:00</td>
