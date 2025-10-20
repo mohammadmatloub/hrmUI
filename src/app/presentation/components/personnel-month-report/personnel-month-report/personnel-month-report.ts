@@ -23,6 +23,7 @@ import {
   PersonAttendanceReportDetail,
 } from '../../../../core/domain/personAttendanceReport.model';
 import {MultiSelect} from 'primeng/multiselect';
+import {Checkbox} from 'primeng/checkbox';
 
 @Component({
   selector: 'app-personnel-month-report',
@@ -35,6 +36,7 @@ import {MultiSelect} from 'primeng/multiselect';
     FormsModule,
     PanelModule,
     MultiSelect,
+    Checkbox,
   ],
   templateUrl: './personnel-month-report.html',
   styleUrl: './personnel-month-report.scss',
@@ -49,7 +51,7 @@ export class PersonnelMonthReport implements OnInit {
   selectedYear?: Year;
 
   organizations: Organization[] = [];
-  selectedOrganization?: Organization;
+  selectedOrganizations?: Organization[] = [];
 
   balanceFrozen: boolean = false;
   occupations: Occupation[] = [];
@@ -85,15 +87,18 @@ export class PersonnelMonthReport implements OnInit {
 
   //#region protected methods
 
-  protected addReportSearch(): void {
-    let searchReport: MedicalPerMonthReportSearch = {
-      yearID: this.selectedYear!.id,
-      yearName: this.selectedYear!.name,
-      organizationID: this.selectedOrganization!.id,
-      organizationName: this.selectedOrganization!.name,
-      months: this.selectedMonths ?? []
-    };
-    this.reportSearchList.push(searchReport);
+  protected addReportSearch(event: any, organization: Organization): void {
+
+    if (event.checked.length > 0) {
+      let searchReport: MedicalPerMonthReportSearch = {
+        yearID: this.selectedYear!.id,
+        yearName: this.selectedYear!.name,
+        organizationID: organization.id ?? 0,
+        organizationName: organization.name,
+        months: this.selectedMonths ?? []
+      };
+      this.reportSearchList.push(searchReport);
+    }
     this.computeTotals();
   }
 
@@ -217,8 +222,8 @@ export class PersonnelMonthReport implements OnInit {
       return isNaN(n) ? 0 : n;
     }
 
-    const hours: number = Number(parts[0]) || 0;
-    const minutes: number = Number(parts[1]) || 0;
+    const hours: number = Number(parts[1]) || 0;
+    const minutes: number = Number(parts[0]) || 0;
     return hours * 60 + minutes;
   }
 
