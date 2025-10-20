@@ -49,17 +49,16 @@
     [value]="medicalPersonAttendanceMonthReport"
     [tableStyle]="{ 'min-width': '50rem' }"
     [scrollable]="true"
-    scrollHeight="50vh"
+    [scrollHeight]="tableHeight"
     stripedRows
-    [tableStyle]="{ 'min-width': '50rem' }"
   >
     <!-- Header Template -->
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th>ماه</th>
         <th>تعداد پرسنل حاضر</th>
-        <th>اضافه كار با ضريب</th>
-        <th>اضافه كار بدون ضريب</th>
+        <th>اضافه کار با ضریب</th>
+        <th>اضافه کار بدون ضریب</th>
         @for (col of columns; track col.field) {
         <th>{{ col.header }}</th>
         }
@@ -92,14 +91,15 @@
         }
       </tr>
     </ng-template>
+
     <ng-template pTemplate="footer">
       <tr>
         <td class="text-right font-bold p-1 pb-0">مجموع</td>
         <td class="font-bold p-1 pb-0">{{ totalPersonSum }}</td>
+        <td class="font-bold p-1 pb-0">{{ totalOvertimeWithCoefficient }}</td>
         <td class="font-bold p-1 pb-0">
-          <!--          {{ formatMinutesToTime(totalOverTimeMinutes) }}-->
+          {{ totalOvertimeWithoutCoefficient }}
         </td>
-        <td class="font-bold p-1 pb-0"></td>
         @for (col of cols; track col.field) {
         <td class="font-bold p-1 pb-0">
           {{ serviceTotals[cols.indexOf(col)] || 0 }}
